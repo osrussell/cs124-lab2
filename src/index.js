@@ -4,9 +4,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const initialData = [
+    {
+        id: 512,
+        task: "Call mom"
+    },
+    {
+        id: 787,
+        task: "Talk to github inventors"
+    }
+];
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App initialData={initialData}/>
   </React.StrictMode>,
   document.getElementById('root')
 );
