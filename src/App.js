@@ -1,31 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
-
 import {useEffect, useState} from 'react';
-
-function Task(props) {
-  const classNames = [];
-  if (props.isSelected) {
-    classNames.push("selected");
-  }
-
-  return <tr className={classNames.join(" ")}>
-    <td> <input type={"checkbox"} checked={true} /> </td>
-    <td> {props.task} </td>
-  </tr>
-}
-
-function Tasks(props) {
-  return <table>
-    <tbody>
-    {props.data.map(t =>
-        <Task task={t.task}
-               id={t.id}
-               isSelected={true}/>
-    )}
-    </tbody>
-  </table>
-}
+import './App.css';
+import Tasks from './Tasks.js';
 
 function App(props) {
   const [currentData, setCurrentData] = useState(props.initialData) // starts with data and then setCurrentData can change it
@@ -49,9 +24,19 @@ function App(props) {
   }
 
   // TO-DO: Pass these functions through!!
-  return <>
+  // put new item!!
+  return ( <>
+    <div id = "title">
+      Checklist
+    </div>
     <Tasks data={currentData}/>
-  </>;
+
+    <div id = "buttons">
+      <input type = "button" id = "hide" name = "hide"  value = "Hide"/>
+        <input type = "button" id = "trash" name = "trash"  value = "Trash"/>
+    </div>
+  </>
+  );
 }
 
 export default App;
