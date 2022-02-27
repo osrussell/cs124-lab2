@@ -17,7 +17,9 @@ const initialData = [
 
 ReactDOM.render(
   <React.StrictMode>
-    <App initialData={initialData}/>
+      <div id={"background"}>
+          <App initialData={initialData}/>
+      </div>
   </React.StrictMode>,
   document.getElementById('root')
 );
