@@ -23,13 +23,20 @@ function App(props) {
     }
   }
 
-  // TO-DO: Pass these functions through!!
-  // put new item!!
+  // TO-DO: Currently getting infinite loop in Task after editing handleMarkCompleted
   return ( <>
     <div id = "title">
       Checklist
     </div>
-    <Tasks data={currentData}/>
+
+        <div id={"tasks"}>
+    <Tasks id={"tasks"} data={currentData}
+                        isHidden = {isHidden}
+                        handleTaskToggleSelected = {handleTaskToggleSelected}
+                        handleMarkComplete={handleMarkComplete}
+                        completedTaskIds = {completedTaskIds}
+                        selectedTaskIds = {selectedTaskIds}/>
+        </div>
 
     <div id = "buttons">
       <input type = "button" id = "hide" name = "hide"  value = "Hide"/>

@@ -1,0 +1,21 @@
+.Tasks {
+    /* border-style: solid;
+    border-color: yellow; */
+    /* grid-row: 2/ span 1;
+    grid-column: 2/span 1; */
+
+    border-color: red;
+    display: block;
+    top: 90px;
+    left: 30px;
+    right: 45px;
+    bottom: 110px;
+    position: fixed;
+
+    font-style: bold;
+    /* font-family: "Courier New" ; */
+    /* font-family: "Arial (sans-serif)" ; */
+    font-family: "American Typewriter";
+    font-size: 18px ;
+    color: Black;
+}

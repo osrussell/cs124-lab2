@@ -12,3 +12,60 @@
   /*font-size: calc(10px + 2vmin);*/
   /*color: white;*/
 }
+
+#title {
+  display: block;
+  text-align: center;
+  top: 8px;
+  left: 30px;
+  right: 30px;
+  bottom: 500px;
+  position: fixed;
+
+  font-style: bold;
+  font-family: "Arial" ;
+  text-align: center;
+  font-size: 60px ;
+  color: Black;
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+
+}
+
+#tasks {
+  border-color: red;
+  display: block;
+  top: 100px;
+  left: 55px;
+  right: 45px;
+  bottom: 110px;
+  position: fixed;
+
+  font-style: bold;
+  /* font-family: "Courier New" ; */
+  /* font-family: "Arial (sans-serif)" ; */
+  font-family: "American Typewriter";
+  font-size: 18px ;
+  color: Black;
+}
+
+.Task {
+  list-style: none;
+}
+text {
+  font-size: 25px;
+}
+
+#buttons {
+  /* border-style: solid;
+  border-color: orange; */
+  text-align: center;
+
+  display: block;
+  left: 40px;
+  right: 40px;
+  bottom: 20px;
+  position: fixed;
+
+}
