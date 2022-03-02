@@ -36,6 +36,7 @@ function App(props) {
   // changes if checked items are hidden
   function handleHide() {
     setIsHidden(!isHidden);
+    console.log(isHidden)
   }
 
   // changes if we should have the alert open!
@@ -59,8 +60,11 @@ function App(props) {
         </div>
 
     <div id = "buttons">
-      <input type={"button"} id = "hide" name = "hide"  value = {(isHidden ? "Show":"Hide")} onCLick={handleHide}/>
-        <input type={"button"} id = "trash" name = "trash"  value ={alertOpen? "Trashing":"Trash"} onCLick={handleTrash}/>
+      <input type={"button"} id = "hide" name = "hide"  value = {(isHidden ? "Show":"Hide")}
+             onCLick={(e) =>handleHide()}/>
+
+        <input type={"button"} id = "trash" name = "trash"  value ={alertOpen? "Trashing":"Trash"}
+               onCLick={(e) =>handleTrash}/>
     </div>
   </>
   );
