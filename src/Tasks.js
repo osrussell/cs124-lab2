@@ -1,5 +1,7 @@
 import {useEffect, useState} from 'react';
 import Task from './Task.js';
+import './Tasks.css'
+
 
 function Tasks(props) {
     let tempData;

@@ -1,11 +1,15 @@
 import {useEffect, useState} from 'react';
 import App from "./App";
 // import './Tasks.css';
+import "./Task.css"
 
 function Task(props) {
     const classNames = [];
     if (props.isSelected) {
         classNames.push("selected");
+    }
+    if (props.isCompleted) {
+        classNames.push("completed")
     }
     // COMMENTING THESE OUT FIXES DISAPPEARING
     //
