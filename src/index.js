@@ -11,7 +11,7 @@ const initialData = [
     },
     {
         id: 787,
-        task: "Talk to github inventors"
+        task: "Talk to github inventors over lunch."
     }
 ];
 

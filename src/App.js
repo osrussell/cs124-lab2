@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import './App.css';
 import Tasks from './Tasks.js';
+import * as events from "events";
 
 function App(props) {
   const [currentData, setCurrentData] = useState(props.initialData) // starts with data and then setCurrentData can change it
@@ -36,7 +37,6 @@ function App(props) {
   // changes if checked items are hidden
   function handleHide() {
     setIsHidden(!isHidden);
-    console.log(isHidden)
   }
 
   // changes if we should have the alert open!
@@ -61,10 +61,10 @@ function App(props) {
 
     <div id = "buttons">
       <input type={"button"} id = "hide" name = "hide"  value = {(isHidden ? "Show":"Hide")}
-             onCLick={(e) =>handleHide()}/>
+             onClick={(e) =>handleHide()}/>
 
         <input type={"button"} id = "trash" name = "trash"  value ={alertOpen? "Trashing":"Trash"}
-               onCLick={(e) =>handleTrash}/>
+               onClick = {(event) => handleTrash()}/>
     </div>
   </>
   );

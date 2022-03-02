@@ -16,7 +16,8 @@ function Task(props) {
     //
     return <>
     <tr className={classNames.join(" ")} >
-        <td  onClick={(e) => props.handleMarkComplete(props.id)}> <input type={"checkbox"} checked={props.isCompleted}/>
+        <td  onClick={(e) => props.handleMarkComplete(props.id)}>
+            <input type={"checkbox"} checked={props.isCompleted}/>
         </td>
         <td onClick = {(e) => props.handleTaskToggleSelected(props.id)}> {props.task}
         </td>
