@@ -38,8 +38,8 @@ function App(props) {
     }
   }
   //
- function onItemChanged(itemId, field, newValue) {
-      setCurrentData(currentData.map((a) => a => a.id === itemId ? {...a, [field]: newValue} : a));
+ function onItemChanged(itemId, newValue) {
+      setCurrentData(currentData.map((a) => a => a.id === itemId ? {...a, task: newValue} : a));
  }
 
   function onItemDeleted() {

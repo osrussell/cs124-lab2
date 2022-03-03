@@ -20,8 +20,15 @@ function Task(props) {
         <td  onClick={(e) => props.handleMarkComplete(props.id)}>
             <input type={"checkbox"} checked={props.isCompleted}/>
         </td>
-        <td onClick = {(e) => props.handleTaskToggleSelected(props.id)}>
-            {props.task}
+
+        <td >
+            <div className={"taskInput"} contentEditable={true}
+                 onClick = {(e) => props.handleTaskToggleSelected(props.id)}
+            // onClick={(e) => e.stopPropagation()}
+            onChange={
+                (e) => props.onItemChanged(props.id,e.target.value)}>
+                {props.task}
+            </div>
         </td>
     </tr>
     </>

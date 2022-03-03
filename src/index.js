@@ -4,6 +4,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+/// Todo:
+///       favicon icon (and others?)
+//        add protect against delete selected
+///       User testing
+///       Update design document  Adam
+///       manifest.json
+///       Submit / push request / etc
+
+
 const initialData = [
     {
         id: 512,
