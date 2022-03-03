@@ -11,6 +11,15 @@ function Tasks(props) {
        tempData = props.data;
     }
 
+    // gets text from type box to be added to list
+    function handleAdd() {
+        let x = document.getElementById("addItem").value;
+        if (!(x === "")) {
+            props.onItemAdded(x) //adds element gotten
+            document.getElementById("addItem").value = "";
+        }
+    }
+
     return <table>
         <tbody>
         {tempData.map(t =>
@@ -24,7 +33,8 @@ function Tasks(props) {
         )}
         <tr>
             <td>   </td>
-            <td><input type={"button"} value={"Add Item:"}/> <input type={"text"}/></td>
+            <td><input type={"button"} value={"Add Item:"} onClick={(e) => handleAdd()}/>
+                <input type={"text"} id={"addItem"}/></td>
         </tr>
         </tbody>
     </table>

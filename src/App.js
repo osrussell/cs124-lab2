@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import './App.css';
 import Tasks from './Tasks.js';
+import Alert from './Alert.js';
 import * as events from "events";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
@@ -10,6 +11,7 @@ function App(props) {
   const [completedTaskIds, setCompletedTaskIds] = useState([])
   const [isHidden, setIsHidden] = useState(false)
   const [alertOpen, setAlertOpen] = useState(false)
+  const [showAlert, setShowAlert] = useState(false)
 
   // handles selecting one task to edit the text
   // // DO WE ONLY WANT ONE IN  THE LIST??? (since only editing one at once)
@@ -41,9 +43,9 @@ function App(props) {
       setCurrentData(currentData.map((a) => a => a.id === itemId ? {...a, [field]: newValue} : a));
  }
 
-  function onItemDeleted(itemId) {
-      setCurrentData(currentData.filter((a) => !(a.id === itemId)));
-      // do we need to remove selection??
+  function onItemDeleted() {
+      setCurrentData(currentData.filter((a) => !(selectedTaskIds.includes(a.id))));
+      setSelectedTaskIds([]); // clears selected ids
   }
 
   function onItemAdded(newVal) {
@@ -64,6 +66,11 @@ function App(props) {
     setAlertOpen(!alertOpen);
   }
 
+  //toggles if the alert is showing
+  function toggleModal() {
+      setShowAlert(!showAlert);
+  }
+
   // TO-DO: Currently getting infinite loop in Task after editing handleMarkCompleted
   return ( <>
     <div id = "title">
@@ -76,7 +83,8 @@ function App(props) {
                         handleTaskToggleSelected = {handleTaskToggleSelected}
                         handleMarkComplete={handleMarkComplete}
                         completedTaskIds = {completedTaskIds}
-                        selectedTaskIds = {selectedTaskIds}/>
+                        selectedTaskIds = {selectedTaskIds}
+                        onItemAdded = {onItemAdded}/>
         </div>
 
     <div id = "buttons">
@@ -84,9 +92,16 @@ function App(props) {
              onClick={(e) =>handleHide()}/>
 
         <input type={"button"} id = "trash" name = "trash"  value ={alertOpen? "Trashing":"Trash"}
-               onClick = {(event) => handleTrash()}/>
+               onClick = {(event) => toggleModal()}/>
     </div>
-  </>
+    <div>
+        {showAlert && <Alert onClose={toggleModal} onOk={onItemDeleted}>
+            <div>
+                Are you sure?
+            </div>
+        </Alert>}
+    </div>
+    </>
   );
 }
 
