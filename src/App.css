@@ -69,3 +69,11 @@ text {
   position: fixed;
 
 }
+#alert {
+  border-color: crimson;
+  display: block;
+  left: 0px;
+  top: 0px;
+
+  position: fixed;
+}

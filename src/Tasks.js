@@ -29,11 +29,12 @@ function Tasks(props) {
                   isCompleted={(props.completedTaskIds.includes(t.id))}
                   handleTaskToggleSelected = {props.handleTaskToggleSelected}
                   handleMarkComplete = {props.handleMarkComplete}
+                  onItemChanged = {props.onItemChanged}
             />
         )}
         <tr>
             <td>   </td>
-            <td><input type={"button"} value={"Add Item:"} onClick={(e) => handleAdd()}/>
+            <td><input type={"button"} value={"Add:"} onClick={(e) => handleAdd()}/>
                 <input type={"text"} id={"addItem"}/></td>
         </tr>
         </tbody>

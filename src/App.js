@@ -10,7 +10,6 @@ function App(props) {
   const [selectedTaskIds, setSelectedTaskIds] = useState([])
   const [completedTaskIds, setCompletedTaskIds] = useState([])
   const [isHidden, setIsHidden] = useState(false)
-  const [alertOpen, setAlertOpen] = useState(false)
   const [showAlert, setShowAlert] = useState(false)
 
   // handles selecting one task to edit the text
@@ -62,9 +61,7 @@ function App(props) {
   }
 
   // changes if we should have the alert open!
-  function handleTrash() {
-    setAlertOpen(!alertOpen);
-  }
+
 
   //toggles if the alert is showing
   function toggleModal() {
@@ -84,23 +81,24 @@ function App(props) {
                         handleMarkComplete={handleMarkComplete}
                         completedTaskIds = {completedTaskIds}
                         selectedTaskIds = {selectedTaskIds}
-                        onItemAdded = {onItemAdded}/>
+                        onItemAdded = {onItemAdded}
+                        onItemChanged = {onItemChanged}/>
         </div>
 
     <div id = "buttons">
       <input type={"button"} id = "hide" name = "hide"  value = {(isHidden ? "Show":"Hide")}
              onClick={(e) =>handleHide()}/>
 
-        <input type={"button"} id = "trash" name = "trash"  value ={alertOpen? "Trashing":"Trash"}
-               onClick = {(event) => toggleModal()}/>
-    </div>
-    <div>
-        {showAlert && <Alert onClose={toggleModal} onOk={onItemDeleted}>
-            <div>
-                Are you sure?
-            </div>
-        </Alert>}
-    </div>
+        <input type={"button"} id = "trash" name = "trash"  value ={showAlert? "Trashing":"Trash"}
+               onClick = {(event) => onItemDeleted()}/>
+    </div >
+    {/*<div id = "alert" >*/}
+    {/*    {showAlert && <Alert onClose={toggleModal} onOk={onItemDeleted}>*/}
+    {/*        <div>*/}
+    {/*            Are you sure?*/}
+    {/*        </div>*/}
+    {/*    </Alert>}*/}
+    {/*</div>*/}
     </>
   );
 }

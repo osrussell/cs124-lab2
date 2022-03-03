@@ -11,6 +11,7 @@ function Task(props) {
     if (props.isCompleted) {
         classNames.push("completed")
     }
+
     // COMMENTING THESE OUT FIXES DISAPPEARING
     //
     //
@@ -19,7 +20,8 @@ function Task(props) {
         <td  onClick={(e) => props.handleMarkComplete(props.id)}>
             <input type={"checkbox"} checked={props.isCompleted}/>
         </td>
-        <td onClick = {(e) => props.handleTaskToggleSelected(props.id)}> {props.task}
+        <td onClick = {(e) => props.handleTaskToggleSelected(props.id)}>
+            {props.task}
         </td>
     </tr>
     </>
