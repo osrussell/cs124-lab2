@@ -2,11 +2,11 @@
     position: fixed;
     top: 0;
     left: 0;
-    bottom: 400pt;
-    right: 300pt;
-    width: 300pt;
-    height: 400pt;
-    background-color: rgba(0, 0, 0, .3);
+    bottom: 10pt;
+    right: 10pt;
+    width: 360pt;
+    height: 640pt;
+    background-color: rgba(50, 50, 50, 1);
 }
 
 .modal {
@@ -20,4 +20,11 @@
     width: 200pt;
     padding: 10pt;
     position: relative;
+}
+
+.alert-buttons {
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    right: 0;
 }

@@ -12,6 +12,11 @@ import reportWebVitals from './reportWebVitals';
 ///       manifest.json
 ///       Submit / push request / etc
 
+///       Olivia: I listed below a few things we should just double-check before submitting from last time
+///       Kill alert.js if we need to or extra files we didn't use
+///       Github pages enabled???
+///       Whatever we were missing from last time??
+
 
 const initialData = [
     {
