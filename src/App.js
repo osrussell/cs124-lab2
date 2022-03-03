@@ -43,6 +43,7 @@ function App(props) {
 
   function onItemDeleted(itemId) {
       setCurrentData(currentData.filter((a) => !(a.id === itemId)));
+      // do we need to remove selection??
   }
 
   function onItemAdded(newVal) {
