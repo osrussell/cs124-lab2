@@ -40,8 +40,8 @@ function App(props) {
       if (!locked) {
           setCurrentData(currentData.filter((a) => !(selectedTaskIds.includes(a.id))));
           setSelectedTaskIds([]); // clears selected ids
+          setLocked(!locked)
           }
-
   }
 
   function onItemAdded(newVal) {
@@ -100,13 +100,7 @@ function App(props) {
                onClick = {(event) => onItemDeleted()}/>
         </div>
     </div >
-    {/*<div id = "alert" >*/}
-    {/*    {showAlert && <Alert onClose={toggleModal} onOk={onItemDeleted}>*/}
-    {/*        <div>*/}
-    {/*            Are you sure?*/}
-    {/*        </div>*/}
-    {/*    </Alert>}*/}
-    {/*</div>*/}
+
     </>
   );
 }

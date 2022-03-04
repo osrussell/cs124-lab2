@@ -16,7 +16,27 @@ We chose to keep delete and show all completed items as seperate buttons to clea
 
 We added some visual additions by making the scroll box on a notebook image (but without ruled lines so we dont have to line it up)
 
+
+## Design implementation for Lab 2 
+
+![lab2version](Checklistversion2.png)
+
+Most of the initial design stayed the same. There was some aesthetic changes (such as with add
+item) but the actual function and layout was not. 
+
+The biggest change was the addition of the Lock system for the trash button. In order to prevent accidental 
+trashing of selected items, we added a Lock button. Before unlock is selected (marked by a U), the trash button 
+is grayed out and does not work. Once clicked, the trash button is then usable. If necessary you 
+can relock the trash icon by pressing the lock button (marked by a L). We wanted some better images or text 
+to display intent but that is a change for another day (due to time constraits)
+
+As for challenges we faced. There was some issues with making the tasks editable once sent. 
+Eventually we managed to ditch the Input unit and just made a "contentedible" div. This works for now 
+but may have trouble saving data later. We also struggled making a popup for the trash button that in no way
+influenced our choice to make a lock button. 
+
 ## User Testing for Lab 2
+(note this was before the lock was added)
 
 USER TESTING with Zoe Kedzierski, completed 3/3/2022 after most Javascript features were implemented, but prior to the lock button being added
 
