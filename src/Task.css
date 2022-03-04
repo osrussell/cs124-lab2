@@ -1,0 +1,7 @@
+.selected {
+    border-color: darkgoldenrod;
+    background-color: lemonchiffon;
+}
+.completed {
+    text-decoration: line-through;
+}

@@ -2,37 +2,69 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+
+#title {
+  display: block;
+  text-align: center;
+  top: 8px;
+  left: 30px;
+  right: 30px;
+  bottom: 500px;
+  position: fixed;
+
+  font-style: bold;
+  font-family: "Arial" ;
+  text-align: center;
+  font-size: 60px ;
+  color: Black;
+  -webkit-text-fill-color: white;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#tasks {
+  border-color: red;
+  display: block;
+  top: 100px;
+  left: 55px;
+  right: 45px;
+  bottom: 110px;
+  position: fixed;
+
+  font-style: bold;
+
+  font-family: "American Typewriter";
+  font-size: 18px ;
+  color: Black;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.Task {
+  list-style: none;
+}
+text {
+  font-size: 25px;
 }
 
-.App-link {
-  color: #61dafb;
+#buttons {
+
+  text-align: center;
+
+  display: block;
+  left: 40px;
+  right: 40px;
+  bottom: 20px;
+  position: fixed;
+
+
+}
+#bottomButtons {
+  font-size: 5px;
+
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+#U {
+  opacity: 0.5;
+
 }
+

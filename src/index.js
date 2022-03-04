@@ -4,9 +4,24 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+
+
+const initialData = [
+    {
+        id: 512,
+        task: "Call mom"
+    },
+    {
+        id: 787,
+        task: "Talk to github inventors over lunch."
+    }
+];
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <div id={"background"}>
+          <App initialData={initialData}/>
+      </div>
   </React.StrictMode>,
   document.getElementById('root')
 );
