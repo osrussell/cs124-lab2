@@ -34,8 +34,11 @@ function Tasks(props) {
         )}
         <tr>
             <td>   </td>
-            <td><input type={"button"} value={"Add:"} onClick={(e) => handleAdd()}/>
-                <input type={"text"} id={"addItem"}/></td>
+            <td><input type={"button"} value={"Add:"}
+                       onClick={(e) => handleAdd()}/>
+                <input type={"text"} id={"addItem"}
+                        onKeyUp={(e) => { if (e.key === "Enter"){ handleAdd()}}}/>
+            </td>
         </tr>
         </tbody>
     </table>
