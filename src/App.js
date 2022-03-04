@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import './App.css';
 import Tasks from './Tasks.js';
-import Alert from './Alert.js';
 import * as events from "events";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
@@ -10,13 +9,8 @@ function App(props) {
   const [selectedTaskIds, setSelectedTaskIds] = useState([])
   const [completedTaskIds, setCompletedTaskIds] = useState([])
   const [isHidden, setIsHidden] = useState(false)
-  const [showAlert, setShowAlert] = useState(false)
+  const [locked, setLocked] = useState(true)
 
-  // handles selecting one task to edit the text
-  // // DO WE ONLY WANT ONE IN  THE LIST??? (since only editing one at once)
-  // function handleTaskSelected(task) {
-  //   setSelectedTaskIds([...selectedTaskIds, task.id]);
-  // }
 
 
 
@@ -43,8 +37,11 @@ function App(props) {
  }
 
   function onItemDeleted() {
-      setCurrentData(currentData.filter((a) => !(selectedTaskIds.includes(a.id))));
-      setSelectedTaskIds([]); // clears selected ids
+      if (!locked) {
+          setCurrentData(currentData.filter((a) => !(selectedTaskIds.includes(a.id))));
+          setSelectedTaskIds([]); // clears selected ids
+          }
+
   }
 
   function onItemAdded(newVal) {
@@ -64,8 +61,8 @@ function App(props) {
 
 
   //toggles if the alert is showing
-  function toggleModal() {
-      setShowAlert(!showAlert);
+  function toggleLock() {
+      setLocked(!locked);
   }
 
   // TO-DO: Currently getting infinite loop in Task after editing handleMarkCompleted
@@ -86,11 +83,22 @@ function App(props) {
         </div>
 
     <div id = "buttons">
-      <input type={"button"} id = "hide" name = "hide"  value = {(isHidden ? "Show":"Hide")}
+      <input type={"button"} id = "hide" name = "hide"
+             className={"bottomButtons"}
+             value = {(isHidden ? "Show":"Hide")}
              onClick={(e) =>handleHide()}/>
 
-        <input type={"button"} id = "trash" name = "trash"  value ={showAlert? "Trashing":"Trash"}
+        <div id = "trash" name = "trash">
+            <input type={"button"}
+                   className={"bottomButtons"}
+                   value ={locked? "U":"L"}
+                   onClick = {(event) => toggleLock()}/>
+            <input type={"button"}
+                   className={"bottomButtons"}
+                   id={locked? "U":"L"}
+                   value ={locked? "Trash":"Trash"}
                onClick = {(event) => onItemDeleted()}/>
+        </div>
     </div >
     {/*<div id = "alert" >*/}
     {/*    {showAlert && <Alert onClose={toggleModal} onOk={onItemDeleted}>*/}

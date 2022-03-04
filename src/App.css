@@ -68,12 +68,15 @@ text {
   bottom: 20px;
   position: fixed;
 
-}
-#alert {
-  border-color: crimson;
-  display: block;
-  left: 0px;
-  top: 0px;
 
-  position: fixed;
 }
+#bottomButtons {
+  font-size: 5px;
+
+}
+
+#L {
+  opacity: 0.5;
+
+}
+
