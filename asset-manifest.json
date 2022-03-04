@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/osrussell/cs124-lab2.git/static/css/main.29840b00.css",
-    "main.js": "/osrussell/cs124-lab2.git/static/js/main.46a54f22.js",
-    "static/js/787.97acaef4.chunk.js": "/osrussell/cs124-lab2.git/static/js/787.97acaef4.chunk.js",
-    "static/media/background.jpg": "/osrussell/cs124-lab2.git/static/media/background.891baf3e133b69fd2b07.jpg",
-    "index.html": "/osrussell/cs124-lab2.git/index.html",
-    "main.29840b00.css.map": "/osrussell/cs124-lab2.git/static/css/main.29840b00.css.map",
-    "main.46a54f22.js.map": "/osrussell/cs124-lab2.git/static/js/main.46a54f22.js.map",
-    "787.97acaef4.chunk.js.map": "/osrussell/cs124-lab2.git/static/js/787.97acaef4.chunk.js.map"
+    "main.css": "/cs124-lab2/static/css/main.7d2fc641.css",
+    "main.js": "/cs124-lab2/static/js/main.f39e4b8b.js",
+    "static/js/787.97acaef4.chunk.js": "/cs124-lab2/static/js/787.97acaef4.chunk.js",
+    "static/media/background.jpg": "/cs124-lab2/static/media/background.891baf3e133b69fd2b07.jpg",
+    "index.html": "/cs124-lab2/index.html",
+    "main.7d2fc641.css.map": "/cs124-lab2/static/css/main.7d2fc641.css.map",
+    "main.f39e4b8b.js.map": "/cs124-lab2/static/js/main.f39e4b8b.js.map",
+    "787.97acaef4.chunk.js.map": "/cs124-lab2/static/js/787.97acaef4.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.29840b00.css",
-    "static/js/main.46a54f22.js"
+    "static/css/main.7d2fc641.css",
+    "static/js/main.f39e4b8b.js"
   ]
 }
