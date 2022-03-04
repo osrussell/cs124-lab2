@@ -1,6 +1,4 @@
-import {useEffect, useState} from 'react';
-import App from "./App";
-// import './Tasks.css';
+
 import "./Task.css"
 
 function Task(props) {

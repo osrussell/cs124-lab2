@@ -1,7 +1,6 @@
-import {useEffect, useState} from 'react';
+import  {useState} from 'react';
 import './App.css';
 import Tasks from './Tasks.js';
-import * as events from "events";
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 function App(props) {
