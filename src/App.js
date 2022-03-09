@@ -3,6 +3,11 @@ import './App.css';
 import Tasks from './Tasks.js';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
+// Your web app's Firebase configuration
+
+
+
+
 function App(props) {
   const [currentData, setCurrentData] = useState(props.initialData) // starts with data and then setCurrentData can change it
   const [selectedTaskIds, setSelectedTaskIds] = useState([])
