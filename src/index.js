@@ -5,7 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 // Link: https://cs124-lab3-9648b--pr2-lab3-yzvnph28.web.app/
 // const firebaseConfig = {
-//
+// HELLO
 //     apiKey: "AIzaSyDaBwlBzUy9suNWGXJWrohmtdrhH9DzZ9s",
 //
 //     authDomain: "cs124-lab3-9648b.firebaseapp.com",
