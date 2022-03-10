@@ -8,6 +8,7 @@ import {getFirestore, query, collection, doc, setDoc, updateDoc, deleteDoc} from
 import {useCollectionData} from "react-firebase-hooks/firestore";
 
 const firebaseConfig = {
+
     apiKey: "AIzaSyDaBwlBzUy9suNWGXJWrohmtdrhH9DzZ9s",
 
     authDomain: "cs124-lab3-9648b.firebaseapp.com",
@@ -22,14 +23,15 @@ const firebaseConfig = {
 
 };
 
+
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp)
 const collectionName = "checklistData";
 
 
 
-function App(props) {
-    const [currentData, setCurrentData] = useState(props.initialData) // starts with data and then setCurrentData can change it
+function App() {
+    //const [currentData, setCurrentData] = useState(props.initialData) // starts with data and then setCurrentData can change it
 
     const [selectedTaskIds, setSelectedTaskIds] = useState([])
     const [completedTaskIds, setCompletedTaskIds] = useState([])
@@ -39,7 +41,7 @@ function App(props) {
 
     const collectionRef = collection(db, collectionName);
     const q = query(collectionRef);
-    const [tasks, loading, error] = useCollectionData(q)
+    const [tasks, loading] = useCollectionData(q)
 
 
     function handleMarkComplete(id) {
@@ -63,23 +65,24 @@ function App(props) {
 
     //
     function onItemChanged(itemId, newValue) {
-        setCurrentData(currentData.map((a) => a => a.id === itemId ? {...a, task: newValue} : a));
+        updateDoc(doc(db, collectionName, itemId),{task: newValue} );
     }
 
     function onItemDeleted() {
         if (!locked) {
-            setCurrentData(currentData.filter((a) => !(selectedTaskIds.includes(a.id))));
+            selectedTaskIds.map(id => deleteDoc(doc(db, collectionName, id)));
             setSelectedTaskIds([]); // clears selected ids
             setLocked(!locked)
         }
     }
 
     function onItemAdded(newVal) {
+        let newid = generateUniqueID()
         let newTask = {
-            id: generateUniqueID(),
+            id: newid,
             task: newVal
         }
-        setCurrentData([...currentData, newTask]);
+        setDoc(doc(db, collectionName, newid),newTask);
     }
 
     // changes if checked items are hidden
@@ -96,9 +99,9 @@ function App(props) {
     }
 
     if (loading) {
-        return <div id="title">
+        return (<div id="title">
             Loading
-        </div>
+        </div>)
     } else {
         // TO-DO: Currently getting infinite loop in Task after editing handleMarkCompleted
         return (<>
@@ -107,7 +110,7 @@ function App(props) {
                 </div>
 
                 <div id={"tasks"}>
-                    <Tasks id={"tasks"} data={currentData}
+                    <Tasks id={"tasks"} data={tasks}
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
                            handleMarkComplete={handleMarkComplete}
@@ -118,21 +121,21 @@ function App(props) {
                 </div>
 
                 <div id="buttons">
-                    <input type={"button"} id="hide" name="hide"
+                    <input type={"button"} id={"hide"} name={"hide"}
                            className={"bottomButtons"}
                            value={(isHidden ? "Show" : "Hide")}
-                           onClick={(e) => handleHide()}/>
+                           onClick={handleHide}/>
 
-                    <div id="trash" name="trash">
+                    <div id={"trash"} >
                         <input type={"button"}
                                className={"bottomButtons"}
                                value={locked ? "U" : "L"}
-                               onClick={(event) => toggleLock()}/>
+                               onClick={ toggleLock}/>
                         <input type={"button"}
                                className={"bottomButtons"}
                                id={locked ? "U" : "L"}
                                value={locked ? "Trash" : "Trash"}
-                               onClick={(event) => onItemDeleted()}/>
+                               onClick={ onItemDeleted}/>
                     </div>
                 </div>
 
