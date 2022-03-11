@@ -75,7 +75,7 @@ function App() {
             setLocked(!locked)
         }
     }
-
+    ///
     function onItemAdded(newVal) {
         let newid = generateUniqueID()
         let newTask = {
