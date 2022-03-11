@@ -70,7 +70,7 @@ function App() {
 
     function onItemDeleted() {
         if (!locked) {
-            selectedTaskIds.map(id => deleteDoc(doc(db, collectionName, id)));
+            selectedTaskIds.forEach(id => deleteDoc(doc(db, collectionName, id)));
             setSelectedTaskIds([]); // clears selected ids
             setLocked(!locked)
         }
