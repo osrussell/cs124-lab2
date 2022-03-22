@@ -22,13 +22,14 @@ function Tasks(props) {
     return <table>
         <tbody>
         {tempData.map(t =>
-            <Task task={t.task}
+            <Task task={t.val}
                   id={t.id}
                   isSelected={(props.selectedTaskIds.includes(t.id))}
                   isCompleted={(props.completedTaskIds.includes(t.id))}
                   handleTaskToggleSelected = {props.handleTaskToggleSelected}
                   handleMarkComplete = {props.handleMarkComplete}
                   onItemChanged = {props.onItemChanged}
+                  priority = {t.priority}
             />
         )}
         <tr>

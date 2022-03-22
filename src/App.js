@@ -42,7 +42,7 @@ function App() {
 
     const collectionRef = collection(db, collectionName);
     const q = query(collectionRef);
-    const [tasks, loading] = useCollectionData(q)
+    const [tasks, loading, error] = useCollectionData(q)
 
 
 
@@ -67,7 +67,7 @@ function App() {
 
     //
     function onItemChanged(itemId, newValue) {
-        updateDoc(doc(db, collectionName, itemId),{task: newValue} );
+        updateDoc(doc(db, collectionName, itemId),{val: newValue} );
     }
 
     function onItemDeleted() {
@@ -82,7 +82,7 @@ function App() {
         let newid = generateUniqueID()
         let newTask = {
             id: newid,
-            task: newVal
+            val: newVal
         }
         setDoc(doc(db, collectionName, newid),newTask);
     }
@@ -98,8 +98,11 @@ function App() {
     function toggleLock() {
         setLocked(!locked);
     }
-    console.log(loading)
-    if (loading) {
+    if (error) {
+        return (<div id="title">
+            Error: {error}
+        </div>)
+    } else if (loading) {
 
         return (<div id="title">
             Loading
