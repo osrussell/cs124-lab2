@@ -34,7 +34,7 @@ function Tasks(props) {
         <tr>
             <td>   </td>
             <td><input type={"button"} value={"Add:"}
-                       onClick={(e) => handleAdd()}/>
+                       onClick={handleAdd}/>
                 <input type={"text"} id={"addItem"}
                         onKeyUp={(e) => { if (e.key === "Enter"){ handleAdd()}}}/>
             </td>

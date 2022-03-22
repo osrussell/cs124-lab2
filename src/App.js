@@ -24,6 +24,7 @@ const firebaseConfig = {
 };
 
 
+
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp)
 const collectionName = "checklistData";
@@ -42,6 +43,7 @@ function App() {
     const collectionRef = collection(db, collectionName);
     const q = query(collectionRef);
     const [tasks, loading] = useCollectionData(q)
+
 
 
     function handleMarkComplete(id) {
@@ -92,17 +94,19 @@ function App() {
 
     // changes if we should have the alert open!
 
-
     //toggles if the alert is showing
     function toggleLock() {
         setLocked(!locked);
     }
-
+    console.log(loading)
     if (loading) {
+
         return (<div id="title">
             Loading
         </div>)
+
     } else {
+
         // TO-DO: Currently getting infinite loop in Task after editing handleMarkCompleted
         return (<>
                 <div id="title">
