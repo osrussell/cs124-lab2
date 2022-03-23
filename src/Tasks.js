@@ -5,7 +5,7 @@ import './Tasks.css'
 function Tasks(props) {
     let tempData;
     if (props.isHidden){
-      tempData = props.data.filter((a) => !props.completedTaskIds.includes(a.id));
+      tempData = props.data.filter((a) => !a.completed);
     } else {
        tempData = props.data;
     }
@@ -24,8 +24,9 @@ function Tasks(props) {
         {tempData.map(t =>
             <Task task={t.val}
                   id={t.id}
+                  key = {t.id}
                   isSelected={(props.selectedTaskIds.includes(t.id))}
-                  isCompleted={(props.completedTaskIds.includes(t.id))}
+                  isCompleted={t.completed}
                   handleTaskToggleSelected = {props.handleTaskToggleSelected}
                   handleMarkComplete = {props.handleMarkComplete}
                   onItemChanged = {props.onItemChanged}

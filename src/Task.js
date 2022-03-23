@@ -10,24 +10,30 @@ function Task(props) {
         classNames.push("completed")
     }
 
+    // function handleChange() {
+    //     console.log("hello");
+    //     let x = document.getElementById(props.id).innerHTML;
+    //     console.log(x);
+    //     props.onItemChanged(props.id, x); //adds element gottem
+    // }
+
     // COMMENTING THESE OUT FIXES DISAPPEARING
-    //
     //
     return <>
     <tr className={classNames.join(" ")} >
-        <td  onClick={(e) => props.handleMarkComplete(props.id)}>
-            <input type={"checkbox"} checked={props.isCompleted}/>
+        <td  onClick={(e) => props.handleMarkComplete(props.id, props.isCompleted)}>
+            <input type={"checkbox"} checked={props.isCompleted} readOnly={true}/>
         </td>
 
         <td >
-            <div className={"taskInput"} contentEditable={true}
+            <input type = {"text"} className={"taskInput"} id={props.id}
                  onClick = {(e) => props.handleTaskToggleSelected(props.id)}
             // onClick={(e) => e.stopPropagation()}
+                // props.onItemChanged(props.id,e.target.value)
             onChange={
-                (e) => props.onItemChanged(props.id,e.target.value)}>
-                {props.task}
-            </div>
-        </td>
+                (e) => props.onItemChanged(props.id, e.target.value)}
+                value = {props.task}/>
+            </td>
     </tr>
     </>
 }

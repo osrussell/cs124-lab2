@@ -35,7 +35,7 @@ function App() {
     //const [currentData, setCurrentData] = useState(props.initialData) // starts with data and then setCurrentData can change it
 
     const [selectedTaskIds, setSelectedTaskIds] = useState([])
-    const [completedTaskIds, setCompletedTaskIds] = useState([])
+    // const [completedTaskIds, setCompletedTaskIds] = useState([])
     const [isHidden, setIsHidden] = useState(false)
     const [locked, setLocked] = useState(true)
 
@@ -46,12 +46,12 @@ function App() {
 
 
 
-    function handleMarkComplete(id) {
-        if (completedTaskIds.includes(id)) {
-            setCompletedTaskIds(completedTaskIds.filter(t => t !== id));
+    function handleMarkComplete(id, oldBool) {
+        if(oldBool){
+            updateDoc(doc(db, collectionName, id),{completed: false} );
+
         } else {
-            // adds task.id to list of selectedTaskIds
-            setCompletedTaskIds([...completedTaskIds, id]);
+            updateDoc(doc(db, collectionName, id),{completed: true} );
         }
     }
 
@@ -82,7 +82,9 @@ function App() {
         let newid = generateUniqueID()
         let newTask = {
             id: newid,
-            val: newVal
+            val: newVal,
+            priority: "low",
+            completed: false,
         }
         setDoc(doc(db, collectionName, newid),newTask);
     }
@@ -121,7 +123,7 @@ function App() {
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
                            handleMarkComplete={handleMarkComplete}
-                           completedTaskIds={completedTaskIds}
+
                            selectedTaskIds={selectedTaskIds}
                            onItemAdded={onItemAdded}
                            onItemChanged={onItemChanged}/>
