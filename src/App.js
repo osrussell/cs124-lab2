@@ -1,107 +1,191 @@
-import  {useState} from 'react';
+import {useState} from 'react';
 import './App.css';
 import Tasks from './Tasks.js';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
-function App(props) {
-  const [currentData, setCurrentData] = useState(props.initialData) // starts with data and then setCurrentData can change it
-  const [selectedTaskIds, setSelectedTaskIds] = useState([])
-  const [completedTaskIds, setCompletedTaskIds] = useState([])
-  const [isHidden, setIsHidden] = useState(false)
-  const [locked, setLocked] = useState(true)
+import {initializeApp} from "firebase/app";
+import {
+    getFirestore,
+    query,
+    orderBy,
+    collection,
+    doc,
+    setDoc,
+    updateDoc,
+    deleteDoc,
+    serverTimestamp
+} from "firebase/firestore";
+import {useCollectionData} from "react-firebase-hooks/firestore";
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyDaBwlBzUy9suNWGXJWrohmtdrhH9DzZ9s",
+    authDomain: "cs124-lab3-9648b.firebaseapp.com",
+    projectId: "cs124-lab3-9648b",
+    storageBucket: "cs124-lab3-9648b.appspot.com",
+    messagingSenderId: "145458893347",
+    appId: "1:145458893347:web:30f4350e70aed6433d9796"
+
+};
 
 
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp)
+const collectionName = "checklistData";
 
 
-  function handleMarkComplete(id){
-    if (completedTaskIds.includes(id)) {
-      setCompletedTaskIds(completedTaskIds.filter(t => t !== id));
-    } else {
-      // adds task.id to list of selectedTaskIds
-      setCompletedTaskIds([...completedTaskIds, id]);
+function App() {
+
+    const [sortBy, setSorting] = useState("val");
+    const [selectedTaskIds, setSelectedTaskIds] = useState([]);
+    const [isHidden, setIsHidden] = useState(false);
+    const [locked, setLocked] = useState(true);
+    const [editing, toggleEditing] = useState(false);
+
+    const collectionRef = collection(db, collectionName);
+    const q = query(collectionRef, orderBy(sortBy));
+    const [tasks, loading, error] = useCollectionData(q)
+
+    function handleToggleEditing() {
+        toggleEditing(!editing);
     }
-  }
-  // handles toggling on and off of a person by adding
-  function handleTaskToggleSelected(id) {
-    if (selectedTaskIds.includes(id)) {
-      setSelectedTaskIds(selectedTaskIds.filter(t => t !== id));
-    } else {
-      // adds task.id to list of selectedTaskIds
-      setSelectedTaskIds([...selectedTaskIds, id]);
+
+
+    function handleMarkComplete(id, newVal) {
+        void updateDoc(doc(db, collectionName, id), {completed: newVal});
     }
-  }
-  //
- function onItemChanged(itemId, newValue) {
-      setCurrentData(currentData.map((a) => a => a.id === itemId ? {...a, task: newValue} : a));
- }
 
-  function onItemDeleted() {
-      if (!locked) {
-          setCurrentData(currentData.filter((a) => !(selectedTaskIds.includes(a.id))));
-          setSelectedTaskIds([]); // clears selected ids
-          setLocked(!locked)
-          }
-  }
+    function toggleSortby() {
+        // setSorting("hi");
+        if (sortBy === "val") {
+            setSorting("priority");
+            console.log(sortBy)
+        } else if (sortBy === "priority") {
+            setSorting("created");
+        } else {
+            setSorting("val");
+        }
+    }
 
-  function onItemAdded(newVal) {
-      let newTask = {
-          id: generateUniqueID(),
-          task: newVal
-      }
-      setCurrentData([...currentData,newTask]);
-  }
+    // handles toggling on and off of a person by adding
+    function handleTaskToggleSelected(id) {
+        if (selectedTaskIds.includes(id)) {
+            setSelectedTaskIds(selectedTaskIds.filter(t => t !== id));
+        } else {
+            // adds task.id to list of selectedTaskIds
+            setSelectedTaskIds([...selectedTaskIds, id]);
+        }
+    }
 
-  // changes if checked items are hidden
-  function handleHide() {
-    setIsHidden(!isHidden);
-  }
+    //
+    function onItemChanged(itemId, newValue) {
+        updateDoc(doc(db, collectionName, itemId), {val: newValue}).then();
+    }
 
-  // changes if we should have the alert open!
+    function onItemDeleted() {
+        if (!locked) {
+            selectedTaskIds.forEach(id => deleteDoc(doc(db, collectionName, id)));
+            setSelectedTaskIds([]); // clears selected ids
+            setLocked(!locked)
+        }
+    }
 
+    function onItemAdded(newVal) {
+        let newid = generateUniqueID()
+        let newTask = {
+            id: newid,
+            val: newVal,
+            priority: "small",
+            completed: false,
+            created: serverTimestamp()
+        }
+        void setDoc(doc(db, collectionName, newid), newTask);
+    }
 
-  //toggles if the alert is showing
-  function toggleLock() {
-      setLocked(!locked);
-  }
+    // changes if checked items are hidden
+    function handleHide() {
+        setIsHidden(!isHidden);
+    }
 
-  // TO-DO: Currently getting infinite loop in Task after editing handleMarkCompleted
-  return ( <>
-    <div id = "title">
-      Checklist
-    </div>
+    function handlePriority(itemId, current) {
+        let reference = doc(db, collectionName, itemId);
+        let output;
+        if (current === "small") {
+            output = "medium";
 
-        <div id={"tasks"}>
-    <Tasks id={"tasks"} data={currentData}
-                        isHidden = {isHidden}
-                        handleTaskToggleSelected = {handleTaskToggleSelected}
-                        handleMarkComplete={handleMarkComplete}
-                        completedTaskIds = {completedTaskIds}
-                        selectedTaskIds = {selectedTaskIds}
-                        onItemAdded = {onItemAdded}
-                        onItemChanged = {onItemChanged}/>
-        </div>
+        } else if (current === "medium") {
+            output = "high";
 
-    <div id = "buttons">
-      <input type={"button"} id = "hide" name = "hide"
-             className={"bottomButtons"}
-             value = {(isHidden ? "Show":"Hide")}
-             onClick={(e) =>handleHide()}/>
+        } else {
+            output = "small";
 
-        <div id = "trash" name = "trash">
-            <input type={"button"}
-                   className={"bottomButtons"}
-                   value ={locked? "U":"L"}
-                   onClick = {(event) => toggleLock()}/>
-            <input type={"button"}
-                   className={"bottomButtons"}
-                   id={locked? "U":"L"}
-                   value ={locked? "Trash":"Trash"}
-               onClick = {(event) => onItemDeleted()}/>
-        </div>
-    </div >
+        }
+        const foo = {priority: output};
+        void updateDoc(reference, foo);
 
-    </>
-  );
+    }
+
+    // changes if we should have the alert open!
+
+    //toggles if the alert is showing
+    function toggleLock() {
+        setLocked(!locked);
+    }
+
+    if (error) {
+        return (<div id="title">
+            Error: {error}
+        </div>)
+    } else if (loading) {
+
+        return (<div id="title">
+            Loading
+        </div>)
+
+    } else {
+
+        return (<>
+                <div id="title">
+                    Checklist
+                </div>
+
+                <div id={"tasks"}>
+                    <Tasks id={"tasks"} data={tasks}
+                           isHidden={isHidden}
+                           handleTaskToggleSelected={handleTaskToggleSelected}
+                           handleMarkComplete={handleMarkComplete}
+                           handleToggleEditing={handleToggleEditing}
+                           isEditing={editing}
+                           selectedTaskIds={selectedTaskIds}
+                           onItemAdded={onItemAdded}
+                           onItemChanged={onItemChanged}
+                           handlePriority={handlePriority}
+                           toggleSortby={toggleSortby}
+                           sortBy={sortBy}/>
+                </div>
+
+                <div id="buttons">
+                    <input type={"button"} id={"hide"} name={"hide"}
+                           className={"bottomButtons"}
+                           value={(isHidden ? "Show" : "Hide")}
+                           onClick={handleHide}/>
+
+                    <div id={"trash"}>
+                        <input type={"button"}
+                               className={"bottomButtons"}
+                               value={locked ? "U" : "L"}
+                               onClick={toggleLock}/>
+                        <input type={"button"}
+                               className={"bottomButtons"}
+                               id={locked ? "U" : "L"}
+                               value={locked ? "Trash" : "Trash"}
+                               onClick={onItemDeleted}/>
+                    </div>
+                </div>
+
+            </>
+        );
+    }
 }
 
 export default App;

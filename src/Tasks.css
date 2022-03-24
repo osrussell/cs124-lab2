@@ -9,7 +9,6 @@
     bottom: 110px;
     position: fixed;
 
-    font-style: bold;
 
     font-family: "American Typewriter";
     font-size: 18px ;
@@ -46,4 +45,23 @@
     font-family: "Arial" ;
     font-size: 18px ;
     height: 50px;
+}
+
+.small {
+    background-color: greenyellow;
+    border-color: transparent;;
+    height: 13px;
+    width: 10px;
+}
+.medium {
+    background-color: #ffd600;
+    border-color: transparent;;
+    height: 13px;
+    width: 10px;
+}
+.high {
+    background-color: red;
+    border-color: transparent;;
+    height: 13px;
+    width: 10px;
 }

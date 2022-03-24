@@ -10,24 +10,29 @@ function Task(props) {
         classNames.push("completed")
     }
 
-    // COMMENTING THESE OUT FIXES DISAPPEARING
-    //
-    //
+
+
     return <>
     <tr className={classNames.join(" ")} >
-        <td  onClick={(e) => props.handleMarkComplete(props.id)}>
-            <input type={"checkbox"} checked={props.isCompleted}/>
+        <td  onClick={(e) => props.handleMarkComplete(props.id, !(props.isCompleted))}>
+            <input type={"checkbox"} checked={props.isCompleted} readOnly={true}/>
         </td>
 
         <td >
-            <div className={"taskInput"} contentEditable={true}
+            {props.isEditing && <input type = {"textarea"} className={"taskInput"} id={props.id}
                  onClick = {(e) => props.handleTaskToggleSelected(props.id)}
-            // onClick={(e) => e.stopPropagation()}
             onChange={
-                (e) => props.onItemChanged(props.id,e.target.value)}>
+                (e) => props.onItemChanged(props.id, e.target.value)}
+                value = {props.task}/> }
+            {!props.isEditing && <div
+                onClick = {(e) => props.handleTaskToggleSelected(props.id)}>
                 {props.task}
-            </div>
-        </td>
+            </div>}
+            </td>
+            <td onClick={(e) => props.handlePriority(props.id, props.priority)}>
+
+                <input type = {"button"} className={props.priority} />
+            </td>
     </tr>
     </>
 }
