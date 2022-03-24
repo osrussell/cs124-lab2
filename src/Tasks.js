@@ -31,10 +31,10 @@ function Tasks(props) {
         <tr>
             <td>
             </td>
-            <td>   <input type={"button"} value={!props.isEditing? "Edit All":"Stop Editing"}
-                          onClick={(e) => props.handleToggleEditing()}/>
+            <td>   <input type={"button"} value={!props.isEditing? "Edit All":"Stop Edit"}
+                          onClick= {props.handleToggleEditing}/>
                 <input type={"button"} value={(props.sortBy==="val")? "ToggleSort: task": ("ToggleSort: " + props.sortBy) }
-                       onClick={(e) =>props.toggleSortby()}/>
+                       onClick={props.toggleSortby}/>
             </td>
             <td>
 
@@ -60,7 +60,7 @@ function Tasks(props) {
         <tr>
             <td>   </td>
             <td><input type={"button"} value={"Add:"}
-                       onClick={(e) => handleAdd(toBeInput)}/>
+                       onClick={(e) => handleAdd(toBeInput, e.target)}/>
                 <input type={"text"} id={"addItem"}
                        onChange={(e) => handleUpdateToBeInput(e.target.value)}
                         onKeyUp={(e) => { if (e.key === "Enter"){ handleAdd(toBeInput)}}}/>
