@@ -31,8 +31,17 @@ function Tasks(props) {
                   handleMarkComplete = {props.handleMarkComplete}
                   onItemChanged = {props.onItemChanged}
                   priority = {t.priority}
+                  isEditing ={props.isEditing}
+
             />
         )}
+        <tr>
+            <td>
+            </td>
+            <td>   <input type={"button"} value={!props.isEditing? "Edit All":"Stop Editing"}
+                   onClick={props.handleToggleEditing}/>
+            </td>
+        </tr>
         <tr>
             <td>   </td>
             <td><input type={"button"} value={"Add:"}
@@ -41,6 +50,7 @@ function Tasks(props) {
                         onKeyUp={(e) => { if (e.key === "Enter"){ handleAdd()}}}/>
             </td>
         </tr>
+
         </tbody>
     </table>
 }

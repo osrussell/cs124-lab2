@@ -9,7 +9,6 @@ function Task(props) {
     if (props.isCompleted) {
         classNames.push("completed")
     }
-
     // function handleChange() {
     //     console.log("hello");
     //     let x = document.getElementById(props.id).innerHTML;
@@ -26,13 +25,17 @@ function Task(props) {
         </td>
 
         <td >
-            <input type = {"text"} className={"taskInput"} id={props.id}
+            {props.isEditing && <input type = {"textarea"} className={"taskInput"} id={props.id}
                  onClick = {(e) => props.handleTaskToggleSelected(props.id)}
             // onClick={(e) => e.stopPropagation()}
                 // props.onItemChanged(props.id,e.target.value)
             onChange={
                 (e) => props.onItemChanged(props.id, e.target.value)}
-                value = {props.task}/>
+                value = {props.task}/> }
+            {!props.isEditing && <div
+                onClick = {(e) => props.handleTaskToggleSelected(props.id)}>
+                {props.task}
+            </div>}
             </td>
     </tr>
     </>

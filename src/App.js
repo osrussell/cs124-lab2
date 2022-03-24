@@ -38,12 +38,15 @@ function App() {
     // const [completedTaskIds, setCompletedTaskIds] = useState([])
     const [isHidden, setIsHidden] = useState(false)
     const [locked, setLocked] = useState(true)
-
+    const [editing, toggleEditing] = useState(false)
 
     const collectionRef = collection(db, collectionName);
     const q = query(collectionRef);
     const [tasks, loading, error] = useCollectionData(q)
 
+    function handleToggleEditing(){
+        toggleEditing(!editing);
+    }
 
 
     function handleMarkComplete(id, oldBool) {
@@ -123,7 +126,8 @@ function App() {
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
                            handleMarkComplete={handleMarkComplete}
-
+                            handleToggleEditing={handleToggleEditing}
+                           isEditing={editing}
                            selectedTaskIds={selectedTaskIds}
                            onItemAdded={onItemAdded}
                            onItemChanged={onItemChanged}/>
