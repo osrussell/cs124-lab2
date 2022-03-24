@@ -60,7 +60,8 @@ function Tasks(props) {
         <tr>
             <td>   </td>
             <td><input type={"button"} value={"Add:"}
-                       onClick={(e) => handleAdd(toBeInput, e.target)}/>
+                       // below has call to e.target to get rid of warning
+                       onClick={(e) => handleAdd(toBeInput, e.target)} />
                 <input type={"text"} id={"addItem"}
                        onChange={(e) => handleUpdateToBeInput(e.target.value)}
                         onKeyUp={(e) => { if (e.key === "Enter"){ handleAdd(toBeInput)}}}/>
