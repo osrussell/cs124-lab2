@@ -4,21 +4,26 @@ import Tasks from './Tasks.js';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 import {initializeApp} from "firebase/app";
-import {getFirestore, query, orderBy, collection, doc, setDoc, updateDoc, deleteDoc, serverTimestamp} from "firebase/firestore";
+import {
+    getFirestore,
+    query,
+    orderBy,
+    collection,
+    doc,
+    setDoc,
+    updateDoc,
+    deleteDoc,
+    serverTimestamp
+} from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 
 const firebaseConfig = {
 
     apiKey: "AIzaSyDaBwlBzUy9suNWGXJWrohmtdrhH9DzZ9s",
-
     authDomain: "cs124-lab3-9648b.firebaseapp.com",
-
     projectId: "cs124-lab3-9648b",
-
     storageBucket: "cs124-lab3-9648b.appspot.com",
-
     messagingSenderId: "145458893347",
-
     appId: "1:145458893347:web:30f4350e70aed6433d9796"
 
 };
@@ -47,15 +52,15 @@ function App() {
 
 
     function handleMarkComplete(id, newVal) {
-            void updateDoc(doc(db, collectionName, id), {completed: newVal});
+        void updateDoc(doc(db, collectionName, id), {completed: newVal});
     }
 
     function toggleSortby() {
-       // setSorting("hi");
-        if(sortBy === "val") {
+        // setSorting("hi");
+        if (sortBy === "val") {
             setSorting("priority");
             console.log(sortBy)
-        } else if(sortBy === "priority") {
+        } else if (sortBy === "priority") {
             setSorting("created");
         } else {
             setSorting("val");
@@ -104,7 +109,7 @@ function App() {
 
     function handlePriority(itemId, current) {
         let reference = doc(db, collectionName, itemId);
-        let output = "";
+        let output;
         if (current === "small") {
             output = "medium";
 
@@ -155,8 +160,8 @@ function App() {
                            onItemAdded={onItemAdded}
                            onItemChanged={onItemChanged}
                            handlePriority={handlePriority}
-                            toggleSortby = {toggleSortby}
-                            sortBy= {sortBy}/>
+                           toggleSortby={toggleSortby}
+                           sortBy={sortBy}/>
                 </div>
 
                 <div id="buttons">
