@@ -9,7 +9,6 @@
     bottom: 110px;
     position: fixed;
 
-    font-style: bold;
 
     font-family: "American Typewriter";
     font-size: 18px ;
@@ -48,7 +47,7 @@
     height: 50px;
 }
 
-.low {
+.small {
     background-color: greenyellow;
     border-color: transparent;;
     height: 13px;

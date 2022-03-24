@@ -13,6 +13,7 @@ function Tasks(props) {
 
     const [toBeInput, updateToBeInput] = useState("")
 
+
     function handleUpdateToBeInput(newVal) {
                 updateToBeInput(newVal)
     }
@@ -22,6 +23,7 @@ function Tasks(props) {
         if (newVal !== "") {
             props.onItemAdded(newVal) //adds element gotten
         }
+        updateToBeInput("")
     }
 
     return <table>
@@ -30,8 +32,14 @@ function Tasks(props) {
             <td>
             </td>
             <td>   <input type={"button"} value={!props.isEditing? "Edit All":"Stop Editing"}
-                          onClick={props.handleToggleEditing}/>
+                          onClick={(e) => props.handleToggleEditing()}/>
+                <input type={"button"} value={(props.sortBy==="val")? "ToggleSort: task": ("ToggleSort: " + props.sortBy) }
+                       onClick={(e) =>props.toggleSortby()}/>
             </td>
+            <td>
+
+            </td>
+
         </tr>
         {tempData.map(t =>
             <Task task={t.val}

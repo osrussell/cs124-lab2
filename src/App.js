@@ -4,7 +4,7 @@ import Tasks from './Tasks.js';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 import {initializeApp} from "firebase/app";
-import {getFirestore, query, collection, doc, setDoc, updateDoc, deleteDoc} from "firebase/firestore";
+import {getFirestore, query, orderBy, collection, doc, setDoc, updateDoc, deleteDoc, serverTimestamp} from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 
 const firebaseConfig = {
@@ -31,14 +31,14 @@ const collectionName = "checklistData";
 
 function App() {
 
-    const [sortBy, setSortBy] = useState("name")
-    const [selectedTaskIds, setSelectedTaskIds] = useState([])
-    const [isHidden, setIsHidden] = useState(false)
-    const [locked, setLocked] = useState(true)
-    const [editing, toggleEditing] = useState(false)
+    const [sortBy, setSorting] = useState("val");
+    const [selectedTaskIds, setSelectedTaskIds] = useState([]);
+    const [isHidden, setIsHidden] = useState(false);
+    const [locked, setLocked] = useState(true);
+    const [editing, toggleEditing] = useState(false);
 
     const collectionRef = collection(db, collectionName);
-    const q = query(collectionRef);
+    const q = query(collectionRef, orderBy(sortBy));
     const [tasks, loading, error] = useCollectionData(q)
 
     function handleToggleEditing() {
@@ -47,9 +47,19 @@ function App() {
 
 
     function handleMarkComplete(id, newVal) {
-
             void updateDoc(doc(db, collectionName, id), {completed: newVal});
+    }
 
+    function toggleSortby() {
+       // setSorting("hi");
+        if(sortBy === "val") {
+            setSorting("priority");
+            console.log(sortBy)
+        } else if(sortBy === "priority") {
+            setSorting("created");
+        } else {
+            setSorting("val");
+        }
     }
 
     // handles toggling on and off of a person by adding
@@ -80,8 +90,9 @@ function App() {
         let newTask = {
             id: newid,
             val: newVal,
-            priority: "low",
+            priority: "small",
             completed: false,
+            created: serverTimestamp()
         }
         void setDoc(doc(db, collectionName, newid), newTask);
     }
@@ -94,14 +105,14 @@ function App() {
     function handlePriority(itemId, current) {
         let reference = doc(db, collectionName, itemId);
         let output = "";
-        if (current === "low") {
+        if (current === "small") {
             output = "medium";
 
         } else if (current === "medium") {
             output = "high";
 
         } else {
-            output = "low";
+            output = "small";
 
         }
         const foo = {priority: output};
@@ -143,7 +154,9 @@ function App() {
                            selectedTaskIds={selectedTaskIds}
                            onItemAdded={onItemAdded}
                            onItemChanged={onItemChanged}
-                           handlePriority={handlePriority}/>
+                           handlePriority={handlePriority}
+                            toggleSortby = {toggleSortby}
+                            sortBy= {sortBy}/>
                 </div>
 
                 <div id="buttons">
