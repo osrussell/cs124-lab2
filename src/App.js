@@ -1,4 +1,4 @@
-import  {useState} from 'react';
+import {useState} from 'react';
 import './App.css';
 import Tasks from './Tasks.js';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
@@ -24,18 +24,15 @@ const firebaseConfig = {
 };
 
 
-
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp)
 const collectionName = "checklistData";
 
 
-
 function App() {
-    //const [currentData, setCurrentData] = useState(props.initialData) // starts with data and then setCurrentData can change it
 
+    const [sortBy, setSortBy] = useState("name")
     const [selectedTaskIds, setSelectedTaskIds] = useState([])
-    // const [completedTaskIds, setCompletedTaskIds] = useState([])
     const [isHidden, setIsHidden] = useState(false)
     const [locked, setLocked] = useState(true)
     const [editing, toggleEditing] = useState(false)
@@ -44,18 +41,15 @@ function App() {
     const q = query(collectionRef);
     const [tasks, loading, error] = useCollectionData(q)
 
-    function handleToggleEditing(){
+    function handleToggleEditing() {
         toggleEditing(!editing);
     }
 
 
-    function handleMarkComplete(id, oldBool) {
-        if(oldBool){
-            updateDoc(doc(db, collectionName, id),{completed: false} );
+    function handleMarkComplete(id, newVal) {
 
-        } else {
-            updateDoc(doc(db, collectionName, id),{completed: true} );
-        }
+            void updateDoc(doc(db, collectionName, id), {completed: newVal});
+
     }
 
     // handles toggling on and off of a person by adding
@@ -70,7 +64,7 @@ function App() {
 
     //
     function onItemChanged(itemId, newValue) {
-        updateDoc(doc(db, collectionName, itemId),{val: newValue} );
+        updateDoc(doc(db, collectionName, itemId), {val: newValue}).then();
     }
 
     function onItemDeleted() {
@@ -80,7 +74,7 @@ function App() {
             setLocked(!locked)
         }
     }
-    ///
+
     function onItemAdded(newVal) {
         let newid = generateUniqueID()
         let newTask = {
@@ -89,12 +83,30 @@ function App() {
             priority: "low",
             completed: false,
         }
-        setDoc(doc(db, collectionName, newid),newTask);
+        void setDoc(doc(db, collectionName, newid), newTask);
     }
 
     // changes if checked items are hidden
     function handleHide() {
         setIsHidden(!isHidden);
+    }
+
+    function handlePriority(itemId, current) {
+        let reference = doc(db, collectionName, itemId);
+        let output = "";
+        if (current === "low") {
+            output = "medium";
+
+        } else if (current === "medium") {
+            output = "high";
+
+        } else {
+            output = "low";
+
+        }
+        const foo = {priority: output};
+        void updateDoc(reference, foo);
+
     }
 
     // changes if we should have the alert open!
@@ -103,6 +115,7 @@ function App() {
     function toggleLock() {
         setLocked(!locked);
     }
+
     if (error) {
         return (<div id="title">
             Error: {error}
@@ -115,7 +128,6 @@ function App() {
 
     } else {
 
-        // TO-DO: Currently getting infinite loop in Task after editing handleMarkCompleted
         return (<>
                 <div id="title">
                     Checklist
@@ -126,11 +138,12 @@ function App() {
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
                            handleMarkComplete={handleMarkComplete}
-                            handleToggleEditing={handleToggleEditing}
+                           handleToggleEditing={handleToggleEditing}
                            isEditing={editing}
                            selectedTaskIds={selectedTaskIds}
                            onItemAdded={onItemAdded}
-                           onItemChanged={onItemChanged}/>
+                           onItemChanged={onItemChanged}
+                           handlePriority={handlePriority}/>
                 </div>
 
                 <div id="buttons">
@@ -139,16 +152,16 @@ function App() {
                            value={(isHidden ? "Show" : "Hide")}
                            onClick={handleHide}/>
 
-                    <div id={"trash"} >
+                    <div id={"trash"}>
                         <input type={"button"}
                                className={"bottomButtons"}
                                value={locked ? "U" : "L"}
-                               onClick={ toggleLock}/>
+                               onClick={toggleLock}/>
                         <input type={"button"}
                                className={"bottomButtons"}
                                id={locked ? "U" : "L"}
                                value={locked ? "Trash" : "Trash"}
-                               onClick={ onItemDeleted}/>
+                               onClick={onItemDeleted}/>
                     </div>
                 </div>
 
@@ -156,4 +169,5 @@ function App() {
         );
     }
 }
+
 export default App;
