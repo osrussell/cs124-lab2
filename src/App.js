@@ -27,7 +27,7 @@ const firebaseConfig = {
     appId: "1:145458893347:web:30f4350e70aed6433d9796"
 
 };
-
+// ACCESSABILITY TIME
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp)
