@@ -64,7 +64,9 @@ function Tasks(props) {
                        onClick={(e) => handleAdd(toBeInput, e.target)} />
                 <input type={"text"} id={"addItem"}
                        onChange={(e) => handleUpdateToBeInput(e.target.value)}
-                        onKeyUp={(e) => { if (e.key === "Enter"){ handleAdd(toBeInput)}}}/>
+                        onKeyUp={(e) => { if (e.key === "Enter"){ handleAdd(toBeInput)}}}
+                value={toBeInput}/>
+
             </td>
         </tr>
 

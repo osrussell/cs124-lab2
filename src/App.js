@@ -27,11 +27,13 @@ const firebaseConfig = {
     appId: "1:145458893347:web:30f4350e70aed6433d9796"
 
 };
-// ACCESSABILITY TIME
 
 const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp)
-const collectionName = "checklistData";
+const db = getFirestore(firebaseApp);
+const collectionName = "lists";
+const subCollectName = "tasks";
+
+
 
 
 function App() {
@@ -41,10 +43,18 @@ function App() {
     const [isHidden, setIsHidden] = useState(false);
     const [locked, setLocked] = useState(true);
     const [editing, toggleEditing] = useState(false);
+    const [currentListID, setCurrentListID] = useState("YhwrxHOkAoPGyP0WV8De"); //12345
 
-    const collectionRef = collection(db, collectionName);
-    const q = query(collectionRef, orderBy(sortBy));
-    const [tasks, loading, error] = useCollectionData(q)
+
+
+    //const collectionRef = collection(db, collectionName);
+    // const qList = query(collectionRef);
+    // const [lists , loadingLists] = useCollectionData(qList);
+
+
+    const subRef = collection(db, collectionName, currentListID, subCollectName );
+    const qTasks = query(subRef, orderBy(sortBy));
+    const [tasks , loadingTasks, error] = useCollectionData(qTasks);
 
     function handleToggleEditing() {
         toggleEditing(!editing);
@@ -52,11 +62,10 @@ function App() {
 
 
     function handleMarkComplete(id, newVal) {
-        void updateDoc(doc(db, collectionName, id), {completed: newVal});
+        void updateDoc(doc(db, collectionName, currentListID, subCollectName, id), {completed: newVal});
     }
 
     function toggleSortby() {
-        // setSorting("hi");
         if (sortBy === "val") {
             setSorting("priority");
             console.log(sortBy)
@@ -79,12 +88,12 @@ function App() {
 
     //
     function onItemChanged(itemId, newValue) {
-        updateDoc(doc(db, collectionName, itemId), {val: newValue}).then();
+        void updateDoc(doc(db, collectionName, currentListID, subCollectName, itemId), {val: newValue});
     }
 
     function onItemDeleted() {
         if (!locked) {
-            selectedTaskIds.forEach(id => deleteDoc(doc(db, collectionName, id)));
+            selectedTaskIds.forEach(id => deleteDoc(doc(db, collectionName, currentListID, subCollectName , id)));
             setSelectedTaskIds([]); // clears selected ids
             setLocked(!locked)
         }
@@ -99,7 +108,7 @@ function App() {
             completed: false,
             created: serverTimestamp()
         }
-        void setDoc(doc(db, collectionName, newid), newTask);
+        void setDoc(doc(db, collectionName, currentListID, subCollectName , newid), newTask);
     }
 
     // changes if checked items are hidden
@@ -108,7 +117,7 @@ function App() {
     }
 
     function handlePriority(itemId, current) {
-        let reference = doc(db, collectionName, itemId);
+        const reference = doc(db, collectionName, currentListID, subCollectName , itemId);
         let output;
         if (current === "small") {
             output = "medium";
@@ -120,12 +129,10 @@ function App() {
             output = "small";
 
         }
-        const foo = {priority: output};
-        void updateDoc(reference, foo);
+        void updateDoc(reference, {priority: output});
 
     }
 
-    // changes if we should have the alert open!
 
     //toggles if the alert is showing
     function toggleLock() {
@@ -136,7 +143,7 @@ function App() {
         return (<div id="title">
             Error: {error}
         </div>)
-    } else if (loading) {
+    } else if (loadingTasks) {
 
         return (<div id="title">
             Loading
@@ -149,7 +156,11 @@ function App() {
                     Checklist
                 </div>
 
+
                 <div id={"tasks"}>
+                    {/*{lists.map(t =>*/}
+                    {/*    <*/}
+                    {/*}*/}
                     <Tasks id={"tasks"} data={tasks}
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
@@ -178,7 +189,7 @@ function App() {
                         <input type={"button"}
                                className={"bottomButtons"}
                                id={locked ? "U" : "L"}
-                               value={locked ? "Trash" : "Trash"}
+                               value={"Trash"}
                                onClick={onItemDeleted}/>
                     </div>
                 </div>
