@@ -47,10 +47,9 @@ function App() {
 
 
 
-    //const collectionRef = collection(db, collectionName);
-    // const qList = query(collectionRef);
-    // const [lists , loadingLists] = useCollectionData(qList);
-
+    const collectionRef = collection(db, collectionName);
+    const qList = query(collectionRef);
+    const [lists , loadingLists, errorLists] = useCollectionData(qList);
 
     const subRef = collection(db, collectionName, currentListID, subCollectName );
     const qTasks = query(subRef, orderBy(sortBy));
@@ -133,6 +132,10 @@ function App() {
 
     }
 
+    function handleChangeList(id) {
+        setCurrentListID(id);
+    }
+
 
     //toggles if the alert is showing
     function toggleLock() {
@@ -143,7 +146,7 @@ function App() {
         return (<div id="title">
             Error: {error}
         </div>)
-    } else if (loadingTasks) {
+    } else if (loadingTasks ) {
 
         return (<div id="title">
             Loading
@@ -158,9 +161,10 @@ function App() {
 
 
                 <div id={"tasks"}>
-                    {/*{lists.map(t =>*/}
-                    {/*    <*/}
-                    {/*}*/}
+                    {lists.map(t =>
+                        <input type={ "button"} value={t.name}
+                            onClick={(e) => handleChangeList(t.id)}/> )
+                    }
                     <Tasks id={"tasks"} data={tasks}
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
