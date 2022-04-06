@@ -46,7 +46,7 @@ function App() {
     const [locked, setLocked] = useState(true);
     const [editing, toggleEditing] = useState(false);
     const [currentListID, setCurrentListID] = useState("YhwrxHOkAoPGyP0WV8De"); //12345
-
+    const [toBeList, setToBeList] = useState("");
 
 
     const collectionRef = collection(db, collectionName);
@@ -59,8 +59,46 @@ function App() {
 
     function handleToggleEditing() {
         toggleEditing(!editing);
+        if (sortBy === "val") {
+            setSorting("priority");
+        }
     }
 
+    function handleUpdateToBeList(input) {
+        setToBeList(input);
+    }
+
+    function handleRemoveList() {
+        if (lists.length > 1){
+            void deleteDoc(doc(db, collectionName, currentListID));
+            setCurrentListID(lists[0].id)
+        }
+    }
+
+    function handleAddList (input) {
+        if (input !== "") {
+            let newid = generateUniqueID();
+            let newList = {
+                id: newid,
+                name: input,
+                created: serverTimestamp()
+            };
+            void setDoc(doc(db, collectionName, newid), newList);
+
+            let baseitemid = generateUniqueID()
+            let baseItem = {
+                id: baseitemid,
+                val: "Start Noting!",
+                priority: "small",
+                completed: false,
+                created: serverTimestamp()
+            }
+            void setDoc(doc(db, collectionName, newid, subCollectName , newid), baseItem);
+
+
+            setToBeList("");
+        }
+    }
 
     function handleMarkComplete(id, newVal) {
         void updateDoc(doc(db, collectionName, currentListID, subCollectName, id), {completed: newVal});
@@ -69,7 +107,6 @@ function App() {
     function toggleSortby() {
         if (sortBy === "val") {
             setSorting("priority");
-            console.log(sortBy)
         } else if (sortBy === "priority") {
             setSorting("created");
         } else {
@@ -131,7 +168,6 @@ function App() {
 
         }
         void updateDoc(reference, {priority: output});
-
     }
 
     function handleChangeList(id) {
@@ -144,11 +180,11 @@ function App() {
         setLocked(!locked);
     }
 
-    if (error) {
+    if (error || errorLists) {
         return (<div id="title">
             Error: {error}
         </div>)
-    } else if (loadingTasks ) {
+    } else if (loadingTasks || loadingLists) {
 
         return (<div id="title">
             Loading
@@ -157,6 +193,7 @@ function App() {
     } else {
 
         return (<>
+
                 <div id="title">
                     Checklist
                 </div>
@@ -164,7 +201,7 @@ function App() {
 
                 <div id={"tasks"}>
                     {lists.map(t =>
-                        <input type={ "button"} value={t.name}
+                        <input type={ "button"} value={t.name} key={t.id}
                             onClick={(e) => handleChangeList(t.id)}/> )
                     }
                     <Tasks id={"tasks"} data={tasks}
@@ -178,10 +215,27 @@ function App() {
                            onItemChanged={onItemChanged}
                            handlePriority={handlePriority}
                            toggleSortby={toggleSortby}
-                           sortBy={sortBy}/>
+                           sortBy={sortBy}
+                            handleToggleEditing={handleToggleEditing}/>
+
+                    <input type={"button"} value={"Create New List"}
+                        // below has call to e.target to get rid of warning
+                           onClick={ (e) => handleAddList(toBeList)}
+                        />
+                    <input type={"text"} id={"addList"}
+                           onChange={(e) => handleUpdateToBeList(e.target.value)}
+                           onKeyUp={(e) => { if (e.key === "Enter"){ handleAddList(toBeList)}}}
+                           value={toBeList}/>
+                    <div id="listDelete">
+                        <input  type={"button"} value={"Delete Current List"}
+                            // below has call to e.target to get rid of warning
+                                onClick={ (e) => handleRemoveList(toBeList)}
+                        />
+                    </div>
                 </div>
 
                 <div id="buttons">
+
                     <input type={"button"} id={"hide"} name={"hide"}
                            className={"bottomButtons"}
                            value={(isHidden ? "Show" : "Hide")}

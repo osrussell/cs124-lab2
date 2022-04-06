@@ -53,6 +53,7 @@ function Tasks(props) {
                   priority = {t.priority}
                   isEditing ={props.isEditing}
                   handlePriority={props.handlePriority}
+                  handleToggleEditing={props.handleToggleEditing}
 
             />
         )}

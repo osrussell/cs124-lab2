@@ -20,12 +20,15 @@ function Task(props) {
 
         <td >
             {props.isEditing && <input type = {"textarea"} className={"taskInput"} id={props.id}
-                 onClick = {(e) => props.handleTaskToggleSelected(props.id)}
-            onChange={
-                (e) => props.onItemChanged(props.id, e.target.value)}
-                value = {props.task}/> }
+            onClick = {(e) => props.handleTaskToggleSelected(props.id)}
+            onChange={(e) => props.onItemChanged(props.id, e.target.value)}
+                value = {props.task}
+            ondblclick={(e) => props.handleToggleEditing}/> }
+
             {!props.isEditing && <div
-                onClick = {(e) => props.handleTaskToggleSelected(props.id)}>
+                onClick = {(e) => props.handleTaskToggleSelected(props.id)}
+                    ondblclick={(e) => props.handleToggleEditing}>
+
                 {props.task}
             </div>}
             </td>
