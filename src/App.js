@@ -84,6 +84,7 @@ function App() {
             void deleteDoc(doc(db, collectionName, currentListID));
             setCurrentListID(lists[0].id)
         }
+
     }
 
     function handleAddList (input) {
@@ -106,6 +107,7 @@ function App() {
             }
             void setDoc(doc(db, collectionName, newid, subCollectName , newid), baseItem);
 
+            toggleMenu()
 
             setToBeList("");
         }
@@ -220,20 +222,58 @@ function App() {
                         <input type={"button"} id="toggle" onClick={(e) => toggleMenu()} value={"    "}></input>
                     </h1>
 
-                    {menuOpen && <div id="menu">
-                        {lists.map(t =>
-                            <input type={"button"} value={t.name} key={t.id}
-                                   onClick={(e) => handleChangeList(t.id)}/>)
-                        }
+                    {menuOpen && <div>
+                        <ul id="menu">
+                            <li key={"Options"}>
+                                <input  type={"button"} value={" Options:"}  className={"menuButtons menuHeaders"}  />
+                            </li>
+                            <li key = {"big"}>
+                                <input type={"button"} value={"Big Text Mode"} className={"menuButtons"}/>
+                            </li>
+                        </ul>
+                        <ul id="menu">
+                        <li key={"Your List"}>
+                           <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
+                        </li>
+
+                        {lists.map(t => (t.id === currentListID)?
+                                (<li key={t.id}>
+                                <input type={"button"} value={t.name}  className={"menuButtons currentList"}
+                                   onClick={(e) => handleChangeList(t.id)}/>
+                            </li>): (<li key={t.id}>
+                                    <input type={"button"} value={t.name}  className={"menuButtons"}
+                                           onClick={(e) => handleChangeList(t.id)}/>
+                                </li>)
+                            )}
+
+                            <li key={"List Actions:"}>
+                                <input  type={"button"} value={" List Actions:"}  className={"menuButtons menuHeaders"}  />
+                            </li>
+                            <li>
+                                <input type={"button"} value={"Create New List"} className={"menuButtons"}
+                                    // below has call to e.target to get rid of warning
+                                       onClick={ (e) => handleAddList(toBeList)}
+                                />
+                            </li>
+                            <li>
+                                <input type={"text"} id={"addList"} className={"menuButtons"}
+                                       onChange={(e) => handleUpdateToBeList(e.target.value)}
+                                       onKeyUp={(e) => { if (e.key === "Enter"){ handleAddList(toBeList)}}}
+                                       value={toBeList}/>
+                            </li>
+                            <li>
+                                <input  type={"button"} value={"Delete Current List"}  className={"menuButtons"}
+                                    // below has call to e.target to get rid of warning
+                                        onClick={ (e) => handleRemoveList(toBeList)}
+                                />
+                            </li>
+                    </ul>
                     </div>}
                 </header>
 
 
                 <div id={"tasks"}>
-                    {/*{lists.map(t =>*/}
-                    {/*    <input type={ "button"} value={t.name} key={t.id}*/}
-                    {/*        onClick={(e) => handleChangeList(t.id)}/> )*/}
-                    {/*}*/}
+
                     <Tasks id={"tasks"} data={tasks}
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
@@ -248,20 +288,20 @@ function App() {
                            sortBy={sortBy}
                            handleToggleEditing={handleToggleEditing}/>
 
-                    <input type={"button"} value={"Create New List"}
-                        // below has call to e.target to get rid of warning
-                           onClick={ (e) => handleAddList(toBeList)}
-                        />
-                    <input type={"text"} id={"addList"}
-                           onChange={(e) => handleUpdateToBeList(e.target.value)}
-                           onKeyUp={(e) => { if (e.key === "Enter"){ handleAddList(toBeList)}}}
-                           value={toBeList}/>
-                    <div id="listDelete">
-                        <input  type={"button"} value={"Delete Current List"}
-                            // below has call to e.target to get rid of warning
-                                onClick={ (e) => handleRemoveList(toBeList)}
-                        />
-                    </div>
+                    {/*<input type={"button"} value={"Create New List"}*/}
+                    {/*    // below has call to e.target to get rid of warning*/}
+                    {/*       onClick={ (e) => handleAddList(toBeList)}*/}
+                    {/*    />*/}
+                    {/*<input type={"text"} id={"addList"}*/}
+                    {/*       onChange={(e) => handleUpdateToBeList(e.target.value)}*/}
+                    {/*       onKeyUp={(e) => { if (e.key === "Enter"){ handleAddList(toBeList)}}}*/}
+                    {/*       value={toBeList}/>*/}
+                    {/*<div id="listDelete">*/}
+                    {/*    <input  type={"button"} value={"Delete Current List"}*/}
+                    {/*        // below has call to e.target to get rid of warning*/}
+                    {/*            onClick={ (e) => handleRemoveList(toBeList)}*/}
+                    {/*    />*/}
+                    {/*</div>*/}
                 </div>
 
                 <div id="buttons">

@@ -54,7 +54,30 @@ h1 {
 #menu {
   z-index: 999;
   position: relative;
+  float: right;
+  list-style: none;
+
 }
+ ul li {
+   /*needs both?*/
+   padding: 10px 0px;
+   margin-bottom: 5px;
+ }
+
+.menuHeaders{
+   background-color: white;
+ }
+.menuButtons {
+  float: left ;
+  border-color: transparent;
+}
+.currentList {
+  background-color: #ffd600;
+}
+#addList {
+  border-color: #2e74f0;
+}
+
 
 
 /* End of top bar */
