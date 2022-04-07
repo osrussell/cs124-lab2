@@ -5,7 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url(../public/background.jpg);
+  /*background-image: url(../public/background.jpg);*/
+  background-color: #2e74f0;
   background-size: contain;
   background-repeat: no-repeat;
   width: 360px;

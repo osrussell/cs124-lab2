@@ -60,7 +60,9 @@ h1 {
 /* End of top bar */
 
 #tasks {
-  border-color: red;
+  background-image: url(../public/background.jpg);
+  /*object-fit: fill;*/
+  background-size: 100% 100%;
   display: block;
   top: 100px;
   left: 55px;
