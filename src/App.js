@@ -47,7 +47,7 @@ function App() {
     const [editing, toggleEditing] = useState(false);
     const [currentListID, setCurrentListID] = useState("YhwrxHOkAoPGyP0WV8De"); //12345
     const [toBeList, setToBeList] = useState("");
-
+    const [menuOpen, setMenuOpen] = useState(false);
 
     const collectionRef = collection(db, collectionName);
     const qList = query(collectionRef);
@@ -180,6 +180,12 @@ function App() {
         setLocked(!locked);
     }
 
+    //switches if menu is open or closed
+    function toggleMenu() {
+        setMenuOpen(!menuOpen);
+        console.log(menuOpen);
+    }
+
     if (error || errorLists) {
         return (<div id="title">
             Error: {error}
@@ -194,16 +200,30 @@ function App() {
 
         return (<>
 
-                <div id="title">
-                    Checklist
-                </div>
+                {/*<div id="title">*/}
+                {/*    Checklist*/}
+                {/*</div>*/}
+
+                <header className="header">
+                    <h1>
+                        Checklist
+                    </h1>
+
+                    <input type={"button"} id="toggle" onClick={(e) => toggleMenu()} value={"Menu"}></input>
+                    {menuOpen && <div id="menu">
+                        {lists.map(t =>
+                            <input type={"button"} value={t.name} key={t.id}
+                                   onClick={(e) => handleChangeList(t.id)}/>)
+                        }
+                    </div>}
+                </header>
 
 
                 <div id={"tasks"}>
-                    {lists.map(t =>
-                        <input type={ "button"} value={t.name} key={t.id}
-                            onClick={(e) => handleChangeList(t.id)}/> )
-                    }
+                    {/*{lists.map(t =>*/}
+                    {/*    <input type={ "button"} value={t.name} key={t.id}*/}
+                    {/*        onClick={(e) => handleChangeList(t.id)}/> )*/}
+                    {/*}*/}
                     <Tasks id={"tasks"} data={tasks}
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
@@ -216,7 +236,7 @@ function App() {
                            handlePriority={handlePriority}
                            toggleSortby={toggleSortby}
                            sortBy={sortBy}
-                            handleToggleEditing={handleToggleEditing}/>
+                           handleToggleEditing={handleToggleEditing}/>
 
                     <input type={"button"} value={"Create New List"}
                         // below has call to e.target to get rid of warning

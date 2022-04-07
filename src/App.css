@@ -2,26 +2,46 @@
   text-align: center;
 }
 
+/* Start of top bar*/
+.header{
+  background-color: white;
+}
 
-#title {
-  display: block;
-  text-align: center;
-  top: 8px;
-  left: 30px;
-  right: 30px;
-  bottom: 500px;
-  position: fixed;
+/* Alters Checklist */
 
-  font-style: bold;
+h1 {
+  /*font-style: bold;*/
   font-family: "Arial" ;
-  text-align: center;
-  font-size: 60px ;
+  font-size: 30px ; /* make responsive font size */
   color: Black;
   -webkit-text-fill-color: white;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
-
+  margin-bottom: 1em; /* consider switching this to something else*/
 }
+
+/* will this over-ride all buttons?? please no */
+/* I think they're fine though */
+button {
+  position: absolute;
+  right: 1em;
+  top: 0.8em;
+  padding: 8px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  font-size: 1em;
+  background: transparent;
+  color: #fff;
+  display: none;
+}
+
+menu {
+  z-index: 999;
+  position: relative;
+}
+
+
+/* End of top bar */
 
 #tasks {
   border-color: red;
@@ -31,6 +51,7 @@
   right: 45px;
   bottom: 110px;
   position: fixed;
+  z-index: 1;
 
   font-style: bold;
 
@@ -55,7 +76,6 @@ text {
   right: 40px;
   bottom: 20px;
   position: fixed;
-
 
 }
 #bottomButtons {
