@@ -4,7 +4,14 @@
 
 /* Start of top bar*/
 .header{
+  /*display: flex;*/
+  position: fixed;
+  top:0;
+  left: 0;
+  right: 0;
   background-color: white;
+  z-index: 1000;
+  border-bottom-color: black;
 }
 
 /* Alters Checklist */
@@ -13,29 +20,38 @@ h1 {
   /*font-style: bold;*/
   font-family: "Arial" ;
   font-size: 30px ; /* make responsive font size */
-  color: Black;
-  -webkit-text-fill-color: white;
+  /*position: fixed;*/
+  margin-left: 10px;
+  /*color: Black;*/
+  -webkit-text-fill-color: #2e74f0;
   -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
-  margin-bottom: 1em; /* consider switching this to something else*/
+  -webkit-text-stroke-color: #2e74f0;
+  margin-bottom: 0.5em; /* consider switching this to something else*/
 }
 
 /* will this over-ride all buttons?? please no */
 /* I think they're fine though */
-button {
-  position: absolute;
-  right: 1em;
-  top: 0.8em;
-  padding: 8px;
-  border: 2px solid #fff;
-  border-radius: 5px;
-  font-size: 1em;
-  background: transparent;
-  color: #fff;
-  display: none;
+#toggle {
+  position: fixed;
+  height: 30px;
+  right: 10px;
+  margin-right: 10px;
+  margin-bottom: 0.5em; /* consider switching this to something else*/
+  background: url('../public/icons8-hamburger-menu-30.png') no-repeat;
+  border-color: transparent;
+  /*background-color: red;*/
+  /*!*right: 1em;*!*/
+  /*!*top: 0.8em;*!*/
+  /*padding: 8px;*/
+  /*border: 2px solid #fff;*/
+  /*border-radius: 5px;*/
+  /*font-size: 1em;*/
+  /*background: transparent;*/
+  /*color: #fff;*/
+  /*display: none;*/
 }
 
-menu {
+#menu {
   z-index: 999;
   position: relative;
 }

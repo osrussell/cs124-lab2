@@ -183,7 +183,6 @@ function App() {
     //switches if menu is open or closed
     function toggleMenu() {
         setMenuOpen(!menuOpen);
-        console.log(menuOpen);
     }
 
     if (error || errorLists) {
@@ -207,9 +206,9 @@ function App() {
                 <header className="header">
                     <h1>
                         Checklist
+                        <input type={"button"} id="toggle" onClick={(e) => toggleMenu()} value={"    "}></input>
                     </h1>
 
-                    <input type={"button"} id="toggle" onClick={(e) => toggleMenu()} value={"Menu"}></input>
                     {menuOpen && <div id="menu">
                         {lists.map(t =>
                             <input type={"button"} value={t.name} key={t.id}
