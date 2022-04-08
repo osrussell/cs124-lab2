@@ -262,7 +262,13 @@ function App() {
                                        value={toBeList}/>
                             </li>
                             <li>
-                                <input  type={"button"} value={"Delete Current List"}  className={"menuButtons"}
+                                <input type={"button"}
+                                       className={"menuButtons"}
+                                       id={locked? "emojiLocked":"emojiUnlocked"}
+                                       value={" "}
+                                       onClick={toggleLock}/>
+                                <input  type={"button"}  id={locked ? "U" : "L"}
+                                        value={"Delete Current List"}  className={"menuButtons"}
                                     // below has call to e.target to get rid of warning
                                         onClick={ (e) => handleRemoveList(toBeList)}
                                 />
@@ -314,7 +320,8 @@ function App() {
                     <div id={"trash"}>
                         <input type={"button"}
                                className={"bottomButtons"}
-                               value={locked ? "U" : "L"}
+                               id={locked? "emojiLocked":"emojiUnlocked"}
+                               value={" "}
                                onClick={toggleLock}/>
                         <input type={"button"}
                                className={"bottomButtons"}

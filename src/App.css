@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 /* Start of top bar*/
 .header{
   /*display: flex;*/
@@ -126,6 +127,23 @@ text {
 
 #U {
   opacity: 0.5;
+}
+
+#emojiUnlocked {
+  background-image: url(../public/open-lock_1f513.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 15px 15px ;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+#emojiLocked {
+  background-image: url(../public/lock_1f512.png);
+  background-size: 15px 15px ;
+  background-repeat: no-repeat;
+  background-position: center;
+
 
 }
 
