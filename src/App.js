@@ -231,7 +231,8 @@ function App() {
                             </li>
                             <li key = {"big"}>
                                 <input type={"button"} value={"Big Text Mode"} className={"menuButtons"}
-                                       onClick={(e) => changeMode("bigTextMode ")}/>
+                                       onClick={(e) => changeMode("bigTextMode ")}
+                                       aria-label={"Big Text mode"}/>
                             </li>
                         </ul>
                         <ul id="menu">
