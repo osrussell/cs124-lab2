@@ -198,13 +198,7 @@ function App() {
         return (<div id="title">
             Error: {error}
         </div>)
-    } else if (loadingTasks || loadingLists) {
-
-        return (<div id="title">
-            Loading
-        </div>)
-
-    } else {
+    }  else {
 
         return (<>
 
@@ -234,7 +228,8 @@ function App() {
                            <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
                         </li>
 
-                        {lists.map(t => (t.id === currentListID)?
+                        {(loadingLists)? "loading":
+                            lists.map(t => (t.id === currentListID)?
                                 (<li key={t.id}>
                                 <input type={"button"} value={t.name}  className={"menuButtons currentList"}
                                    onClick={(e) => handleChangeList(t.id)}
@@ -281,8 +276,8 @@ function App() {
                 </header>
 
                 <div id={"tasks"}>
-
-                    <Tasks id={"tasks"} data={tasks}
+                    {(loadingTasks)? "loading":
+                        (<Tasks id={"tasks"} data={tasks}
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
                            handleMarkComplete={handleMarkComplete}
@@ -294,22 +289,9 @@ function App() {
                            handlePriority={handlePriority}
                            toggleSortby={toggleSortby}
                            sortBy={sortBy}
-                           handleToggleEditing={handleToggleEditing}/>
+                           handleToggleEditing={handleToggleEditing}/>)}
 
-                    {/*<input type={"button"} value={"Create New List"}*/}
-                    {/*    // below has call to e.target to get rid of warning*/}
-                    {/*       onClick={ (e) => handleAddList(toBeList)}*/}
-                    {/*    />*/}
-                    {/*<input type={"text"} id={"addList"}*/}
-                    {/*       onChange={(e) => handleUpdateToBeList(e.target.value)}*/}
-                    {/*       onKeyUp={(e) => { if (e.key === "Enter"){ handleAddList(toBeList)}}}*/}
-                    {/*       value={toBeList}/>*/}
-                    {/*<div id="listDelete">*/}
-                    {/*    <input  type={"button"} value={"Delete Current List"}*/}
-                    {/*        // below has call to e.target to get rid of warning*/}
-                    {/*            onClick={ (e) => handleRemoveList(toBeList)}*/}
-                    {/*    />*/}
-                    {/*</div>*/}
+
                 </div>
 
                 <div id={"left"} >
