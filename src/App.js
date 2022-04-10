@@ -64,7 +64,7 @@ function App() {
     const subRef = collection(db, collectionName, currentListID, subCollectName );
     const qTasks = query(subRef, orderBy(sortBy));
     const [tasks , loadingTasks, error] = useCollectionData(qTasks);
-
+    //
     // Toggles between modes by adding id names, Important that each mode includes the post-space
     function changeMode(input) {
         if (mode.includes(input)) {
