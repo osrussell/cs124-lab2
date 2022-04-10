@@ -52,17 +52,19 @@ h1 {
   list-style: none;
 }
  ul li {
-   padding: 10px 0px;
    margin-bottom: 5px;
+
  }
 
 .menuHeaders{
    background-color: white;
  }
 .menuButtons {
+  margin-right: 5px;
+
   float: right;
   border-color: transparent;
-  font-size: 90%;
+  font-size: 100%;
 }
 @media screen and (max-width: 500px){
   #menu {
