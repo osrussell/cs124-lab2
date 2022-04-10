@@ -69,8 +69,17 @@ h1 {
    background-color: white;
  }
 .menuButtons {
-  float: left ;
+  float: right;
   border-color: transparent;
+}
+@media screen and (max-width: 500px){
+  #menu {
+    float: left;
+  }
+  .menuButtons {
+  float: left;
+  border-color: transparent;
+}
 }
 .currentList {
   background-color: #ffd600;
