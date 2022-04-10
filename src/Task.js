@@ -29,14 +29,14 @@ function Task(props) {
             {!props.isEditing && <div
                 onClick = {(e) => props.handleTaskToggleSelected(props.id)}
                 onKeyUp={(e) => { if (e.key === "Enter"){ props.handleTaskToggleSelected(props.id)}}}
-                tabindex={"0"}>
+                tabindex={"0"} role={"none"}>
 
                 {props.task}
             </div>}
             </td>
             <td onClick={(e) => props.handlePriority(props.id, props.priority)}>
 
-                <input type = {"button"} className={props.priority} />
+                <input type = {"button"} aria-label = {"priority button, priority " + props.priority} className={props.priority} />
             </td>
     </tr>
     </>

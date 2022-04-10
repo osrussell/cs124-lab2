@@ -19,10 +19,12 @@ import {useCollectionData} from "react-firebase-hooks/firestore";
 
 // CHECKLIST FOR CHECKLIST APP
 // 1. Reformat user created lists in toggle menu (add a border on bottom too??)
-// 2. Add notebook side images
 // 3. Loading
+// 4. How to get rid of empty group (particually because of tab index)
 // 5. Text reader / accessibility (big text mode ??!!)
+
 // 6. Videos, user testing, etc.
+// 2. Add notebook side images
 
 // IF WE HAVE TIME
 // 1. Get rid of hamburger when big !!!
@@ -239,10 +241,12 @@ function App() {
                         {lists.map(t => (t.id === currentListID)?
                                 (<li key={t.id}>
                                 <input type={"button"} value={t.name}  className={"menuButtons currentList"}
-                                   onClick={(e) => handleChangeList(t.id)}/>
+                                   onClick={(e) => handleChangeList(t.id)}
+                                   aria-label={t.name + " selected"}/>
                             </li>): (<li key={t.id}>
                                     <input type={"button"} value={t.name}  className={"menuButtons"}
-                                           onClick={(e) => handleChangeList(t.id)}/>
+                                           onClick={(e) => handleChangeList(t.id)}
+                                           aria-label={t.name + " not selected"}/>
                                 </li>)
                             )}
 
@@ -259,18 +263,21 @@ function App() {
                                 <input type={"text"} id={"addList"} className={"menuButtons"}
                                        onChange={(e) => handleUpdateToBeList(e.target.value)}
                                        onKeyUp={(e) => { if (e.key === "Enter"){ handleAddList(toBeList)}}}
-                                       value={toBeList}/>
+                                       value={toBeList}
+                                       aria-label={"input text box to add a new list"}/>
                             </li>
                             <li>
                                 <input type={"button"}
                                        className={"menuButtons"}
                                        id={locked? "emojiLocked":"emojiUnlocked"}
                                        value={" "}
-                                       onClick={toggleLock}/>
+                                       onClick={toggleLock}
+                                       aria-label={"lock button for deleting list button, currently " + (locked? "locked":"unlocked")}/>
                                 <input  type={"button"}  id={locked ? "U" : "L"}
                                         value={"Delete Current List"}  className={"menuButtons"}
                                     // below has call to e.target to get rid of warning
                                         onClick={ (e) => handleRemoveList(toBeList)}
+                                        onKeyDown={ (e) => {if (e.key === "Tab") toggleMenu() }}
                                 />
                             </li>
                     </ul>
@@ -340,7 +347,8 @@ function App() {
                                className={"bottomButtons"}
                                id={locked? "emojiLocked":"emojiUnlocked"}
                                value={" "}
-                               onClick={toggleLock}/>
+                               onClick={toggleLock}
+                               aria-label={"lock button for trash button, currently " + (locked? "locked":"unlocked")}/>
                         <input type={"button"}
                                className={"bottomButtons"}
                                id={locked ? "U" : "L"}

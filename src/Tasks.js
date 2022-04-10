@@ -66,7 +66,8 @@ function Tasks(props) {
                 <input type={"text"} id={"addItem"}
                        onChange={(e) => handleUpdateToBeInput(e.target.value)}
                         onKeyUp={(e) => { if (e.key === "Enter"){ handleAdd(toBeInput)}}}
-                value={toBeInput}/>
+                value={toBeInput}
+                aria-label={"Text input box: Enter task to be added"}/>
 
             </td>
         </tr>
