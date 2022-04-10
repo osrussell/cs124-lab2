@@ -231,26 +231,26 @@ function App() {
                             </li>
                             <li key = {"big"}>
                                 <input type={"button"} value={"Big Text Mode"} className={"menuButtons"}
-                                onClick={(e) => changeMode("bigTextMode ")}/>
+                                       onClick={(e) => changeMode("bigTextMode ")}/>
                             </li>
                         </ul>
                         <ul id="menu">
-                        <li key={"Your List"}>
-                           <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
-                        </li>
+                            <li key={"Your List"}>
+                                <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
+                            </li>
 
-                        {(loadingLists)? "loading":
-                            lists.map(t => (t.id === currentListID)?
-                                (<li key={t.id}>
-                                <input type={"button"} value={t.name}  className={"menuButtons currentList"}
-                                   onClick={(e) => handleChangeList(t.id)}
-                                   aria-label={t.name + " selected"}/>
-                            </li>): (<li key={t.id}>
-                                    <input type={"button"} value={t.name}  className={"menuButtons"}
-                                           onClick={(e) => handleChangeList(t.id)}
-                                           aria-label={t.name + " not selected"}/>
-                                </li>)
-                            )}
+                            {(loadingLists)? "loading":
+                                lists.map(t => (t.id === currentListID)?
+                                    (<li key={t.id}>
+                                        <input type={"button"} value={t.name}  className={"menuButtons currentList"}
+                                               onClick={(e) => handleChangeList(t.id)}
+                                               aria-label={t.name + " selected"}/>
+                                    </li>): (<li key={t.id}>
+                                        <input type={"button"} value={t.name}  className={"menuButtons"}
+                                               onClick={(e) => handleChangeList(t.id)}
+                                               aria-label={t.name + " not selected"}/>
+                                    </li>)
+                                )}
 
                             <li key={"List Actions:"}>
                                 <input  type={"button"} value={" List Actions:"}  className={"menuButtons menuHeaders"}  />
@@ -282,7 +282,7 @@ function App() {
                                         onKeyDown={ (e) => {if (e.key === "Tab") toggleMenu() }}
                                 />
                             </li>
-                    </ul>
+                        </ul>
                     </div>}
                 </header>
 
@@ -300,7 +300,7 @@ function App() {
                            toggleSortby={toggleSortby}
                            sortBy={sortBy}
                            handleToggleEditing={handleToggleEditing}
-                            loading={loadingTasks}/>
+                           loading={loadingTasks}/>
 
 
                 </div>

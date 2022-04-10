@@ -12,7 +12,6 @@
 }
 /* Start of top bar*/
 .header{
-  /*display: flex;*/
   position: fixed;
   top:0;
   left: 0;
@@ -25,12 +24,9 @@
 /* Alters Checklist */
 
 h1 {
-  /*font-style: bold;*/
   font-family: "Arial" ;
   font-size: 30px ; /* make responsive font size */
-  /*position: fixed;*/
   margin-left: 10px;
-  /*color: Black;*/
   -webkit-text-fill-color: #2e74f0;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: #2e74f0;
@@ -47,16 +43,6 @@ h1 {
   margin-bottom: 0.5em; /* consider switching this to something else*/
   background: url('../public/icons8-hamburger-menu-30.png') no-repeat;
   border-color: transparent;
-  /*background-color: red;*/
-  /*!*right: 1em;*!*/
-  /*!*top: 0.8em;*!*/
-  /*padding: 8px;*/
-  /*border: 2px solid #fff;*/
-  /*border-radius: 5px;*/
-  /*font-size: 1em;*/
-  /*background: transparent;*/
-  /*color: #fff;*/
-  /*display: none;*/
 }
 
 #menu {
@@ -66,7 +52,6 @@ h1 {
   list-style: none;
 }
  ul li {
-   /*needs both?*/
    padding: 10px 0px;
    margin-bottom: 5px;
  }
@@ -96,105 +81,50 @@ h1 {
 }
 
 #left {
-  background-image: url(../public/left.png);
-  /*background-repeat: no-repeat;*/
-  /*background-position: center;*/
-  width: 350px; /* Sets the width so it doesn't change with re-sizing */
+  background-image: url(../public/left-crop.png);
+  width: 125px; /* Sets the width so it doesn't change with re-sizing */
   background-size: 100% 100%;
-  object-fit: contain;
   background-repeat: no-repeat;
-  /*display: block;*/
-  /* might want a percent of the screen here so no overlap with top bar */
-  top: 15px;
+  top: 85px;
   left: 0px;
   /*right: 45px;*/
-  bottom: 60px;
+  bottom: 105px;
   position: fixed;
   z-index: 0;
 }
 
 #middle {
-  background-image: url(../public/middle.png);
+  background-image: url(../public/middle-crop.png);
   background-size: 100% 100%;
-  /*object-fit: contain;*/
   background-repeat: no-repeat;
-  /*display: block;*/
-  top: 15px;
-  left: -40px;
+  top: 82px;
+  left: 50px;
   right: 45px;
-  bottom: 60px;
+  bottom: 100px;
   position: absolute;
   z-index: -2;
 }
 
 #right {
-  background-image: url(../public/right.png);
-  /*background-repeat: no-repeat;*/
-  /*background-position: center;*/
-  width: 350px; /* Sets the width so it doesn't change with re-sizing */
+  background-image: url(../public/right-crop.png);
+  width: 160px; /* Sets the width so it doesn't change with re-sizing */
   background-size: 100% 100%;
-  /*object-fit: contain;*/
   background-repeat: no-repeat;
-  /*display: block;*/
-  /* might want a percent of the screen here so no overlap with top bar */
-  top: 15px;
-  /*left: 45px;*/
-  right: 0px;
-  bottom: 60px;
+  top: 83px;
+  right: 5px;
+  bottom: 105px;
   position: fixed;
   z-index: 0;
 }
 
-/*#notebook {*/
-/*  display: grid;*/
-/*  grid-template-columns: 350px 600px 350px;*/
-/*  grid-template-rows: 200px;*/
-/*  background-color:red;*/
-/*}*/
-
-/*ul {*/
-/*  display: flex;*/
-/*  flex-wrap: wrap;*/
-/*}*/
-
-/*#left {*/
-/*  background-image: url(../public/left.png);*/
-/*  grid-column: 1/ span 1;*/
-/*  grid-row: 1/ span 1;*/
-/*  background-size: 100% 100%;*/
-/*  object-fit: contain;*/
-/*  background-repeat: no-repeat;*/
-/*  position: fixed;*/
-/*  z-index: 0;*/
-/*}*/
-
-/*#middle {*/
-/*  background-image: url(../public/middle.png);*/
-/*  grid-column: 2/ span 1;*/
-/*  grid-row: 1/ span 1;*/
-/*  z-index: -2;*/
-
-/*}*/
-
-/*#right {*/
-/*  background-image: url(../public/right.png);*/
-/*  grid-column: 3/ span 1;*/
-/*  grid-row: 1/ span 1;*/
-/*  z-index: -1;*/
-/*}*/
-
-/* End of top bar */
-
 /* Say overflow with scroll*/
 #tasks {
-  /*background-image: url(../public/left.png);*/
-  /*object-fit: fill;*/
   background-size: 100% 100%;
   display: block;
-  top: 100px;
-  left: 55px;
-  right: 45px;
-  bottom: 110px;
+  top: 110px;
+  left: 73px;
+  right: 50px;
+  bottom: 140px;
   position: fixed;
   overflow: scroll;
   z-index: 1;
