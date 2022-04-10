@@ -112,7 +112,7 @@ function App() {
                 completed: false,
                 created: serverTimestamp()
             }
-            void setDoc(doc(db, collectionName, newid, subCollectName , newid), baseItem);
+            void setDoc(doc(db, collectionName, newid, subCollectName , baseitemid), baseItem);
             setCurrentListID(newid)
             toggleMenu()
 
