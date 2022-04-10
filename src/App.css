@@ -79,12 +79,99 @@ h1 {
   border-color: #2e74f0;
 }
 
+#left {
+  background-image: url(../public/left.png);
+  /*background-repeat: no-repeat;*/
+  /*background-position: center;*/
+  width: 350px; /* Sets the width so it doesn't change with re-sizing */
+  background-size: 100% 100%;
+  object-fit: contain;
+  background-repeat: no-repeat;
+  /*display: block;*/
+  /* might want a percent of the screen here so no overlap with top bar */
+  top: 15px;
+  left: 0px;
+  /*right: 45px;*/
+  bottom: 60px;
+  position: fixed;
+  z-index: 0;
+}
 
+#middle {
+  background-image: url(../public/middle.png);
+  background-size: 100% 100%;
+  /*object-fit: contain;*/
+  background-repeat: no-repeat;
+  /*display: block;*/
+  top: 15px;
+  left: -40px;
+  right: 45px;
+  bottom: 60px;
+  position: absolute;
+  z-index: -2;
+}
+
+#right {
+  background-image: url(../public/right.png);
+  /*background-repeat: no-repeat;*/
+  /*background-position: center;*/
+  width: 350px; /* Sets the width so it doesn't change with re-sizing */
+  background-size: 100% 100%;
+  /*object-fit: contain;*/
+  background-repeat: no-repeat;
+  /*display: block;*/
+  /* might want a percent of the screen here so no overlap with top bar */
+  top: 15px;
+  /*left: 45px;*/
+  right: 0px;
+  bottom: 60px;
+  position: fixed;
+  z-index: 0;
+}
+
+/*#notebook {*/
+/*  display: grid;*/
+/*  grid-template-columns: 350px 600px 350px;*/
+/*  grid-template-rows: 200px;*/
+/*  background-color:red;*/
+/*}*/
+
+/*ul {*/
+/*  display: flex;*/
+/*  flex-wrap: wrap;*/
+/*}*/
+
+/*#left {*/
+/*  background-image: url(../public/left.png);*/
+/*  grid-column: 1/ span 1;*/
+/*  grid-row: 1/ span 1;*/
+/*  background-size: 100% 100%;*/
+/*  object-fit: contain;*/
+/*  background-repeat: no-repeat;*/
+/*  position: fixed;*/
+/*  z-index: 0;*/
+/*}*/
+
+/*#middle {*/
+/*  background-image: url(../public/middle.png);*/
+/*  grid-column: 2/ span 1;*/
+/*  grid-row: 1/ span 1;*/
+/*  z-index: -2;*/
+
+/*}*/
+
+/*#right {*/
+/*  background-image: url(../public/right.png);*/
+/*  grid-column: 3/ span 1;*/
+/*  grid-row: 1/ span 1;*/
+/*  z-index: -1;*/
+/*}*/
 
 /* End of top bar */
 
+/* Say overflow with scroll*/
 #tasks {
-  background-image: url(../public/background.jpg);
+  /*background-image: url(../public/left.png);*/
   /*object-fit: fill;*/
   background-size: 100% 100%;
   display: block;
@@ -93,6 +180,7 @@ h1 {
   right: 45px;
   bottom: 110px;
   position: fixed;
+  overflow: scroll;
   z-index: 1;
 
   font-style: bold;
@@ -110,14 +198,17 @@ text {
 }
 
 #buttons {
-
-  text-align: center;
+  position: fixed;
+  /*top:0;*/
+  /*left: 0;*/
+  /*right: 0;*/
+  /*background-color: white;*/
+  z-index: 1000;
 
   display: block;
   left: 40px;
   right: 40px;
   bottom: 20px;
-  position: fixed;
 
 }
 #bottomButtons {

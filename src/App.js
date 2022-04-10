@@ -277,7 +277,6 @@ function App() {
                     </div>}
                 </header>
 
-
                 <div id={"tasks"}>
 
                     <Tasks id={"tasks"} data={tasks}
@@ -310,6 +309,24 @@ function App() {
                     {/*</div>*/}
                 </div>
 
+                <div id={"left"} >
+                </div>
+
+                <div id={"middle"}>
+                </div>
+
+                <div id={"right"}>
+                </div>
+
+                {/*<div id={"notebook"}>*/}
+                {/*    <ul id={"left"}>*/}
+                {/*    </ul>*/}
+                {/*    <ul id={"middle"}>*/}
+                {/*    </ul>*/}
+                {/*    <ul id={"right"}>*/}
+                {/*    </ul>*/}
+                {/*</div>*/}
+
                 <div id="buttons">
 
                     <input type={"button"} id={"hide"} name={"hide"}
@@ -330,6 +347,10 @@ function App() {
                                onClick={onItemDeleted}/>
                     </div>
                 </div>
+
+
+                {/*<img src={'left.png'} alt={"missing!"}>*/}
+                {/*</img>*/}
 
             </>
         );
