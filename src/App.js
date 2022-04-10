@@ -301,7 +301,6 @@ function App() {
                            handlePriority={handlePriority}
                            toggleSortby={toggleSortby}
                            sortBy={sortBy}
-                           handleToggleEditing={handleToggleEditing}
                            loading={loadingTasks}/>
 
 
