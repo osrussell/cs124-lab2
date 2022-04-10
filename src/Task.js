@@ -27,7 +27,7 @@ function Task(props) {
 
             {!props.isEditing && <div
                 onClick = {(e) => props.handleTaskToggleSelected(props.id)}
-                    onDoubleClick={(e) => props.handleToggleEditing}>
+                    onDoubleClick={(e) => props.handleToggleEditing} tabindex={"0"}>
 
                 {props.task}
             </div>}

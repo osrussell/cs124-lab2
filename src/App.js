@@ -20,14 +20,12 @@ import {useCollectionData} from "react-firebase-hooks/firestore";
 // CHECKLIST FOR CHECKLIST APP
 // 1. Reformat user created lists in toggle menu (add a border on bottom too??)
 // 2. Add notebook side images
-// 3. Move create new list into toggle menu
-// 4. Create new bottom bar for hide/lock
+// 3. Loading
 // 5. Text reader / accessibility (big text mode ??!!)
 // 6. Videos, user testing, etc.
 
 // IF WE HAVE TIME
 // 1. Get rid of hamburger when big !!!
-// 2. Vertical stretching ??
 // 3. Change button names or make things more intuitive ??
 
 const firebaseConfig = {
@@ -218,7 +216,9 @@ function App() {
 
                 <header className="header">
                     <h1>
-                        Checklist&trade;
+                        <text tabindex={"0"}>
+                            Checklist&trade;
+                        </text>
                         <input type={"button"} id="toggle" onClick={(e) => toggleMenu()} value={"    "}></input>
                     </h1>
 
@@ -333,6 +333,7 @@ function App() {
                            className={"bottomButtons"}
                            value={(isHidden ? "Show" : "Hide")}
                            onClick={handleHide}/>
+                    <></>
 
                     <div id={"trash"}>
                         <input type={"button"}

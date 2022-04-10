@@ -197,20 +197,42 @@ text {
   font-size: 25px;
 }
 
+/* Rest are css for buttons */
+
 #buttons {
-  position: fixed;
-  /*top:0;*/
-  /*left: 0;*/
-  /*right: 0;*/
-  /*background-color: white;*/
-  z-index: 1000;
+
+  text-align: center;
 
   display: block;
+  margin-left: auto;
+  margin-right: auto;
   left: 40px;
   right: 40px;
+  width: 215px;
   bottom: 20px;
+  position: fixed;
 
 }
+
+#hide {
+  float: left;
+  width: 100px;
+}
+
+#trash {
+  float: right;
+  width: 100px;
+}
+
+#buttons input{
+  background-color: black;
+  color: white;
+  font-family: "Arial" ;
+  font-size: 18px ;
+  height: 50px;
+}
+
+
 #bottomButtons {
   font-size: 5px;
 
