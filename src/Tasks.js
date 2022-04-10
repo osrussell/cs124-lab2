@@ -32,9 +32,10 @@ function Tasks(props) {
             <td>
             </td>
             <td>   <input type={"button"} value={!props.isEditing? "Edit All":"Stop Edit"}
-                          onClick= {props.handleToggleEditing}/>
+                          onClick= {props.handleToggleEditing} className={"taskButtons"}/>
+
                 <input type={"button"} value={(props.sortBy==="val")? "ToggleSort: task": ("ToggleSort: " + props.sortBy) }
-                       onClick={props.toggleSortby}/>
+                       onClick={props.toggleSortby} className={"taskButtons"}/>
             </td>
             <td>
 
@@ -65,10 +66,10 @@ function Tasks(props) {
 
         <tr>
             <td>   </td>
-            <td><input type={"button"} value={"Add:"}
+            <td><input type={"button"} value={"Add:"} className={"taskButtons"}
                        // below has call to e.target to get rid of warning
                        onClick={(e) => handleAdd(toBeInput, e.target)} />
-                <input type={"text"} id={"addItem"}
+                <input type={"text"} id={"addItem"} className={"addField"}
                        onChange={(e) => handleUpdateToBeInput(e.target.value)}
                         onKeyUp={(e) => { if (e.key === "Enter"){ handleAdd(toBeInput)}}}
                 value={toBeInput}

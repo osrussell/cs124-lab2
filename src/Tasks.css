@@ -35,3 +35,13 @@
     height: 13px;
     width: 10px;
 }
+
+.taskButtons {
+    font-size: 100%;
+    border-color: transparent;
+    margin-right: 5px;
+
+}
+.addField {
+    font-size: 100%;
+}
