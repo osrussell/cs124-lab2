@@ -11,9 +11,11 @@
 
 
     font-family: "American Typewriter";
-    font-size: 18px ;
+    font-size: 100% ;
     color: Black;
 }
+
+
 
 .small {
     background-color: greenyellow;

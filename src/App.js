@@ -55,6 +55,7 @@ function App() {
     const [currentListID, setCurrentListID] = useState("YhwrxHOkAoPGyP0WV8De"); //12345
     const [toBeList, setToBeList] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
+    const [mode, setMode] = useState("main ")
 
     const collectionRef = collection(db, collectionName);
     const qList = query(collectionRef);
@@ -63,6 +64,16 @@ function App() {
     const subRef = collection(db, collectionName, currentListID, subCollectName );
     const qTasks = query(subRef, orderBy(sortBy));
     const [tasks , loadingTasks, error] = useCollectionData(qTasks);
+
+    // Toggles between modes by adding id names, Important that each mode includes the post-space
+    function changeMode(input) {
+        if (mode.includes(input)) {
+            setMode(mode.replace(input,""));
+        } else {
+            setMode(mode + input)
+        }
+
+    }
 
     function handleToggleEditing() {
         toggleEditing(!editing);
@@ -96,14 +107,15 @@ function App() {
             let baseitemid = generateUniqueID()
             let baseItem = {
                 id: baseitemid,
-                val: "Start Noting!",
+                val: "Start Noting in " + input,
                 priority: "small",
                 completed: false,
                 created: serverTimestamp()
             }
             void setDoc(doc(db, collectionName, newid, subCollectName , newid), baseItem);
-
+            setCurrentListID(newid)
             toggleMenu()
+
 
             setToBeList("");
         }
@@ -200,17 +212,15 @@ function App() {
         </div>)
     }  else {
 
-        return (<>
+        return (<div className={mode}>
+            {console.log(mode)}
 
-                {/*<div id="title">*/}
-                {/*    Checklist*/}
-                {/*</div>*/}
 
                 <header className="header">
                     <h1>
-                        <text tabindex={"0"}>
+                        <strong tabIndex={"0"}>
                             Checklist&trade;
-                        </text>
+                        </strong>
                         <input type={"button"} id="toggle" onClick={(e) => toggleMenu()} value={"    "}></input>
                     </h1>
 
@@ -220,7 +230,8 @@ function App() {
                                 <input  type={"button"} value={" Options:"}  className={"menuButtons menuHeaders"}  />
                             </li>
                             <li key = {"big"}>
-                                <input type={"button"} value={"Big Text Mode"} className={"menuButtons"}/>
+                                <input type={"button"} value={"Big Text Mode"} className={"menuButtons"}
+                                onClick={(e) => changeMode("bigTextMode ")}/>
                             </li>
                         </ul>
                         <ul id="menu">
@@ -276,8 +287,7 @@ function App() {
                 </header>
 
                 <div id={"tasks"}>
-                    {(loadingTasks)? "loading":
-                        (<Tasks id={"tasks"} data={tasks}
+                    <Tasks id={"tasks"} data={tasks}
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
                            handleMarkComplete={handleMarkComplete}
@@ -289,7 +299,8 @@ function App() {
                            handlePriority={handlePriority}
                            toggleSortby={toggleSortby}
                            sortBy={sortBy}
-                           handleToggleEditing={handleToggleEditing}/>)}
+                           handleToggleEditing={handleToggleEditing}
+                            loading={loadingTasks}/>
 
 
                 </div>
@@ -339,7 +350,7 @@ function App() {
                 {/*<img src={'left.png'} alt={"missing!"}>*/}
                 {/*</img>*/}
 
-            </>
+            </div>
         );
     }
 }

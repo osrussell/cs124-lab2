@@ -29,7 +29,7 @@ function Task(props) {
             {!props.isEditing && <div
                 onClick = {(e) => props.handleTaskToggleSelected(props.id)}
                 onKeyUp={(e) => { if (e.key === "Enter"){ props.handleTaskToggleSelected(props.id)}}}
-                tabindex={"0"} role={"none"}>
+                tabIndex={"0"} role={"none"}>
 
                 {props.task}
             </div>}

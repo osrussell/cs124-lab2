@@ -41,7 +41,13 @@ function Tasks(props) {
             </td>
 
         </tr>
-        {tempData.map(t =>
+        {(props.loading)? (<tr>
+                <td >
+                    <input type={"checkbox"} readOnly={true}/>
+                </td>
+            <td>Loading Tasks</td>
+            </tr>):
+            (tempData.map(t =>
             <Task task={t.val}
                   id={t.id}
                   key = {t.id}
@@ -55,8 +61,7 @@ function Tasks(props) {
                   handlePriority={props.handlePriority}
                   handleToggleEditing={props.handleToggleEditing}
 
-            />
-        )}
+            />))}
 
         <tr>
             <td>   </td>

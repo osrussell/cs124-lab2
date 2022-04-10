@@ -1,8 +1,15 @@
 .App {
   text-align: center;
+
 }
 
+.main {
+  font-size: 18px;
 
+}
+.bigTextMode {
+  font-size: 30px;
+}
 /* Start of top bar*/
 .header{
   /*display: flex;*/
@@ -57,7 +64,6 @@ h1 {
   position: relative;
   float: right;
   list-style: none;
-
 }
  ul li {
    /*needs both?*/
@@ -71,6 +77,7 @@ h1 {
 .menuButtons {
   float: right;
   border-color: transparent;
+  font-size: 90%;
 }
 @media screen and (max-width: 500px){
   #menu {
@@ -192,19 +199,17 @@ h1 {
   overflow: scroll;
   z-index: 1;
 
-  font-style: bold;
+
 
   font-family: "American Typewriter";
-  font-size: 18px ;
+  font-size: 100% ;
   color: Black;
 }
 
 .Task {
   list-style: none;
 }
-text {
-  font-size: 25px;
-}
+
 
 /* Rest are css for buttons */
 
@@ -217,7 +222,7 @@ text {
   margin-right: auto;
   left: 40px;
   right: 40px;
-  width: 215px;
+  width: 230px;
   bottom: 20px;
   position: fixed;
 
@@ -230,20 +235,20 @@ text {
 
 #trash {
   float: right;
-  width: 100px;
+
 }
 
 #buttons input{
   background-color: black;
   color: white;
   font-family: "Arial" ;
-  font-size: 18px ;
+  font-size: 100% ;
   height: 50px;
 }
 
 
 #bottomButtons {
-  font-size: 5px;
+  font-size: 50%;
 
 }
 
