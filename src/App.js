@@ -232,7 +232,7 @@ function App() {
                             </li>
                             <li key = {"big"}>
                                 <input type={"button"} value={"Big Text Mode"} className={"menuButtons"}
-                                       onClick={(e) => changeMode("bigTextMode ")}
+                                       onClick={(_) => changeMode("bigTextMode ")}
                                        aria-label={"Big Text mode"}/>
                             </li>
                         </ul>
@@ -245,11 +245,11 @@ function App() {
                                 lists.map(t => (t.id === currentListID)?
                                     (<li key={t.id}>
                                         <input type={"button"} value={t.name}  className={"menuButtons currentList"}
-                                               onClick={(e) => handleChangeList(t.id)}
+                                               onClick={(_) => handleChangeList(t.id)}
                                                aria-label={t.name + " selected"}/>
                                     </li>): (<li key={t.id}>
                                         <input type={"button"} value={t.name}  className={"menuButtons"}
-                                               onClick={(e) => handleChangeList(t.id)}
+                                               onClick={(_) => handleChangeList(t.id)}
                                                aria-label={t.name + " not selected"}/>
                                     </li>)
                                 )}
@@ -260,7 +260,7 @@ function App() {
                             <li>
                                 <input type={"button"} value={"Create New List"} className={"menuButtons"}
                                     // below has call to e.target to get rid of warning
-                                       onClick={ (e) => handleAddList(toBeList)}
+                                       onClick={ (_) => handleAddList(toBeList)}
                                 />
                             </li>
                             <li>
