@@ -23,11 +23,13 @@ function Task(props) {
             onClick = {(e) => props.handleTaskToggleSelected(props.id)}
             onChange={(e) => props.onItemChanged(props.id, e.target.value)}
                 value = {props.task}
-            onDoubleClick={(e) => props.handleToggleEditing}/> }
+            onKeyUp={(e) => { if (e.key === "Enter"){ props.handleToggleEditing()}}}
+            /> }
 
             {!props.isEditing && <div
                 onClick = {(e) => props.handleTaskToggleSelected(props.id)}
-                    onDoubleClick={(e) => props.handleToggleEditing} tabindex={"0"}>
+                onKeyUp={(e) => { if (e.key === "Enter"){ props.handleTaskToggleSelected(props.id)}}}
+                tabindex={"0"}>
 
                 {props.task}
             </div>}
