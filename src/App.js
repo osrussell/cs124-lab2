@@ -221,7 +221,7 @@ function App() {
                         <strong tabIndex={"0"}>
                             Checklist&trade;
                         </strong>
-                        <input type={"button"} id="toggle" onClick={(e) => toggleMenu()} value={"    "}
+                        <input type={"button"} id="toggle" onClick={toggleMenu} value={"    "}
                         aria-label={"hamburger menu button"+(menuOpen ? "menu is open" : "menu is closed")}/>
                     </h1>
 
@@ -280,7 +280,7 @@ function App() {
                                 <input  type={"button"}  id={locked ? "U" : "L"}
                                         value={"Delete Current List"}  className={"menuButtons"}
                                     // below has call to e.target to get rid of warning
-                                        onClick={ (e) => handleRemoveList(toBeList)}
+                                        onClick={ (_) => handleRemoveList(toBeList)}
                                         onKeyDown={ (e) => {if (e.key === "Tab") toggleMenu() }}
                                 />
                             </li>
