@@ -315,15 +315,6 @@ function App() {
                 <div id={"right"}>
                 </div>
 
-                {/*<div id={"notebook"}>*/}
-                {/*    <ul id={"left"}>*/}
-                {/*    </ul>*/}
-                {/*    <ul id={"middle"}>*/}
-                {/*    </ul>*/}
-                {/*    <ul id={"right"}>*/}
-                {/*    </ul>*/}
-                {/*</div>*/}
-
                 <div id="buttons">
 
                     <input type={"button"} id={"hide"} name={"hide"}
