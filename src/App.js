@@ -18,17 +18,13 @@ import {
 import {useCollectionData} from "react-firebase-hooks/firestore";
 
 // CHECKLIST FOR CHECKLIST APP
-// 1. Reformat user created lists in toggle menu (add a border on bottom too??)
-// 3. Loading
-// 4. How to get rid of empty group (particually because of tab index)
-// 5. Text reader / accessibility (big text mode ??!!)
 
+// BEFORE / after meeting tomorrow
+// 2. Add notebook side images + loading
+// 2. Big text !
+// 4. How to get rid of "empty group" (particularly because of tab index)
 // 6. Videos, user testing, etc.
-// 2. Add notebook side images
 
-// IF WE HAVE TIME
-// 1. Get rid of hamburger when big !!!
-// 3. Change button names or make things more intuitive ??
 
 const firebaseConfig = {
 
