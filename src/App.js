@@ -221,7 +221,8 @@ function App() {
                         <strong tabIndex={"0"}>
                             Checklist&trade;
                         </strong>
-                        <input type={"button"} id="toggle" onClick={(e) => toggleMenu()} value={"    "}></input>
+                        <input type={"button"} id="toggle" onClick={(e) => toggleMenu()} value={"    "}
+                        aria-label={"hamburger menu button"+(menuOpen ? "menu is open" : "menu is closed")}></input>
                     </h1>
 
                     {menuOpen && <div>
