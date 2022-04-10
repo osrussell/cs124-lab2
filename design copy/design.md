@@ -91,6 +91,14 @@ A: I was not ready for there to be multiple ways to select. It threw me off my g
 (We should likely find a new and more intuitive way to delete tasks in future versions of the app, as the highlighting and checking off seem to be confusing.
 Also, upon reflecting on this user testing, the lock button might make this even more confusing, which we will also reconsider in our next implementation)
 
-## Next Steps
+## Adjustments for Larger Screen Sizes
 
-We will adjust the lock/delete mechanism and re-design how you select items.
+We slightly adjusted our design for larger screens by making the notebook background expand or contract based on screen size. We also added the ability for the user to make different lists, and this was put in a menu at the top, accessible by hamburger button. Our initial plan for the expanding screen size is shown below.
+
+![Plan for wider screens](notebook3.png)
+
+We also added accessibility changes, including tab functionality and a 'Big Text' mode in the hamburger menu. 
+
+Also, in response to the editing / selecting being confusing based on user testing for Lab 2, we created a button that allows users to edit tasks so that selecting was more clear. We also changed the lock botton for deleting to an icon of a lock to make it's purpose more obvious.
+
+## User texting for Lab 4
