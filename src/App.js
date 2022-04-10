@@ -213,7 +213,7 @@ function App() {
     }  else {
 
         return (<div className={mode}>
-            {console.log(mode)}
+
 
 
                 <header className="header">
