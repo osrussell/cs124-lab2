@@ -101,4 +101,46 @@ We also added accessibility changes, including tab functionality and a 'Big Text
 
 Also, in response to the editing / selecting being confusing based on user testing for Lab 2, we created a button that allows users to edit tasks so that selecting was more clear. We also changed the lock botton for deleting to an icon of a lock to make it's purpose more obvious.
 
+[Link for text to speech video](https://youtu.be/kNXnDQKyvFU)
+
+[Link for keyboard only video](https://youtu.be/Ljw2v636ifo)
+
 ## User texting for Lab 4
+
+User testing performed with Zoe Kedzierski, completed 4/10/2022
+
+Q: Can you try to add an item to the list?
+
+User typed a new item into the text box at the bottom and hit add, adding an item
+
+--
+
+Q: Can you now delete that item?
+
+User selected the item to be deleted, then tried to click the trash button multiple times, but was confused that it didn't work (it was locked at the time). After a few more tries, the  user tried clicking the lock button and the trash button unlocked.
+
+A: The lock was confusing; I've never seen that in an app and it didn't feel intutitive.
+(Our Lab 2 user testing was completed before the addition of the lock button, so this is the first time we've done user testing with it)
+
+--
+
+Q: Can you now make a new list for groceries?
+
+User clicked the hamburger menu icon, then tried clicking the 'Create new list' button repeatedly. User was really confused why that wasn't doing anything, then realized they needed to use the text box and created a new list. 
+
+--
+
+Q: Can you delete your previous list?
+
+User selected the list and then deleted it. When they closed the hamburger menu though they were confused why the list was still appearing (this is something we should definitely fix haha)
+
+--
+
+Q: Can you rank the priority of different items on your list and sort by them?
+
+User had no issues changing priority and toggling the sort.
+
+--
+
+We could improve our design by removing the lock buttons, as they seem to be confusing for the user. We can also place the text box in the hamburger menu before the 'Create New List' button, as that's probably more intuitive.
+
