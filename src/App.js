@@ -17,13 +17,10 @@ import {
 } from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 
-// CHECKLIST FOR CHECKLIST APP
+// CHECKLIST FOR LAB 5
 
-// BEFORE / after meeting tomorrow
-// 2. Add notebook side images + loading
-// 2. Big text !
-// 4. How to get rid of "empty group" (particularly because of tab index)
-// 6. Videos, user testing, etc.
+
+
 
 
 const firebaseConfig = {
