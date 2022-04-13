@@ -1,9 +1,8 @@
 import {useState} from 'react';
 import './App.css';
 import Tasks from './Tasks.js';
-import Auth from './Auth';
+import Auth from './Auth.js';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
-
 import {initializeApp} from "firebase/app";
 import {
     getFirestore,
@@ -369,4 +368,4 @@ function SignedInApp() {
     }
 }
 
-export default { App, SignedInApp};
+export default  App;
