@@ -48,11 +48,23 @@ function Auth() {
         return <>
             {error && <p>Error App: {error.message}</p>}
             <div> No user detected</div>
-            {/*<TabList>*/}
-            {/*    <SignIn key="Sign In"/>*/}
-            {/*    <SignUp key="Sign Up"/>*/}
-            {/*</TabList>*/}
+                <SignIn key="Sign In"/>
+                <SignUp key="Sign Up"/>
         </>
     }
 }
+
+
+function SignIn() {
+    return <div>
+    <input type={"button"} value={"Sign In"}/>
+        </div>
+}
+function SignUp() {
+    return <div>
+        <input type={"button"} value={"Sign Up"}/>
+    </div>
+}
+
+
 export default Auth;
