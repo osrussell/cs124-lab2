@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import './App.css';
 import Tasks from './Tasks.js';
+import Auth from './Auth';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 import {initializeApp} from "firebase/app";
@@ -17,8 +18,28 @@ import {
 } from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 
-// CHECKLIST FOR LAB 5
+import {
+    getAuth,
+    sendEmailVerification,
+    signOut } from "firebase/auth";
 
+import {
+    useAuthState,
+    useCreateUserWithEmailAndPassword,
+    useSignInWithEmailAndPassword,
+    useSignInWithGoogle
+} from 'react-firebase-hooks/auth';
+
+
+// CHECKLIST FOR LAB 5
+// 1 Support User login so they can only see her tasks (at minimum email + password )
+// 2 Sharing list with others.
+// 3 Set up firebase authentification rules (include in github)
+// 4 Updated Design
+//     //  I suggest we add "sharing" to the bottom with hide and trash.
+// 5 User Testing
+// 6
+// 7
 
 
 
@@ -36,13 +57,17 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
+const userCollectionName= "";
 const collectionName = "lists";
 const subCollectName = "tasks";
 
 
 
-
 function App() {
+    return <Auth/>
+}
+
+function SignedInApp() {
 
     const [sortBy, setSorting] = useState("val");
     const [selectedTaskIds, setSelectedTaskIds] = useState([]);
@@ -344,4 +369,4 @@ function App() {
     }
 }
 
-export default App;
+export default { App, SignedInApp};
