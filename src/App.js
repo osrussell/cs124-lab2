@@ -1,8 +1,8 @@
 import {useState} from 'react';
 import './App.css';
 import Tasks from './Tasks.js';
+import Auth from './Auth.js';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
-
 import {initializeApp} from "firebase/app";
 import {
     getFirestore,
@@ -17,6 +17,32 @@ import {
 } from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 
+import {
+    getAuth,
+    sendEmailVerification,
+    signOut } from "firebase/auth";
+
+import {
+    useAuthState,
+    useCreateUserWithEmailAndPassword,
+    useSignInWithEmailAndPassword,
+    useSignInWithGoogle
+} from 'react-firebase-hooks/auth';
+
+
+// CHECKLIST FOR LAB 5
+// 1 Support User login so they can only see her tasks (at minimum email + password )
+// 2 Sharing list with others.
+// 3 Set up firebase authentification rules (include in github)
+// 4 Updated Design
+//     //  I suggest we add "sharing" to the bottom with hide and trash.
+// 5 User Testing
+// 6
+// 7
+
+
+
+
 const firebaseConfig = {
 
     apiKey: "AIzaSyDaBwlBzUy9suNWGXJWrohmtdrhH9DzZ9s",
@@ -28,38 +54,101 @@ const firebaseConfig = {
 
 };
 
-
 const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp)
-const collectionName = "checklistData";
+const db = getFirestore(firebaseApp);
+const userCollectionName= "";
+const collectionName = "lists";
+const subCollectName = "tasks";
+
 
 
 function App() {
+    return <Auth/>
+}
+
+function SignedInApp() {
 
     const [sortBy, setSorting] = useState("val");
     const [selectedTaskIds, setSelectedTaskIds] = useState([]);
     const [isHidden, setIsHidden] = useState(false);
     const [locked, setLocked] = useState(true);
     const [editing, toggleEditing] = useState(false);
+    const [currentListID, setCurrentListID] = useState("YhwrxHOkAoPGyP0WV8De"); //12345
+    const [toBeList, setToBeList] = useState("");
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [mode, setMode] = useState("main ")
 
     const collectionRef = collection(db, collectionName);
-    const q = query(collectionRef, orderBy(sortBy));
-    const [tasks, loading, error] = useCollectionData(q)
+    const qList = query(collectionRef);
+    const [lists , loadingLists, errorLists] = useCollectionData(qList);
+
+    const subRef = collection(db, collectionName, currentListID, subCollectName );
+    const qTasks = query(subRef, orderBy(sortBy));
+    const [tasks , loadingTasks, error] = useCollectionData(qTasks);
+    //
+    // Toggles between modes by adding id names, Important that each mode includes the post-space
+    function changeMode(input) {
+        if (mode.includes(input)) {
+            setMode(mode.replace(input,""));
+        } else {
+            setMode(mode + input)
+        }
+
+    }
 
     function handleToggleEditing() {
         toggleEditing(!editing);
+        if (sortBy === "val") {
+            setSorting("priority");
+        }
     }
 
+    function handleUpdateToBeList(input) {
+        setToBeList(input);
+    }
+
+    function handleRemoveList() {
+        if (lists.length > 1){
+            void deleteDoc(doc(db, collectionName, currentListID));
+            setCurrentListID(lists[0].id)
+        }
+
+    }
+
+    function handleAddList (input) {
+        if (input !== "") {
+            let newid = generateUniqueID();
+            let newList = {
+                id: newid,
+                name: input,
+                created: serverTimestamp()
+            };
+            void setDoc(doc(db, collectionName, newid), newList);
+
+            let baseitemid = generateUniqueID()
+            let baseItem = {
+                id: baseitemid,
+                val: "Start Noting in " + input,
+                priority: "small",
+                completed: false,
+                created: serverTimestamp()
+            }
+            void setDoc(doc(db, collectionName, newid, subCollectName , baseitemid), baseItem);
+            setCurrentListID(newid)
+            toggleMenu()
+
+
+            setToBeList("");
+        }
+    }
 
     function handleMarkComplete(id, newVal) {
-        void updateDoc(doc(db, collectionName, id), {completed: newVal});
+        void updateDoc(doc(db, collectionName, currentListID, subCollectName, id), {completed: newVal});
     }
 
     function toggleSortby() {
-        // setSorting("hi");
         if (sortBy === "val") {
             setSorting("priority");
-            console.log(sortBy)
         } else if (sortBy === "priority") {
             setSorting("created");
         } else {
@@ -79,12 +168,12 @@ function App() {
 
     //
     function onItemChanged(itemId, newValue) {
-        updateDoc(doc(db, collectionName, itemId), {val: newValue}).then();
+        void updateDoc(doc(db, collectionName, currentListID, subCollectName, itemId), {val: newValue});
     }
 
     function onItemDeleted() {
         if (!locked) {
-            selectedTaskIds.forEach(id => deleteDoc(doc(db, collectionName, id)));
+            selectedTaskIds.forEach(id => deleteDoc(doc(db, collectionName, currentListID, subCollectName , id)));
             setSelectedTaskIds([]); // clears selected ids
             setLocked(!locked)
         }
@@ -99,7 +188,7 @@ function App() {
             completed: false,
             created: serverTimestamp()
         }
-        void setDoc(doc(db, collectionName, newid), newTask);
+        void setDoc(doc(db, collectionName, currentListID, subCollectName , newid), newTask);
     }
 
     // changes if checked items are hidden
@@ -108,7 +197,7 @@ function App() {
     }
 
     function handlePriority(itemId, current) {
-        let reference = doc(db, collectionName, itemId);
+        const reference = doc(db, collectionName, currentListID, subCollectName , itemId);
         let output;
         if (current === "small") {
             output = "medium";
@@ -120,34 +209,105 @@ function App() {
             output = "small";
 
         }
-        const foo = {priority: output};
-        void updateDoc(reference, foo);
-
+        void updateDoc(reference, {priority: output});
     }
 
-    // changes if we should have the alert open!
+    function handleChangeList(id) {
+        setCurrentListID(id);
+    }
+
 
     //toggles if the alert is showing
     function toggleLock() {
         setLocked(!locked);
     }
 
-    if (error) {
+    //switches if menu is open or closed
+    function toggleMenu() {
+        setMenuOpen(!menuOpen);
+    }
+
+    if (error || errorLists) {
         return (<div id="title">
             Error: {error}
         </div>)
-    } else if (loading) {
+    }  else {
 
-        return (<div id="title">
-            Loading
-        </div>)
+        return (<div className={mode}>
 
-    } else {
 
-        return (<>
-                <div id="title">
-                    Checklist
-                </div>
+
+                <header className="header">
+                    <h1>
+                        <strong tabIndex={"0"}>
+                            Checklist&trade;
+                        </strong>
+                        <input type={"button"} id="toggle" onClick={toggleMenu} value={"    "}
+                        aria-label={"hamburger menu button"+(menuOpen ? "menu is open" : "menu is closed")}/>
+                    </h1>
+
+                    {menuOpen && <div>
+                        <ul id="menu">
+                            <li key={"Options"}>
+                                <input  type={"button"} value={" Options:"}  className={"menuButtons menuHeaders"}  />
+                            </li>
+                            <li key = {"big"}>
+                                <input type={"button"} value={"Big Text Mode"} className={"menuButtons"}
+                                       onClick={(_) => changeMode("bigTextMode ")}
+                                       aria-label={"Big Text mode"}/>
+                            </li>
+                        </ul>
+                        <ul id="menu">
+                            <li key={"Your List"}>
+                                <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
+                            </li>
+
+                            {(loadingLists)? "loading":
+                                lists.map(t => (t.id === currentListID)?
+                                    (<li key={t.id}>
+                                        <input type={"button"} value={t.name}  className={"menuButtons currentList"}
+                                               onClick={(_) => handleChangeList(t.id)}
+                                               aria-label={t.name + " selected"}/>
+                                    </li>): (<li key={t.id}>
+                                        <input type={"button"} value={t.name}  className={"menuButtons"}
+                                               onClick={(_) => handleChangeList(t.id)}
+                                               aria-label={t.name + " not selected"}/>
+                                    </li>)
+                                )}
+
+                            <li key={"List Actions:"}>
+                                <input  type={"button"} value={" List Actions:"}  className={"menuButtons menuHeaders"}  />
+                            </li>
+                            <li>
+                                <input type={"button"} value={"Create New List"} className={"menuButtons"}
+                                    // below has call to e.target to get rid of warning
+                                       onClick={ (_) => handleAddList(toBeList)}
+                                />
+                            </li>
+                            <li>
+                                <input type={"text"} id={"addList"} className={"menuButtons"}
+                                       onChange={(e) => handleUpdateToBeList(e.target.value)}
+                                       onKeyUp={(e) => { if (e.key === "Enter"){ handleAddList(toBeList)}}}
+                                       value={toBeList}
+                                       aria-label={"input text box to add a new list"}/>
+                            </li>
+                            <li>
+                                <input type={"button"}
+                                       className={"menuButtons"}
+                                       id={locked? "emojiLocked":"emojiUnlocked"}
+                                       value={" "}
+                                       onClick={toggleLock}
+                                       aria-label={"lock button for deleting list button, currently " + (locked? "locked":"unlocked")}/>
+                                <input  type={"button"}  id={locked ? "U" : "L"}
+                                        value={"Delete Current List"}  className={"menuButtons"}
+                                    // below has call to e.target to get rid of warning
+                                        onClick={ (_) => handleRemoveList(toBeList)}
+                                        onKeyDown={ (e) => {if (e.key === "Tab") toggleMenu() }}
+                                />
+                            </li>
+                        </ul>
+                    </div>}
+                </header>
 
                 <div id={"tasks"}>
                     <Tasks id={"tasks"} data={tasks}
@@ -161,31 +321,51 @@ function App() {
                            onItemChanged={onItemChanged}
                            handlePriority={handlePriority}
                            toggleSortby={toggleSortby}
-                           sortBy={sortBy}/>
+                           sortBy={sortBy}
+                           loading={loadingTasks}/>
+
+
+                </div>
+
+                <div id={"left"} >
+                </div>
+
+                <div id={"middle"}>
+                </div>
+
+                <div id={"right"}>
                 </div>
 
                 <div id="buttons">
+
                     <input type={"button"} id={"hide"} name={"hide"}
                            className={"bottomButtons"}
                            value={(isHidden ? "Show" : "Hide")}
                            onClick={handleHide}/>
+                    <></>
 
                     <div id={"trash"}>
                         <input type={"button"}
                                className={"bottomButtons"}
-                               value={locked ? "U" : "L"}
-                               onClick={toggleLock}/>
+                               id={locked? "emojiLocked":"emojiUnlocked"}
+                               value={" "}
+                               onClick={toggleLock}
+                               aria-label={"lock button for trash button, currently " + (locked? "locked":"unlocked")}/>
                         <input type={"button"}
                                className={"bottomButtons"}
                                id={locked ? "U" : "L"}
-                               value={locked ? "Trash" : "Trash"}
+                               value={"Trash"}
                                onClick={onItemDeleted}/>
                     </div>
                 </div>
 
-            </>
+
+                {/*<img src={'left.png'} alt={"missing!"}>*/}
+                {/*</img>*/}
+
+            </div>
         );
     }
 }
 
-export default App;
+export default  App;

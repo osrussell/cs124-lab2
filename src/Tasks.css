@@ -11,41 +11,11 @@
 
 
     font-family: "American Typewriter";
-    font-size: 18px ;
+    font-size: 100% ;
     color: Black;
 }
 
-/* Rest are css for buttons */
 
-#buttons {
-
-    text-align: center;
-
-    display: block;
-    left: 40px;
-    right: 40px;
-    bottom: 20px;
-    position: fixed;
-
-}
-
-#hide {
-    float: left;
-    width: 100px;
-}
-
-#trash {
-    float: right;
-    width: 100px;
-}
-
-#buttons input{
-    background-color: black;
-    color: white;
-    font-family: "Arial" ;
-    font-size: 18px ;
-    height: 50px;
-}
 
 .small {
     background-color: greenyellow;
@@ -64,4 +34,14 @@
     border-color: transparent;;
     height: 13px;
     width: 10px;
+}
+
+.taskButtons {
+    font-size: 100%;
+    border-color: transparent;
+    margin-right: 5px;
+
+}
+.addField {
+    font-size: 100%;
 }
