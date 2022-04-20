@@ -1,0 +1,208 @@
+.App {
+  text-align: center;
+
+}
+
+.main {
+  font-size: 18px;
+
+}
+.bigTextMode {
+  font-size: 30px;
+}
+/* Start of top bar*/
+.header{
+  position: fixed;
+  top:0;
+  left: 0;
+  right: 0;
+  background-color: white;
+  z-index: 1000;
+  border-bottom-color: black;
+}
+
+/* Alters Checklist */
+
+h1 {
+  font-family: "Arial" ;
+  font-size: 30px ; /* make responsive font size */
+  margin-left: 10px;
+  -webkit-text-fill-color: #2e74f0;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #2e74f0;
+  margin-bottom: 0.5em; /* consider switching this to something else*/
+}
+
+/* will this over-ride all buttons?? please no */
+/* I think they're fine though */
+#toggle {
+  position: fixed;
+  height: 30px;
+  right: 10px;
+  margin-right: 10px;
+  margin-bottom: 0.5em; /* consider switching this to something else*/
+  background: url('../public/icons8-hamburger-menu-30.png') no-repeat;
+  border-color: transparent;
+}
+
+#menu {
+  z-index: 999;
+  position: relative;
+  float: right;
+  list-style: none;
+}
+ ul li {
+   margin-bottom: 5px;
+
+ }
+
+.menuHeaders{
+   background-color: white;
+ }
+.menuButtons {
+  margin-right: 5px;
+
+  float: right;
+  border-color: transparent;
+  font-size: 100%;
+}
+@media screen and (max-width: 500px){
+  #menu {
+    float: left;
+  }
+  .menuButtons {
+  float: left;
+  border-color: transparent;
+}
+}
+.currentList {
+  background-color: #ffd600;
+}
+#addList {
+  border-color: #2e74f0;
+}
+
+#left {
+  background-image: url(../public/left-crop.png);
+  width: 125px; /* Sets the width so it doesn't change with re-sizing */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  top: 85px;
+  left: 0px;
+  /*right: 45px;*/
+  bottom: 105px;
+  position: fixed;
+  z-index: 0;
+}
+
+#middle {
+  background-image: url(../public/middle-crop.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  top: 82px;
+  left: 50px;
+  right: 45px;
+  bottom: 100px;
+  position: absolute;
+  z-index: -2;
+}
+
+#right {
+  background-image: url(../public/right-crop.png);
+  width: 160px; /* Sets the width so it doesn't change with re-sizing */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  top: 83px;
+  right: 5px;
+  bottom: 105px;
+  position: fixed;
+  z-index: 0;
+}
+
+/* Say overflow with scroll*/
+#tasks {
+  background-size: 100% 100%;
+  display: block;
+  top: 110px;
+  left: 73px;
+  right: 50px;
+  bottom: 140px;
+  position: fixed;
+  overflow: scroll;
+  z-index: 1;
+
+
+
+  font-family: "American Typewriter";
+  font-size: 100% ;
+  color: Black;
+}
+
+.Task {
+  list-style: none;
+}
+
+
+/* Rest are css for buttons */
+
+#buttons {
+
+  text-align: center;
+
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  left: 40px;
+  right: 40px;
+  width: 230px;
+  bottom: 20px;
+  position: fixed;
+
+}
+
+#hide {
+  float: left;
+  width: 100px;
+}
+
+#trash {
+  float: right;
+
+}
+
+#buttons input{
+  background-color: black;
+  color: white;
+  font-family: "Arial" ;
+  font-size: 100% ;
+  height: 50px;
+}
+
+
+#bottomButtons {
+  font-size: 50%;
+
+}
+
+#U {
+  opacity: 0.5;
+}
+
+#emojiUnlocked {
+  background-image: url(../public/open-lock_1f513.png);
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 15px 15px ;
+  background-repeat: no-repeat;
+  background-position: center;
+
+}
+#emojiLocked {
+  background-image: url(../public/lock_1f512.png);
+  background-size: 15px 15px ;
+  background-repeat: no-repeat;
+  background-position: center;
+
+
+}
+
