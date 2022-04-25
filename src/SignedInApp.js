@@ -2,6 +2,7 @@ import {useState} from 'react';
 import './SignedInApp.css';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 import {initializeApp} from "firebase/app";
+import { signOut } from "firebase/auth";
 import {
     getFirestore,
     query,
@@ -198,6 +199,9 @@ function SignedInApp(props) {
                     </h1>
 
                     {menuOpen && <div>
+                        {props.user.email}
+                        <button type="button" onClick={() => signOut(props.auth)}>Sign out</button>
+
                         <ul id="menu">
                             <li key={"Options"}>
                                 <input  type={"button"} value={" Options:"}  className={"menuButtons menuHeaders"}  />

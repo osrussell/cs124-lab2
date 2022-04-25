@@ -54,7 +54,6 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
-const userCollectName= "";
 const collectionName = "lists";
 const subCollectName = "tasks";
 
@@ -74,7 +73,7 @@ function Auth() {
         return <p>Checking...</p>;
     } else if (user) {
         return <div>
-            <SignedInApp db = {db} userCollectName = {userCollectName}
+            <SignedInApp db = {db} user = {user} auth = {auth}
                         collectionName={collectionName} subCollectName={subCollectName}/>
             <button type="button" onClick={() => signOut(auth)}>Sign out</button>
             {!user.emailVerified && <button type="button" onClick={verifyEmail}>Verify email</button>}
