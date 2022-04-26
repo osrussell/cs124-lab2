@@ -18,6 +18,7 @@ import {useCollectionData} from "react-firebase-hooks/firestore";
 
 import Tasks from "./Tasks";
 
+
 function SignedInApp(props) {
 
     const [sortBy, setSorting] = useState("val");
@@ -25,16 +26,18 @@ function SignedInApp(props) {
     const [isHidden, setIsHidden] = useState(false);
     const [locked, setLocked] = useState(true);
     const [editing, toggleEditing] = useState(false);
-    const [currentListID, setCurrentListID] = useState("YhwrxHOkAoPGyP0WV8De"); //12345
     const [toBeList, setToBeList] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [mode, setMode] = useState("main ")
 
-    const collectionRef = collection(props.db, props.collectionName);
+    const collectionRef = collection(props.db, props.topLevel, props.user.uid, props.collectionName);
     const qList = query(collectionRef);
     const [lists , loadingLists, errorLists] = useCollectionData(qList);
 
-    const subRef = collection(props.db, props.collectionName, currentListID, props.subCollectName );
+    const [currentListID, setCurrentListID] = useState(""); //12345
+
+
+    const subRef = collection(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName );
     const qTasks = query(subRef, orderBy(sortBy));
     const [tasks , loadingTasks, error] = useCollectionData(qTasks);
     //
@@ -61,7 +64,7 @@ function SignedInApp(props) {
 
     function handleRemoveList() {
         if (lists.length > 1){
-            void deleteDoc(doc(props.db, props.collectionName, currentListID));
+            void deleteDoc(doc(props.db,props.topLevel, props.user.uid, props.collectionName, currentListID));
             setCurrentListID(lists[0].id)
         }
 
@@ -72,20 +75,22 @@ function SignedInApp(props) {
             let newid = generateUniqueID();
             let newList = {
                 id: newid,
+                owner: props.user.uid,
                 name: input,
                 created: serverTimestamp()
             };
-            void setDoc(doc(props.db, props.collectionName, newid), newList);
+            void setDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, newid), newList);
 
             let baseitemid = generateUniqueID()
             let baseItem = {
                 id: baseitemid,
                 val: "Start Noting in " + input,
+                owner: props.user.uid,
                 priority: "small",
                 completed: false,
                 created: serverTimestamp()
             }
-            void setDoc(doc(props.db, props.collectionName, newid, props.subCollectName , baseitemid), baseItem);
+            void setDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, newid, props.subCollectName , baseitemid), baseItem);
             setCurrentListID(newid)
             toggleMenu()
 
@@ -95,7 +100,7 @@ function SignedInApp(props) {
     }
 
     function handleMarkComplete(id, newVal) {
-        void updateDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName, id), {completed: newVal});
+        void updateDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName, id), {completed: newVal});
     }
 
     function toggleSortby() {
@@ -120,12 +125,13 @@ function SignedInApp(props) {
 
     //
     function onItemChanged(itemId, newValue) {
-        void updateDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName, itemId), {val: newValue});
+        void updateDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName, itemId), {val: newValue});
     }
 
     function onItemDeleted() {
         if (!locked) {
-            selectedTaskIds.forEach(id => deleteDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName , id)));
+            selectedTaskIds.forEach(id => deleteDoc(doc(props.db, props.topLevel, props.user.uid,
+                props.collectionName, currentListID, props.subCollectName , id)));
             setSelectedTaskIds([]); // clears selected ids
             setLocked(!locked)
         }
@@ -136,11 +142,12 @@ function SignedInApp(props) {
         let newTask = {
             id: newid,
             val: newVal,
+            owner: props.user.uid,
             priority: "small",
             completed: false,
             created: serverTimestamp()
         }
-        void setDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName , newid), newTask);
+        void setDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName , newid), newTask);
     }
 
     // changes if checked items are hidden
@@ -149,7 +156,7 @@ function SignedInApp(props) {
     }
 
     function handlePriority(itemId, current) {
-        const reference = doc(props.db, props.collectionName, currentListID, props.subCollectName , itemId);
+        const reference = doc(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName , itemId);
         let output;
         if (current === "small") {
             output = "medium";
@@ -179,11 +186,18 @@ function SignedInApp(props) {
         setMenuOpen(!menuOpen);
     }
 
+
     if (error || errorLists) {
         return (<div id="title">
             Error: {error}
         </div>)
     }  else {
+
+        if (!lists.length){
+            handleAddList("First List");
+        } else {
+            setCurrentListID(lists[0].id);
+        }
 
         return (<div className={mode}>
 
@@ -200,7 +214,8 @@ function SignedInApp(props) {
 
                     {menuOpen && <div>
                         {props.user.email}
-                        <button type="button" onClick={() => signOut(props.auth)}>Sign out</button>
+                        <button type="button" className={"menuButtons"}
+                                onClick={() => signOut(props.auth)}>Sign out</button>
 
                         <ul id="menu">
                             <li key={"Options"}>
