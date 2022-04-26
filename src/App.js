@@ -26,6 +26,7 @@ import {
     useSignInWithEmailAndPassword,
     useSignInWithGoogle
 } from 'react-firebase-hooks/auth';
+import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 
 // CHECKLIST FOR LAB 5
@@ -66,13 +67,54 @@ const auth = getAuth();
 function Auth() {
     const [user, loading, error] = useAuthState(auth);
 
+    const collectionRef = collection(db, topLevel);
+    const qList = query(collectionRef);
+    const [users , loadingusers] = useCollectionData(qList);
+
+    function handleNewUser () {
+        if (!(users.includes(user))) {
+            let newUser = {
+                id: user.uid,
+                email: user.email,
+                joined: serverTimestamp()
+            };
+
+            void setDoc(doc(db, topLevel, user.uid), newUser);
+
+
+            let newid = generateUniqueID();
+            let newList = {
+                id: newid,
+                owner: user.uid,
+                name: "First List",
+                created: serverTimestamp()
+            };
+            void setDoc(doc(db, topLevel, user.uid, collectionName, newid), newList);
+
+            let baseitemid = generateUniqueID()
+            let baseItem = {
+                id: baseitemid,
+                val: "Start Noting in your first list!",
+                owner: user.uid,
+                priority: "small",
+                completed: false,
+                created: serverTimestamp()
+            }
+            void setDoc(doc(db, topLevel, user.uid, collectionName, newid, subCollectName , baseitemid), baseItem);
+
+
+        }
+    }
+
     function verifyEmail() {
         sendEmailVerification(user);
     }
 
-    if (loading) {
+    if (loading || loadingusers) {
         return <p>Checking...</p>;
     } else if (user) {
+        handleNewUser();
+
         return <div>
             <SignedInApp db = {db} user = {user} auth = {auth} topLevel = {topLevel}
                         collectionName={collectionName} subCollectName={subCollectName}/>
