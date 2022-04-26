@@ -33,8 +33,7 @@ function SignedInApp(props) {
     const collectionRef = collection(props.db, props.topLevel, props.user.uid, props.collectionName);
     const qList = query(collectionRef);
     const [lists , loadingLists, errorLists] = useCollectionData(qList);
-
-    const [currentListID, setCurrentListID] = useState(""); //12345
+    const [currentListID, setCurrentListID] = useState("hello word"); //12345
 
 
     const subRef = collection(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName );
@@ -186,8 +185,9 @@ function SignedInApp(props) {
         setMenuOpen(!menuOpen);
     }
 
-
-    if (error || errorLists) {
+    if (loadingLists || loadingTasks) {
+        return <>loading </>
+    } else if (error || errorLists) {
         return (<div id="title">
             Error: {error}
         </div>)
@@ -196,7 +196,7 @@ function SignedInApp(props) {
         if (!lists.length){
             handleAddList("First List");
         } else {
-            setCurrentListID(lists[0].id);
+
         }
 
         return (<div className={mode}>

@@ -69,20 +69,22 @@ function Auth() {
 
     const collectionRef = collection(db, topLevel);
     const qList = query(collectionRef);
-    const [users , loadingusers] = useCollectionData(qList);
+    const [users , loadingusers, errorusers] = useCollectionData(qList);
 
     function handleNewUser () {
-        if (!(users.includes(user))) {
+        if ((users.filter((p) => user.uid === p.uid)).length === 0) {
+            let newid = "Hello World";
             let newUser = {
                 id: user.uid,
                 email: user.email,
-                joined: serverTimestamp()
+                joined: serverTimestamp(),
+                openingList: newid,
             };
 
             void setDoc(doc(db, topLevel, user.uid), newUser);
 
 
-            let newid = generateUniqueID();
+
             let newList = {
                 id: newid,
                 owner: user.uid,
@@ -111,8 +113,11 @@ function Auth() {
     }
 
     if (loading || loadingusers) {
-        return <p>Checking...</p>;
+        return <p>loading</p>;
+
     } else if (user) {
+
+
         handleNewUser();
 
         return <div>
