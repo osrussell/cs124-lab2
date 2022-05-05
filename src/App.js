@@ -64,62 +64,35 @@ const auth = getAuth();
 
 
 
+
 function Auth() {
     const [user, loading, error] = useAuthState(auth);
+
+    const [isnewuser, setisnewuser] = useState(false)
+
 
     const collectionRef = collection(db, topLevel);
     const qList = query(collectionRef);
     const [users , loadingusers, errorusers] = useCollectionData(qList);
 
-    function handleNewUser () {
-        if ((users.filter((p) => user.uid === p.uid)).length === 0) {
-            let newid = "Hello World";
-            let newUser = {
-                id: user.uid,
-                email: user.email,
-                joined: serverTimestamp(),
-                openingList: newid,
-            };
-
-            void setDoc(doc(db, topLevel, user.uid), newUser);
-
-
-
-            let newList = {
-                id: newid,
-                owner: user.uid,
-                name: "First List",
-                created: serverTimestamp()
-            };
-            void setDoc(doc(db, topLevel, user.uid, collectionName, newid), newList);
-
-            let baseitemid = generateUniqueID()
-            let baseItem = {
-                id: baseitemid,
-                val: "Start Noting in your first list!",
-                owner: user.uid,
-                priority: "small",
-                completed: false,
-                created: serverTimestamp()
-            }
-            void setDoc(doc(db, topLevel, user.uid, collectionName, newid, subCollectName , baseitemid), baseItem);
-
-
-        }
+    function toggleNew() {
+        setisnewuser(!isnewuser);
     }
+
 
     function verifyEmail() {
         sendEmailVerification(user);
     }
 
-    if (loading || loadingusers) {
+    if (loading) {
         return <p>loading</p>;
 
     } else if (user) {
 
-
-        handleNewUser();
-
+        // if (isnewuser) {
+        //     handleNewUser(user);
+        //     toggleNew()
+        // }
         return <div>
             <SignedInApp db = {db} user = {user} auth = {auth} topLevel = {topLevel}
                         collectionName={collectionName} subCollectName={subCollectName}/>
@@ -131,7 +104,7 @@ function Auth() {
             {error && <p>Error App: {error.message}</p>}
             <div> No user detected</div>
             <SignIn key="Sign In"/>
-            <SignUp key="Sign Up"/>
+            <SignUp key="Sign Up" toggleNew ={toggleNew}/>
         </>
     }
 }
@@ -179,7 +152,7 @@ function SignIn() {
 }
 
 
-function SignUp() {
+function SignUp(props) {
     const [
         createUserWithEmailAndPassword,
         userCredential, loading, error
@@ -194,6 +167,7 @@ function SignUp() {
     } else if (loading) {
         return <p>Signing up…</p>
     }
+
     return <div>
         {error && <p>"Error signing up: " {error.message}</p>}
         <div> Sign Up Below</div>
@@ -206,16 +180,54 @@ function SignUp() {
                onChange={e => setPw(e.target.value)}/>
         <br/>
         <button onClick={() =>
-            createUserWithEmailAndPassword(email, pw)}>
+            (createUserWithEmailAndPassword(email, pw),
+            props.toggleNew()                  )} >
             Create test user
         </button>
 
     </div>
 }
 
+function handleNewUser (user) {
+        console.log("welcome to Notetm")
+        let newUser = {
+            id: user.uid,
+            email: user.email,
+            joined: serverTimestamp(),
+            openingList: newid,
+        };
+
+        void setDoc(doc(db, topLevel, user.uid), newUser);
+
+
+        let newid = "Hello World";
+
+        let newList = {
+            id: newid,
+            owner: user.uid,
+            name: "First List",
+            created: serverTimestamp()
+        };
+        void setDoc(doc(db, topLevel, user.uid, collectionName, newid), newList);
+
+        let baseitemid = generateUniqueID()
+        let baseItem = {
+            id: baseitemid,
+            val: "Start Noting in your first list!",
+            owner: user.uid,
+            priority: "small",
+            completed: false,
+            created: serverTimestamp()
+        }
+        void setDoc(doc(db, topLevel, user.uid, collectionName, newid, subCollectName , baseitemid), baseItem);
+}
+
+
 
 export function App() {
     return <Auth/>
 }
+
+
 
 export default  App ;
