@@ -5,6 +5,7 @@ import {initializeApp} from "firebase/app";
 import { signOut } from "firebase/auth";
 import {
     getFirestore,
+    where,
     query,
     orderBy,
     collection,
@@ -29,6 +30,11 @@ function SignedInApp(props) {
     const [toBeList, setToBeList] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [mode, setMode] = useState("main ")
+
+    const usersRef = collection(props.db, props.topLevel);
+    const qusers = query(usersRef, where("id","==", props.user.uid));
+    const [users , loadingUsers, errorUsers] = useCollectionData(qusers);
+
 
     const collectionRef = collection(props.db, props.topLevel, props.user.uid, props.collectionName);
     const qList = query(collectionRef);
@@ -192,12 +198,12 @@ function SignedInApp(props) {
             Error: {error}
         </div>)
     }  else {
-
-        if (!lists.length){
-            handleAddList("First List");
-        } else {
-
-        }
+        console.log(lists.length);
+        // if (!lists.length){
+        //     //handleAddList("First List");
+        // } else {
+        //
+        // }
 
         return (<div className={mode}>
 

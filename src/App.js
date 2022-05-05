@@ -89,10 +89,10 @@ function Auth() {
 
     } else if (user) {
 
-        // if (isnewuser) {
-        //     handleNewUser(user);
-        //     toggleNew()
-        // }
+        if (isnewuser) {
+            handleNewUser(user)
+            toggleNew()
+        }
         return <div>
             <SignedInApp db = {db} user = {user} auth = {auth} topLevel = {topLevel}
                         collectionName={collectionName} subCollectName={subCollectName}/>
@@ -190,17 +190,17 @@ function SignUp(props) {
 
 function handleNewUser (user) {
         console.log("welcome to Notetm")
+        let newid = generateUniqueID();
+
         let newUser = {
             id: user.uid,
             email: user.email,
             joined: serverTimestamp(),
-            openingList: newid,
         };
 
         void setDoc(doc(db, topLevel, user.uid), newUser);
 
 
-        let newid = "Hello World";
 
         let newList = {
             id: newid,
@@ -210,7 +210,8 @@ function handleNewUser (user) {
         };
         void setDoc(doc(db, topLevel, user.uid, collectionName, newid), newList);
 
-        let baseitemid = generateUniqueID()
+        let baseitemid = generateUniqueID();
+    ;
         let baseItem = {
             id: baseitemid,
             val: "Start Noting in your first list!",
