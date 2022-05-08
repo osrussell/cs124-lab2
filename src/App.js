@@ -57,7 +57,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
-// const topLevel = "users"
+const userCollection = "users";
 const collectionName = "lists";
 const subCollectName = "tasks";
 
@@ -96,7 +96,7 @@ function Auth() {
             toggleNew()
         }
         return <div>
-            <SignedInApp db = {db} user = {user} auth = {auth}
+            <SignedInApp db = {db} user = {user} auth = {auth} userCollection={userCollection}
                         collectionName={collectionName} subCollectName={subCollectName}/>
             <button type="button" onClick={() => signOut(auth)}>Sign out</button>
             {!user.emailVerified && <button type="button" onClick={verifyEmail}>Verify email</button>}
@@ -193,18 +193,23 @@ function SignUp(props) {
 // why isn't this props ???
 function handleNewUser (user) {
         console.log("welcome to Notetm")
-        let newid = generateUniqueID();
 
         // let newUser = {
         //     id: user.uid,
-        //     email: user.email,
+        //     email:  user.email,
         //     joined: serverTimestamp(),
         // };
         //
         // void setDoc(doc(db, topLevel, user.uid), newUser);
 
+        let newUser = {
+            id: user.uid,
+            email: user.email,
+            joined: serverTimestamp(),
+        }
+        void setDoc(doc(db, userCollection, user.uid), newUser);
 
-
+        let newid = generateUniqueID();
         let newList = {
             id: newid,
             owner: user.uid,

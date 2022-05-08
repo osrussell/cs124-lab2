@@ -13,7 +13,8 @@ import {
     setDoc,
     updateDoc,
     deleteDoc,
-    serverTimestamp
+    serverTimestamp,
+    arrayUnion
 } from "firebase/firestore";
 import {useCollectionData} from "react-firebase-hooks/firestore";
 
@@ -28,12 +29,14 @@ function SignedInApp(props) {
     const [locked, setLocked] = useState(true);
     const [editing, toggleEditing] = useState(false);
     const [toBeList, setToBeList] = useState("");
+    const [toBeShared, setToBeShared] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [mode, setMode] = useState("main ")
 
-    // const usersRef = collection(props.db, props.topLevel);
-    // const qusers = query(usersRef, where("id","==", props.user.uid));
-    // const [users , loadingUsers, errorUsers] = useCollectionData(qusers);
+    // queries for shared user
+    const usersRef = collection(props.db, props.userCollection);
+    const qSharedUser = query(usersRef, where("email","==", toBeShared));
+    const [sharedUser , loadingSharedUser, errorSharedUser] = useCollectionData(qSharedUser);
 
     // I took the first level out
     // CHANGED !!!!
@@ -42,7 +45,7 @@ function SignedInApp(props) {
     //         where("owner", "==", props.user.uid));
     // this is from Prof Rhodes example
     // CHANGE THIS SO THAT IT'S IF INSIDE THE LIST FOR SHARED
-    const qList = query(collectionRef, where("owner", "==", props.user.uid));
+    const qList = query(collectionRef, where("shared", "array-contains", props.user.uid));
     const [lists , loadingLists, errorLists] = useCollectionData(qList);
     const [currentListID, setCurrentListID] = useState("hello word"); //12345
 
@@ -108,6 +111,33 @@ function SignedInApp(props) {
 
             setToBeList("");
         }
+    }
+
+    // actually changes Doc to add uid to list of shared users for the list
+    function handleSharedList(toBeShared) {
+        if (toBeShared != "") {
+            if (!sharedUser.length) { // if there is nothing
+                console.log("No user found :(")
+            } else {
+                // setSelectedTaskIds([...selectedTaskIds, id]);
+                // how do you get the shared list and add to it :( and also from sharedUser
+                let newShared = [];
+
+                void updateDoc(doc(props.db, props.collectionName, currentListID), {shared: arrayUnion(sharedUser[0].id)});
+            }
+        }
+
+        setToBeShared("");
+        // adds uid to doc for the list
+        //
+
+    }
+
+    // sets email that list is going to be shared with
+    function updateToBeSharedList(input) {
+        setToBeShared(input);
+        // if list is shared with you, you can share
+
     }
 
     function handleMarkComplete(id, newVal) {
@@ -198,15 +228,6 @@ function SignedInApp(props) {
         setMenuOpen(!menuOpen);
     }
 
-    function shareList() {
-        // what do we want the user to input / how to we get uid
-        // how are we displaying 
-        // void updateDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName, itemId), {val: newValue});
-    }
-
-    function updateShareList() {
-        // if list is shared with you, you can share
-    }
 
     if (loadingLists || loadingTasks) {
         return <>loading </>
@@ -252,6 +273,24 @@ function SignedInApp(props) {
                             {// can put another list item to share, and user types email
                                 }
                         </ul>
+                        <ul id={"menu"}>
+                            <li key={"Sharing Current List"}>
+                                <input  type={"button"} value={" Sharing Current List:"}  className={"menuButtons menuHeaders"}  />
+                            </li>
+                            <li>
+                                <input type={"button"} value={"Share With Email:"} className={"menuButtons"}
+                                    // below has call to e.target to get rid of warning
+                                       onClick={ (_) => handleSharedList(toBeShared)}
+                                />
+                            </li>
+                            <li>
+                                <input type={"text"} id={"addList"} className={"menuButtons"}
+                                       onChange={(e) => updateToBeSharedList(e.target.value)}
+                                       onKeyUp={(e) => { if (e.key === "Enter"){ handleSharedList(toBeShared)}}}
+                                       value={toBeShared}
+                                       aria-label={"input text box to add a new list"}/>
+                            </li>
+                        </ul>
                         <ul id="menu">
                             <li key={"Your List"}>
                                 <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
@@ -286,6 +325,7 @@ function SignedInApp(props) {
                                        value={toBeList}
                                        aria-label={"input text box to add a new list"}/>
                             </li>
+
                             <li>
                                 <input type={"button"}
                                        className={"menuButtons"}
