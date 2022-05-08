@@ -31,18 +31,23 @@ function SignedInApp(props) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [mode, setMode] = useState("main ")
 
-    const usersRef = collection(props.db, props.topLevel);
-    const qusers = query(usersRef, where("id","==", props.user.uid));
-    const [users , loadingUsers, errorUsers] = useCollectionData(qusers);
+    // const usersRef = collection(props.db, props.topLevel);
+    // const qusers = query(usersRef, where("id","==", props.user.uid));
+    // const [users , loadingUsers, errorUsers] = useCollectionData(qusers);
 
-
-    const collectionRef = collection(props.db, props.topLevel, props.user.uid, props.collectionName);
-    const qList = query(collectionRef);
+    // I took the first level out
+    // CHANGED !!!!
+    const collectionRef = collection(props.db, props.collectionName);
+    // const q = query(collection(db, collectionName),
+    //         where("owner", "==", props.user.uid));
+    // this is from Prof Rhodes example
+    // CHANGE THIS SO THAT IT'S IF INSIDE THE LIST FOR SHARED
+    const qList = query(collectionRef, where("owner", "==", props.user.uid));
     const [lists , loadingLists, errorLists] = useCollectionData(qList);
     const [currentListID, setCurrentListID] = useState("hello word"); //12345
 
 
-    const subRef = collection(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName );
+    const subRef = collection(props.db, props.collectionName, currentListID, props.subCollectName );
     const qTasks = query(subRef, orderBy(sortBy));
     const [tasks , loadingTasks, error] = useCollectionData(qTasks);
     //
@@ -69,7 +74,7 @@ function SignedInApp(props) {
 
     function handleRemoveList() {
         if (lists.length > 1){
-            void deleteDoc(doc(props.db,props.topLevel, props.user.uid, props.collectionName, currentListID));
+            void deleteDoc(doc(props.db, props.collectionName, currentListID));
             setCurrentListID(lists[0].id)
         }
 
@@ -81,10 +86,11 @@ function SignedInApp(props) {
             let newList = {
                 id: newid,
                 owner: props.user.uid,
+                shared: [props.user.uid],
                 name: input,
                 created: serverTimestamp()
             };
-            void setDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, newid), newList);
+            void setDoc(doc(props.db, props.collectionName, newid), newList);
 
             let baseitemid = generateUniqueID()
             let baseItem = {
@@ -95,7 +101,7 @@ function SignedInApp(props) {
                 completed: false,
                 created: serverTimestamp()
             }
-            void setDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, newid, props.subCollectName , baseitemid), baseItem);
+            void setDoc(doc(props.db, props.collectionName, newid, props.subCollectName , baseitemid), baseItem);
             setCurrentListID(newid)
             toggleMenu()
 
@@ -105,7 +111,7 @@ function SignedInApp(props) {
     }
 
     function handleMarkComplete(id, newVal) {
-        void updateDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName, id), {completed: newVal});
+        void updateDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName, id), {completed: newVal});
     }
 
     function toggleSortby() {
@@ -130,12 +136,12 @@ function SignedInApp(props) {
 
     //
     function onItemChanged(itemId, newValue) {
-        void updateDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName, itemId), {val: newValue});
+        void updateDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName, itemId), {val: newValue});
     }
 
     function onItemDeleted() {
         if (!locked) {
-            selectedTaskIds.forEach(id => deleteDoc(doc(props.db, props.topLevel, props.user.uid,
+            selectedTaskIds.forEach(id => deleteDoc(doc(props.db,
                 props.collectionName, currentListID, props.subCollectName , id)));
             setSelectedTaskIds([]); // clears selected ids
             setLocked(!locked)
@@ -152,7 +158,7 @@ function SignedInApp(props) {
             completed: false,
             created: serverTimestamp()
         }
-        void setDoc(doc(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName , newid), newTask);
+        void setDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName , newid), newTask);
     }
 
     // changes if checked items are hidden
@@ -161,7 +167,7 @@ function SignedInApp(props) {
     }
 
     function handlePriority(itemId, current) {
-        const reference = doc(props.db, props.topLevel, props.user.uid, props.collectionName, currentListID, props.subCollectName , itemId);
+        const reference = doc(props.db, props.collectionName, currentListID, props.subCollectName , itemId);
         let output;
         if (current === "small") {
             output = "medium";
@@ -173,6 +179,7 @@ function SignedInApp(props) {
             output = "small";
 
         }
+        // FIXXXXX
         void updateDoc(reference, {priority: output});
     }
 
@@ -189,6 +196,16 @@ function SignedInApp(props) {
     //switches if menu is open or closed
     function toggleMenu() {
         setMenuOpen(!menuOpen);
+    }
+
+    function shareList() {
+        // what do we want the user to input / how to we get uid
+        // how are we displaying 
+        // void updateDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName, itemId), {val: newValue});
+    }
+
+    function updateShareList() {
+        // if list is shared with you, you can share
     }
 
     if (loadingLists || loadingTasks) {
@@ -232,6 +249,8 @@ function SignedInApp(props) {
                                        onClick={(_) => changeMode("bigTextMode ")}
                                        aria-label={"Big Text mode"}/>
                             </li>
+                            {// can put another list item to share, and user types email
+                                }
                         </ul>
                         <ul id="menu">
                             <li key={"Your List"}>

@@ -39,8 +39,10 @@ import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 // 6
 // 7
 
-
-
+// ISSUES: Uneven collection error
+// We have trouble creating a new user -- created tons of lists
+// turns blue first and then creates tons of lists
+// also in firebase they're not being properly created
 
 const firebaseConfig = {
 
@@ -55,7 +57,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
-const topLevel = "users"
+// const topLevel = "users"
 const collectionName = "lists";
 const subCollectName = "tasks";
 
@@ -71,9 +73,9 @@ function Auth() {
     const [isnewuser, setisnewuser] = useState(false)
 
 
-    const collectionRef = collection(db, topLevel);
+    const collectionRef = collection(db, collectionName); // this now references all users in the collection
     const qList = query(collectionRef);
-    const [users , loadingusers, errorusers] = useCollectionData(qList);
+    // const [users , loadingusers, errorusers] = useCollectionData(qList);
 
     function toggleNew() {
         setisnewuser(!isnewuser);
@@ -94,7 +96,7 @@ function Auth() {
             toggleNew()
         }
         return <div>
-            <SignedInApp db = {db} user = {user} auth = {auth} topLevel = {topLevel}
+            <SignedInApp db = {db} user = {user} auth = {auth}
                         collectionName={collectionName} subCollectName={subCollectName}/>
             <button type="button" onClick={() => signOut(auth)}>Sign out</button>
             {!user.emailVerified && <button type="button" onClick={verifyEmail}>Verify email</button>}
@@ -151,7 +153,7 @@ function SignIn() {
     </div>
 }
 
-
+        // deleted
 function SignUp(props) {
     const [
         createUserWithEmailAndPassword,
@@ -188,27 +190,29 @@ function SignUp(props) {
     </div>
 }
 
+// why isn't this props ???
 function handleNewUser (user) {
         console.log("welcome to Notetm")
         let newid = generateUniqueID();
 
-        let newUser = {
-            id: user.uid,
-            email: user.email,
-            joined: serverTimestamp(),
-        };
-
-        void setDoc(doc(db, topLevel, user.uid), newUser);
+        // let newUser = {
+        //     id: user.uid,
+        //     email: user.email,
+        //     joined: serverTimestamp(),
+        // };
+        //
+        // void setDoc(doc(db, topLevel, user.uid), newUser);
 
 
 
         let newList = {
             id: newid,
             owner: user.uid,
+            shared: [user.uid], // NOT SURE ABOUT THIS
             name: "First List",
             created: serverTimestamp()
         };
-        void setDoc(doc(db, topLevel, user.uid, collectionName, newid), newList);
+        void setDoc(doc(db, collectionName, newid), newList);
 
         let baseitemid = generateUniqueID();
     ;
@@ -220,7 +224,7 @@ function handleNewUser (user) {
             completed: false,
             created: serverTimestamp()
         }
-        void setDoc(doc(db, topLevel, user.uid, collectionName, newid, subCollectName , baseitemid), baseItem);
+        void setDoc(doc(db, collectionName, newid, subCollectName , baseitemid), baseItem);
 }
 
 
