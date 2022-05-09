@@ -1,10 +1,8 @@
 import {useState} from 'react';
 import './SignedInApp.css';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
-import {initializeApp} from "firebase/app";
 import { signOut } from "firebase/auth";
 import {
-    getFirestore,
     where,
     query,
     orderBy,
@@ -36,18 +34,12 @@ function SignedInApp(props) {
     // queries for shared user
     const usersRef = collection(props.db, props.userCollection);
     const qSharedUser = query(usersRef, where("email","==", toBeShared));
-    const [sharedUser , loadingSharedUser, errorSharedUser] = useCollectionData(qSharedUser);
+    const [sharedUser] = useCollectionData(qSharedUser);
 
-    // I took the first level out
-    // CHANGED !!!!
     const collectionRef = collection(props.db, props.collectionName);
-    // const q = query(collection(db, collectionName),
-    //         where("owner", "==", props.user.uid));
-    // this is from Prof Rhodes example
-    // CHANGE THIS SO THAT IT'S IF INSIDE THE LIST FOR SHARED
     const qList = query(collectionRef, where("shared", "array-contains", props.user.uid));
     const [lists , loadingLists, errorLists] = useCollectionData(qList);
-    const [currentListID, setCurrentListID] = useState("hello word"); //12345
+    const [currentListID, setCurrentListID] = useState("hello world"); //12345
 
 
     const subRef = collection(props.db, props.collectionName, currentListID, props.subCollectName );
@@ -115,22 +107,15 @@ function SignedInApp(props) {
 
     // actually changes Doc to add uid to list of shared users for the list
     function handleSharedList(toBeShared) {
-        if (toBeShared != "") {
+        if (toBeShared !== "") {
             if (!sharedUser.length) { // if there is nothing
                 console.log("No user found :(")
             } else {
-                // setSelectedTaskIds([...selectedTaskIds, id]);
-                // how do you get the shared list and add to it :( and also from sharedUser
-                let newShared = [];
-
                 void updateDoc(doc(props.db, props.collectionName, currentListID), {shared: arrayUnion(sharedUser[0].id)});
             }
         }
 
         setToBeShared("");
-        // adds uid to doc for the list
-        //
-
     }
 
     // sets email that list is going to be shared with
@@ -209,7 +194,6 @@ function SignedInApp(props) {
             output = "small";
 
         }
-        // FIXXXXX
         void updateDoc(reference, {priority: output});
     }
 
@@ -237,11 +221,6 @@ function SignedInApp(props) {
         </div>)
     }  else {
         console.log(lists.length);
-        // if (!lists.length){
-        //     //handleAddList("First List");
-        // } else {
-        //
-        // }
 
         return (<div className={mode}>
 
@@ -345,7 +324,26 @@ function SignedInApp(props) {
                 </header>
 
                 <div id={"tasks"}>
-                    <Tasks id={"tasks"} data={tasks}
+                    {(currentListID === "hello world")?
+                        ((lists.length === 0)? (<div> You don't have any lists yet! Go to the menu to create a new list </div>):
+                            (<ul> <li key={"Your List"}>
+                                <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
+                            </li>
+
+                        {(loadingLists)? "loading":
+                            lists.map(t => (t.id === currentListID)?
+                                (<li key={t.id}>
+                                    <input type={"button"} value={t.name}  className={"menuButtons currentList"}
+                                           onClick={(_) => handleChangeList(t.id)}
+                                           aria-label={t.name + " selected"}/>
+                                </li>): (<li key={t.id}>
+                                    <input type={"button"} value={t.name}  className={"menuButtons"}
+                                           onClick={(_) => handleChangeList(t.id)}
+                                           aria-label={t.name + " not selected"}/>
+                                </li>))}
+                            </ul>
+                            )):
+                        (<Tasks id={"tasks"} data={tasks}
                            isHidden={isHidden}
                            handleTaskToggleSelected={handleTaskToggleSelected}
                            handleMarkComplete={handleMarkComplete}
@@ -357,9 +355,7 @@ function SignedInApp(props) {
                            handlePriority={handlePriority}
                            toggleSortby={toggleSortby}
                            sortBy={sortBy}
-                           loading={loadingTasks}/>
-
-
+                           loading={loadingTasks}/>)}
                 </div>
 
                 <div id={"left"} >
@@ -393,10 +389,6 @@ function SignedInApp(props) {
                                onClick={onItemDeleted}/>
                     </div>
                 </div>
-
-
-                {/*<img src={'left.png'} alt={"missing!"}>*/}
-                {/*</img>*/}
 
             </div>
         );

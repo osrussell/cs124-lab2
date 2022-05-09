@@ -4,16 +4,10 @@ import SignedInApp from './SignedInApp.js';
 import {initializeApp} from "firebase/app";
 import {
     getFirestore,
-    query,
-    orderBy,
-    collection,
     doc,
     setDoc,
-    updateDoc,
-    deleteDoc,
     serverTimestamp
 } from "firebase/firestore";
-import {useCollectionData} from "react-firebase-hooks/firestore";
 
 import {
     getAuth,
@@ -26,23 +20,11 @@ import {
     useSignInWithEmailAndPassword,
     useSignInWithGoogle
 } from 'react-firebase-hooks/auth';
-import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
 
 
 // CHECKLIST FOR LAB 5
-// 1 Support User login so they can only see her tasks (at minimum email + password )
-// 2 Sharing list with others.
 // 3 Set up firebase authentification rules (include in github)
-// 4 Updated Design
-//     //  I suggest we add "sharing" to the bottom with hide and trash.
 // 5 User Testing
-// 6
-// 7
-
-// ISSUES: Uneven collection error
-// We have trouble creating a new user -- created tons of lists
-// turns blue first and then creates tons of lists
-// also in firebase they're not being properly created
 
 const firebaseConfig = {
 
@@ -73,9 +55,8 @@ function Auth() {
     const [isnewuser, setisnewuser] = useState(false)
 
 
-    const collectionRef = collection(db, collectionName); // this now references all users in the collection
-    const qList = query(collectionRef);
-    // const [users , loadingusers, errorusers] = useCollectionData(qList);
+    // const collectionRef = collection(db, collectionName); // this now references all users in the collection
+    // // const qList = query(collectionRef);
 
     function toggleNew() {
         setisnewuser(!isnewuser);
@@ -152,7 +133,6 @@ function SignIn() {
         </button>
     </div>
 }
-
         // deleted
 function SignUp(props) {
     const [
@@ -161,6 +141,11 @@ function SignUp(props) {
     ] = useCreateUserWithEmailAndPassword(auth);
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
+
+    function createNewUserButtonClick() {
+        void createUserWithEmailAndPassword(email, pw);
+        props.toggleNew();
+    }
 
     if (userCredential) {
         // Shouldn't happen because App should see that
@@ -182,25 +167,15 @@ function SignUp(props) {
                onChange={e => setPw(e.target.value)}/>
         <br/>
         <button onClick={() =>
-            (createUserWithEmailAndPassword(email, pw),
-            props.toggleNew()                  )} >
+            (createNewUserButtonClick())} >
             Create test user
         </button>
 
     </div>
 }
 
-// why isn't this props ???
 function handleNewUser (user) {
         console.log("welcome to Notetm")
-
-        // let newUser = {
-        //     id: user.uid,
-        //     email:  user.email,
-        //     joined: serverTimestamp(),
-        // };
-        //
-        // void setDoc(doc(db, topLevel, user.uid), newUser);
 
         let newUser = {
             id: user.uid,
@@ -208,28 +183,6 @@ function handleNewUser (user) {
             joined: serverTimestamp(),
         }
         void setDoc(doc(db, userCollection, user.uid), newUser);
-
-        let newid = generateUniqueID();
-        let newList = {
-            id: newid,
-            owner: user.uid,
-            shared: [user.uid], // NOT SURE ABOUT THIS
-            name: "First List",
-            created: serverTimestamp()
-        };
-        void setDoc(doc(db, collectionName, newid), newList);
-
-        let baseitemid = generateUniqueID();
-    ;
-        let baseItem = {
-            id: baseitemid,
-            val: "Start Noting in your first list!",
-            owner: user.uid,
-            priority: "small",
-            completed: false,
-            created: serverTimestamp()
-        }
-        void setDoc(doc(db, collectionName, newid, subCollectName , baseitemid), baseItem);
 }
 
 
@@ -237,7 +190,6 @@ function handleNewUser (user) {
 export function App() {
     return <Auth/>
 }
-
 
 
 export default  App ;
