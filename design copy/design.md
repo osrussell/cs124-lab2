@@ -144,3 +144,54 @@ User had no issues changing priority and toggling the sort.
 
 We could improve our design by removing the lock buttons, as they seem to be confusing for the user. We can also place the text box in the hamburger menu before the 'Create New List' button, as that's probably more intuitive.
 
+## Rules for Sharing That We Chose for Lab 5
+
+1. If user A shares a list with user B, user B can share that list with user C.
+2. If user A shares a list with user B, user B can delete that list.
+3. If user A shares a list with user B, the list is automatically shared with B.
+4. The shared lists are not distinguishable in the UI from unshared lists.
+5. If user A shares a list with user B, B cannot see if A does not have a verified email address.
+
+Also, we made it so that if you have one list, you cannot delete that list. You need at least 1. 
+
+## User testing for Lab 5
+
+User testing was performed with Anandi Williams, completed 5/9/2022
+
+--
+
+Q: First, can you try to make an account?
+
+User entered an email and created a password, and clicked log-in. They commented that they expected the login-in page to be centered, and also found the "password" label slightly confusing for creating a new user. They expected something more like "create new password"
+
+--
+
+Upon logging in, the user read the prompt on the notepage and went to the menu to create a list. The user added an emoji which worked which was a fun surprise.
+
+After creating a list, the user was able to easily add items.
+
+--
+
+Q: Can you try deleting an item? 
+
+The user was at first confused with selection. They then tried to click the delete button, but were confused when nothihng deleted.
+
+After prompting the user to explore the lock button, the user then realized how to delete.
+
+--
+
+Q: Can you try sharing a list with another user?
+
+The user clicked the menu and successfully entered an email to share the list with.
+
+--
+
+Q: Can you log out?
+
+The user was easily able to log out using the menu.
+
+--
+
+For a future version of this app, we'd want to redesign the login page slightly. We should also remove the lock button on delete buttons and possibly change it to a double click or something. The lock is not very intuitive for users.
+
+

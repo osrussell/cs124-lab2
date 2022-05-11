@@ -40,7 +40,7 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
 const userCollection = "users";
-const collectionName = "lists";
+const collectionName = "listsAuth";
 const subCollectName = "tasks";
 
 const auth = getAuth();

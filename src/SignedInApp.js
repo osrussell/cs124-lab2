@@ -34,7 +34,7 @@ function SignedInApp(props) {
     // queries for shared user
     const usersRef = collection(props.db, props.userCollection);
     const qSharedUser = query(usersRef, where("email","==", toBeShared));
-    const [sharedUser] = useCollectionData(qSharedUser);
+    const [sharedUser, loadingSharedUser, errorSharedUser] = useCollectionData(qSharedUser);
 
     const collectionRef = collection(props.db, props.collectionName);
     const qList = query(collectionRef, where("shared", "array-contains", props.user.uid));
@@ -106,9 +106,9 @@ function SignedInApp(props) {
     }
 
     // actually changes Doc to add uid to list of shared users for the list
-    function handleSharedList(toBeShared) {
-        if (toBeShared !== "") {
-            if (!sharedUser.length) { // if there is nothing
+    function handleSharedList(email) {
+        if (email !== "") {
+            if (sharedUser.length === 0) { // if there is nothing
                 console.log("No user found :(")
             } else {
                 void updateDoc(doc(props.db, props.collectionName, currentListID), {shared: arrayUnion(sharedUser[0].id)});
