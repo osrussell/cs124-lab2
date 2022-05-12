@@ -5,3 +5,10 @@
 .completed {
     text-decoration: line-through;
 }
+
+.taskInput {
+   width: 100%;
+    border: transparent;
+    background: transparent;
+    font-size: large;
+}

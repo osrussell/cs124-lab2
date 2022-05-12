@@ -1,70 +1,47 @@
-.App {
-  text-align: center;
+/* Start of top bar*/
+.header{
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    z-index: 1000;
+    border-bottom-color: black;
 }
 
-
-#title {
-  display: block;
-  text-align: center;
-  top: 8px;
-  left: 30px;
-  right: 30px;
-  bottom: 500px;
-  position: fixed;
-
-  font-style: bold;
-  font-family: "Arial" ;
-  text-align: center;
-  font-size: 60px ;
-  color: Black;
-  -webkit-text-fill-color: white;
-  -webkit-text-stroke-width: 1px;
-  -webkit-text-stroke-color: black;
-
+h1 {
+    font-family: "Arial", sans-serif;
+    font-size: 15px ; /* make responsive font size */
+    margin-left: 10px;
+    -webkit-text-fill-color: black;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    margin-bottom: 0.5em; /* consider switching this to something else*/
 }
 
-#tasks {
-  border-color: red;
-  display: block;
-  top: 100px;
-  left: 55px;
-  right: 45px;
-  bottom: 110px;
-  position: fixed;
-
-  font-style: bold;
-
-  font-family: "American Typewriter";
-  font-size: 18px ;
-  color: Black;
+.signins {
+    position: fixed;
+    display: block;
+    /*background: red;*/
+    /*z-index: 1;*/
+    top: 80px;
+    left: 10px;
+    font-size: 25px;
+    font-family: "Arial", sans-serif;
+    color: white;
 }
 
-.Task {
-  list-style: none;
-}
-text {
-  font-size: 25px;
-}
-
-#buttons {
-
-  text-align: center;
-
-  display: block;
-  left: 40px;
-  right: 40px;
-  bottom: 20px;
-  position: fixed;
-
-
-}
-#bottomButtons {
-  font-size: 5px;
-
+.titles {
+    font-weight: bold;
+    /*background: white;*/
+    /*color: #2e74f0;*/
+    color: white;
+    font-size: 30px ; /* make responsive font size */
 }
 
-#U {
-  opacity: 0.5;
-
+.signin-buttons {
+    background: white;
+    border-color: transparent;
+    font-size: 15px ; /* make responsive font size */
+    /*color: white;*/
 }
-
