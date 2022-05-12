@@ -80,8 +80,9 @@ function Auth() {
             <SignedInApp db = {db} user = {user} auth = {auth} userCollection={userCollection}
                         collectionName={collectionName} subCollectName={subCollectName}/>
             <button type="button" onClick={() => signOut(auth)}>Sign out</button>
-            {!user.emailVerified && <button type="button" onClick={verifyEmail}>Verify email</button>}
+
         </div>
+            // {!user.emailVerified && <button type="button" onClick={verifyEmail}>Verify email</button>}
     } else {
         return <>
             {error && <p>Error App: {error.message}</p>}

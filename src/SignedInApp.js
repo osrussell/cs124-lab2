@@ -31,15 +31,15 @@ function SignedInApp(props) {
     const [menuOpen, setMenuOpen] = useState(false);
     const [mode, setMode] = useState("main ")
 
-    // queries for shared user
-    const usersRef = collection(props.db, props.userCollection);
-    const qSharedUser = query(usersRef, where("email","==", toBeShared));
-    const [sharedUser, loadingSharedUser, errorSharedUser] = useCollectionData(qSharedUser);
+    // // queries for shared user
+    // const usersRef = collection(props.db, props.userCollection);
+    // const qSharedUser = query(usersRef, where("email","==", toBeShared));
+    // const [sharedUser, loadingSharedUser, errorSharedUser] = useCollectionData(qSharedUser);
 
     const collectionRef = collection(props.db, props.collectionName);
-    const qList = query(collectionRef, where("shared", "array-contains", props.user.uid));
+    const qList = query(collectionRef, where("shared", "array-contains", props.user.email));
     const [lists , loadingLists, errorLists] = useCollectionData(qList);
-    const [currentListID, setCurrentListID] = useState("hello world"); //12345
+    const [currentListID, setCurrentListID] = useState("no list yet"); //12345
 
 
     const subRef = collection(props.db, props.collectionName, currentListID, props.subCollectName );
@@ -80,8 +80,8 @@ function SignedInApp(props) {
             let newid = generateUniqueID();
             let newList = {
                 id: newid,
-                owner: props.user.uid,
-                shared: [props.user.uid],
+                owner: props.user.email,
+                shared: [props.user.email],
                 name: input,
                 created: serverTimestamp()
             };
@@ -91,7 +91,7 @@ function SignedInApp(props) {
             let baseItem = {
                 id: baseitemid,
                 val: "Start Noting in " + input,
-                owner: props.user.uid,
+                owner: props.user.email,
                 priority: "small",
                 completed: false,
                 created: serverTimestamp()
@@ -108,11 +108,11 @@ function SignedInApp(props) {
     // actually changes Doc to add uid to list of shared users for the list
     function handleSharedList(email) {
         if (email !== "") {
-            if (sharedUser.length === 0) { // if there is nothing
-                console.log("No user found :(")
-            } else {
-                void updateDoc(doc(props.db, props.collectionName, currentListID), {shared: arrayUnion(sharedUser[0].id)});
-            }
+            // if (!sharedUser) { // if there is nothing
+            //     console.log("No user found :(")
+            // } else {
+                void updateDoc(doc(props.db, props.collectionName, currentListID), {shared: arrayUnion(email)});
+            // }
         }
 
         setToBeShared("");
@@ -168,7 +168,7 @@ function SignedInApp(props) {
         let newTask = {
             id: newid,
             val: newVal,
-            owner: props.user.uid,
+            owner: props.user.email,
             priority: "small",
             completed: false,
             created: serverTimestamp()
@@ -217,10 +217,10 @@ function SignedInApp(props) {
         return <>loading </>
     } else if (error || errorLists) {
         return (<div id="title">
-            Error: {error}
+            Error: {error} , {errorLists}
         </div>)
     }  else {
-        console.log(lists.length);
+
 
         return (<div className={mode}>
 
@@ -324,7 +324,7 @@ function SignedInApp(props) {
                 </header>
 
                 <div id={"tasks"}>
-                    {(currentListID === "hello world")?
+                    {(currentListID === "no list yet")?
                         ((lists.length === 0)? (<div> You don't have any lists yet! Go to the menu to create a new list </div>):
                             (<ul> <li key={"Your List"}>
                                 <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
