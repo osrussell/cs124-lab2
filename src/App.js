@@ -62,7 +62,15 @@ function Auth() {
     }
 
     if (loading) {
-        return <p>loading</p>;
+        return (<header className="header">
+            <h1>
+                <strong tabIndex={"0"}>
+                    Checklist&trade : Loading;
+                </strong>
+                <input type={"button"} id="toggle"
+                       aria-label={"hamburger menu button" }/>
+            </h1>
+        </header>);
 
     } else if (user) {
 

@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import './SignedInApp.css';
 import {generateUniqueID} from "web-vitals/dist/modules/lib/generateUniqueID";
-import { signOut } from "firebase/auth";
+import {signOut} from "firebase/auth";
 import {
     where,
     query,
@@ -30,27 +30,30 @@ function SignedInApp(props) {
     const [toBeShared, setToBeShared] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [mode, setMode] = useState("main ")
-
+    //12345
     // // queries for shared user
     // const usersRef = collection(props.db, props.userCollection);
     // const qSharedUser = query(usersRef, where("email","==", toBeShared));
     // const [sharedUser, loadingSharedUser, errorSharedUser] = useCollectionData(qSharedUser);
 
+
     const collectionRef = collection(props.db, props.collectionName);
     const qList = query(collectionRef, where("shared", "array-contains", props.user.email));
-    const [lists , loadingLists, errorLists] = useCollectionData(qList);
-    const [currentListID, setCurrentListID] = useState("no list yet"); //12345
+    const [lists, loadingLists, errorLists] = useCollectionData(qList);
 
+    const [currentListID, setCurrentListID] = useState("no list yet");
 
-    const subRef = collection(props.db, props.collectionName, currentListID, props.subCollectName );
+    const subRef = collection(props.db, props.collectionName, currentListID, props.subCollectName);
     const qTasks = query(subRef, orderBy(sortBy));
-    console.log(qTasks);
-    const [tasks , loadingTasks, error] = useCollectionData(qTasks);
-    //
+
+    const [tasks, loadingTasks, error] = useCollectionData(qTasks);
+    console.log("Tasks Query Output for " + currentListID)
+    console.log(tasks)
+
     // Toggles between modes by adding id names, Important that each mode includes the post-space
     function changeMode(input) {
         if (mode.includes(input)) {
-            setMode(mode.replace(input,""));
+            setMode(mode.replace(input, ""));
         } else {
             setMode(mode + input)
         }
@@ -69,14 +72,14 @@ function SignedInApp(props) {
     }
 
     function handleRemoveList() {
-        if (lists.length > 1){
+        if (lists.length > 1) {
             void deleteDoc(doc(props.db, props.collectionName, currentListID));
             setCurrentListID(lists[0].id)
         }
 
     }
 
-    function handleAddList (input) {
+    function handleAddList(input) {
         if (input !== "") {
             let newid = generateUniqueID();
             let newList = {
@@ -97,7 +100,7 @@ function SignedInApp(props) {
                 completed: false,
                 created: serverTimestamp()
             }
-            void setDoc(doc(props.db, props.collectionName, newid, props.subCollectName , baseitemid), baseItem);
+            void setDoc(doc(props.db, props.collectionName, newid, props.subCollectName, baseitemid), baseItem);
             setCurrentListID(newid)
             toggleMenu()
 
@@ -112,7 +115,7 @@ function SignedInApp(props) {
             // if (!sharedUser) { // if there is nothing
             //     console.log("No user found :(")
             // } else {
-                void updateDoc(doc(props.db, props.collectionName, currentListID), {shared: arrayUnion(email)});
+            void updateDoc(doc(props.db, props.collectionName, currentListID), {shared: arrayUnion(email)});
             // }
         }
 
@@ -158,7 +161,7 @@ function SignedInApp(props) {
     function onItemDeleted() {
         if (!locked) {
             selectedTaskIds.forEach(id => deleteDoc(doc(props.db,
-                props.collectionName, currentListID, props.subCollectName , id)));
+                props.collectionName, currentListID, props.subCollectName, id)));
             setSelectedTaskIds([]); // clears selected ids
             setLocked(!locked)
         }
@@ -174,7 +177,7 @@ function SignedInApp(props) {
             completed: false,
             created: serverTimestamp()
         }
-        void setDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName , newid), newTask);
+        void setDoc(doc(props.db, props.collectionName, currentListID, props.subCollectName, newid), newTask);
     }
 
     // changes if checked items are hidden
@@ -183,7 +186,7 @@ function SignedInApp(props) {
     }
 
     function handlePriority(itemId, current) {
-        const reference = doc(props.db, props.collectionName, currentListID, props.subCollectName , itemId);
+        const reference = doc(props.db, props.collectionName, currentListID, props.subCollectName, itemId);
         let output;
         if (current === "small") {
             output = "medium";
@@ -215,16 +218,39 @@ function SignedInApp(props) {
 
 
     if (loadingLists || loadingTasks) {
-        return <>loading </>
+        return (<header className="header">
+            <h1>
+                <strong tabIndex={"0"}>
+                    Checklist&trade : Loading;
+                </strong>
+                <input type={"button"} id="toggle" onClick={toggleMenu} value={"    "}
+                       aria-label={"hamburger menu button" + (menuOpen ? "menu is open" : "menu is closed")}/>
+            </h1>
+
+            {menuOpen && <div>
+                {props.user.email}
+                <button type="button" className={"menuButtons"}
+                        onClick={() => signOut(props.auth)}>Sign out
+                </button>
+                <ul id="menu">
+                    <li key={"Options"}>
+                        <input type={"button"} value={" Options:"} className={"menuButtons menuHeaders"}/>
+                    </li>
+                    <li key={"big"}>
+                        <input type={"button"} value={"Big Text Mode"} className={"menuButtons"}
+                               onClick={(_) => changeMode("bigTextMode ")}
+                               aria-label={"Big Text mode"}/>
+                    </li>
+                </ul>
+            </div>} </header>)
     } else if (error || errorLists) {
         return (<div id="title">
             Error: {error} , {errorLists}
         </div>)
-    }  else {
+    } else {
 
 
         return (<div className={mode}>
-
 
 
                 <header className="header">
@@ -233,75 +259,85 @@ function SignedInApp(props) {
                             Checklist&trade;
                         </strong>
                         <input type={"button"} id="toggle" onClick={toggleMenu} value={"    "}
-                               aria-label={"hamburger menu button"+(menuOpen ? "menu is open" : "menu is closed")}/>
+                               aria-label={"hamburger menu button" + (menuOpen ? "menu is open" : "menu is closed")}/>
                     </h1>
 
                     {menuOpen && <div>
                         {props.user.email}
                         <button type="button" className={"menuButtons"}
-                                onClick={() => signOut(props.auth)}>Sign out</button>
+                                onClick={() => signOut(props.auth)}>Sign out
+                        </button>
 
                         <ul id="menu">
                             <li key={"Options"}>
-                                <input  type={"button"} value={" Options:"}  className={"menuButtons menuHeaders"}  />
+                                <input type={"button"} value={" Options:"} className={"menuButtons menuHeaders"}/>
                             </li>
-                            <li key = {"big"}>
+                            <li key={"big"}>
                                 <input type={"button"} value={"Big Text Mode"} className={"menuButtons"}
                                        onClick={(_) => changeMode("bigTextMode ")}
                                        aria-label={"Big Text mode"}/>
                             </li>
                             {// can put another list item to share, and user types email
-                                }
+                            }
                         </ul>
                         <ul id={"menu"}>
                             <li key={"Sharing Current List"}>
-                                <input  type={"button"} value={" Sharing Current List:"}  className={"menuButtons menuHeaders"}  />
+                                <input type={"button"} value={" Sharing Current List:"}
+                                       className={"menuButtons menuHeaders"}/>
                             </li>
                             <li>
                                 <input type={"button"} value={"Share With Email:"} className={"menuButtons"}
                                     // below has call to e.target to get rid of warning
-                                       onClick={ (_) => handleSharedList(toBeShared)}
+                                       onClick={(_) => handleSharedList(toBeShared)}
                                 />
                             </li>
                             <li>
                                 <input type={"text"} id={"addList"} className={"menuButtons"}
                                        onChange={(e) => updateToBeSharedList(e.target.value)}
-                                       onKeyUp={(e) => { if (e.key === "Enter"){ handleSharedList(toBeShared)}}}
+                                       onKeyUp={(e) => {
+                                           if (e.key === "Enter") {
+                                               handleSharedList(toBeShared)
+                                           }
+                                       }}
                                        value={toBeShared}
                                        aria-label={"input text box to add a new list"}/>
                             </li>
                         </ul>
                         <ul id="menu">
                             <li key={"Your List"}>
-                                <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
+                                <input type={"button"} value={" Your Lists:"} className={"menuButtons menuHeaders"}/>
                             </li>
 
-                            {(loadingLists)? "loading":
-                                lists.map(t => (t.id === currentListID)?
+                            {(loadingLists) ? "loading" :
+                                lists.map(t => (t.id === currentListID) ?
                                     (<li key={t.id}>
-                                        <input type={"button"} value={t.name}  className={"menuButtons currentList"}
+                                        <input type={"button"} value={t.name} className={"menuButtons currentList"}
                                                onClick={(_) => handleChangeList(t.id)}
                                                aria-label={t.name + " selected"}/>
-                                    </li>): (<li key={t.id}>
-                                        <input type={"button"} value={t.name}  className={"menuButtons"}
+                                    </li>) : (<li key={t.id}>
+                                        <input type={"button"} value={t.name} className={"menuButtons"}
                                                onClick={(_) => handleChangeList(t.id)}
                                                aria-label={t.name + " not selected"}/>
                                     </li>)
                                 )}
 
                             <li key={"List Actions:"}>
-                                <input  type={"button"} value={" List Actions:"}  className={"menuButtons menuHeaders"}  />
+                                <input type={"button"} value={" List Actions:"} className={"menuButtons menuHeaders"}/>
                             </li>
                             <li>
                                 <input type={"button"} value={"Create New List"} className={"menuButtons"}
                                     // below has call to e.target to get rid of warning
-                                       onClick={ (_) => handleAddList(toBeList)}
+                                       onClick={(_) => handleAddList(toBeList)}
                                 />
                             </li>
                             <li>
                                 <input type={"text"} id={"addList"} className={"menuButtons"}
                                        onChange={(e) => handleUpdateToBeList(e.target.value)}
-                                       onKeyUp={(e) => { if (e.key === "Enter"){ handleAddList(toBeList)}}}
+                                       onKeyUp={(e) => {
+                                           if (e.key === "Enter") {
+                                               handleAddList(toBeList)
+                                           }
+                                       }}
                                        value={toBeList}
                                        aria-label={"input text box to add a new list"}/>
                             </li>
@@ -309,15 +345,17 @@ function SignedInApp(props) {
                             <li>
                                 <input type={"button"}
                                        className={"menuButtons"}
-                                       id={locked? "emojiLocked":"emojiUnlocked"}
+                                       id={locked ? "emojiLocked" : "emojiUnlocked"}
                                        value={" "}
                                        onClick={toggleLock}
-                                       aria-label={"lock button for deleting list button, currently " + (locked? "locked":"unlocked")}/>
-                                <input  type={"button"}  id={locked ? "U" : "L"}
-                                        value={"Delete Current List"}  className={"menuButtons"}
+                                       aria-label={"lock button for deleting list button, currently " + (locked ? "locked" : "unlocked")}/>
+                                <input type={"button"} id={locked ? "U" : "L"}
+                                       value={"Delete Current List"} className={"menuButtons"}
                                     // below has call to e.target to get rid of warning
-                                        onClick={ (_) => handleRemoveList(toBeList)}
-                                        onKeyDown={ (e) => {if (e.key === "Tab") toggleMenu() }}
+                                       onClick={(_) => handleRemoveList(toBeList)}
+                                       onKeyDown={(e) => {
+                                           if (e.key === "Tab") toggleMenu()
+                                       }}
                                 />
                             </li>
                         </ul>
@@ -325,36 +363,39 @@ function SignedInApp(props) {
                 </header>
 
                 <div id={"tasks"}>
-                    {(currentListID === "no list yet")?
-                        ((lists.length === 0)? (<div> You don't have any lists yet! Go to the menu to create a new list </div>):
-                            (<ul className={"landing-menu"}> <li key={"Your List"}>
-                                <input  type={"button"} value={" Your Lists:"}  className={"landing-menuButtons menuHeaders"} id={"your-lists"}  />
-                            </li>
+                    {(currentListID === "no list yet") ?
+                        ((lists.length === 0) ? (
+                                <div> You don't have any lists yet! Go to the menu to create a new list </div>) :
+                            (<ul className={"landing-menu"}>
+                                    <li key={"Your List"}>
+                                        <input type={"button"} value={" Your Lists:"}
+                                               className={"landing-menuButtons menuHeaders"} id={"your-lists"}/>
+                                    </li>
 
-                        {(loadingLists)? "loading":
-                            lists.map(t => (<li key={t.id}>
-                                    <input type={"button"} value={t.name}  className={"landing-menuButtons"}
-                                           onClick={(_) => handleChangeList(t.id)}
-                                           aria-label={t.name + " not selected"}/>
-                                </li>))}
-                            </ul>
-                            )):
+                                    {(loadingLists) ? "loading" :
+                                        lists.map(t => (<li key={t.id}>
+                                            <input type={"button"} value={t.name} className={"landing-menuButtons"}
+                                                   onClick={(_) => handleChangeList(t.id)}
+                                                   aria-label={t.name + " not selected"}/>
+                                        </li>))}
+                                </ul>
+                            )) :
                         (<Tasks id={"tasks"} data={tasks}
-                           isHidden={isHidden}
-                           handleTaskToggleSelected={handleTaskToggleSelected}
-                           handleMarkComplete={handleMarkComplete}
-                           handleToggleEditing={handleToggleEditing}
-                           isEditing={editing}
-                           selectedTaskIds={selectedTaskIds}
-                           onItemAdded={onItemAdded}
-                           onItemChanged={onItemChanged}
-                           handlePriority={handlePriority}
-                           toggleSortby={toggleSortby}
-                           sortBy={sortBy}
-                           loading={loadingTasks}/>)}
+                                isHidden={isHidden}
+                                handleTaskToggleSelected={handleTaskToggleSelected}
+                                handleMarkComplete={handleMarkComplete}
+                                handleToggleEditing={handleToggleEditing}
+                                isEditing={editing}
+                                selectedTaskIds={selectedTaskIds}
+                                onItemAdded={onItemAdded}
+                                onItemChanged={onItemChanged}
+                                handlePriority={handlePriority}
+                                toggleSortby={toggleSortby}
+                                sortBy={sortBy}
+                                loading={loadingTasks}/>)}
                 </div>
 
-                <div id={"left"} >
+                <div id={"left"}>
                 </div>
 
                 <div id={"middle"}>
@@ -374,10 +415,10 @@ function SignedInApp(props) {
                     <div id={"trash"}>
                         <input type={"button"}
                                className={"bottomButtons"}
-                               id={locked? "emojiLocked":"emojiUnlocked"}
+                               id={locked ? "emojiLocked" : "emojiUnlocked"}
                                value={" "}
                                onClick={toggleLock}
-                               aria-label={"lock button for trash button, currently " + (locked? "locked":"unlocked")}/>
+                               aria-label={"lock button for trash button, currently " + (locked ? "locked" : "unlocked")}/>
                         <input type={"button"}
                                className={"bottomButtons"}
                                id={locked ? "U" : "L"}
