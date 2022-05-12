@@ -152,7 +152,7 @@ We could improve our design by removing the lock buttons, as they seem to be con
 4. The shared lists are not distinguishable in the UI from unshared lists.
 5. If user A shares a list with user B, B cannot see if A does not have a verified email address.
 
-Also, we made it so that if you have one list, you cannot delete that list. You need at least 1. 
+Also, we made it so that if you have one list, you cannot delete that list. You need at least 1.
 
 ## User testing for Lab 5
 

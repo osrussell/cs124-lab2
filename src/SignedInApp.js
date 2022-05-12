@@ -44,6 +44,7 @@ function SignedInApp(props) {
 
     const subRef = collection(props.db, props.collectionName, currentListID, props.subCollectName );
     const qTasks = query(subRef, orderBy(sortBy));
+    console.log(qTasks);
     const [tasks , loadingTasks, error] = useCollectionData(qTasks);
     //
     // Toggles between modes by adding id names, Important that each mode includes the post-space
@@ -326,18 +327,13 @@ function SignedInApp(props) {
                 <div id={"tasks"}>
                     {(currentListID === "no list yet")?
                         ((lists.length === 0)? (<div> You don't have any lists yet! Go to the menu to create a new list </div>):
-                            (<ul> <li key={"Your List"}>
-                                <input  type={"button"} value={" Your Lists:"}  className={"menuButtons menuHeaders"}  />
+                            (<ul className={"landing-menu"}> <li key={"Your List"}>
+                                <input  type={"button"} value={" Your Lists:"}  className={"landing-menuButtons menuHeaders"} id={"your-lists"}  />
                             </li>
 
                         {(loadingLists)? "loading":
-                            lists.map(t => (t.id === currentListID)?
-                                (<li key={t.id}>
-                                    <input type={"button"} value={t.name}  className={"menuButtons currentList"}
-                                           onClick={(_) => handleChangeList(t.id)}
-                                           aria-label={t.name + " selected"}/>
-                                </li>): (<li key={t.id}>
-                                    <input type={"button"} value={t.name}  className={"menuButtons"}
+                            lists.map(t => (<li key={t.id}>
+                                    <input type={"button"} value={t.name}  className={"landing-menuButtons"}
                                            onClick={(_) => handleChangeList(t.id)}
                                            aria-label={t.name + " not selected"}/>
                                 </li>))}

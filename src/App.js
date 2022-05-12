@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import './SignedInApp.css';
+import './App.css';
 import SignedInApp from './SignedInApp.js';
 import {initializeApp} from "firebase/app";
 import {
@@ -11,7 +11,6 @@ import {
 
 import {
     getAuth,
-    sendEmailVerification,
     signOut } from "firebase/auth";
 
 import {
@@ -62,11 +61,6 @@ function Auth() {
         setisnewuser(!isnewuser);
     }
 
-
-    function verifyEmail() {
-        sendEmailVerification(user);
-    }
-
     if (loading) {
         return <p>loading</p>;
 
@@ -86,9 +80,21 @@ function Auth() {
     } else {
         return <>
             {error && <p>Error App: {error.message}</p>}
+            <header className={"header"}>
+                <h1>
+                    <strong tabIndex={"0"}>
+                        Checklist&trade;
+                    </strong>
+                </h1>
+            </header>
             <div> No user detected</div>
-            <SignIn key="Sign In"/>
-            <SignUp key="Sign Up" toggleNew ={toggleNew}/>
+            <div className={"signins"}>
+                <SignIn key="Sign In"/>
+                {/*<br/>*/}
+                --
+                <br/>
+                <SignUp key="Sign Up" toggleNew ={toggleNew}/>
+            </div>
         </>
     }
 }
@@ -116,20 +122,21 @@ function SignIn() {
     return <div>
         {error1 && <p>"Error logging in: " {error1.message}</p>}
         {error2 && <p>"Error logging in: " {error2.message}</p>}
+        <div className={"titles"}> Sign In </div>
         <label htmlFor='email'>email: </label>
         <input type="text" id='email' value={email}
                onChange={e => setEmail(e.target.value)}/>
         <br/>
-        <label htmlFor='pw'>pw: </label>
+        <label htmlFor='pw'>password: </label>
         <input type="text" id='pw' value={pw}
                onChange={e => setPw(e.target.value)}/>
         <br/>
-        <button onClick={() => signInWithEmailAndPassword(email, pw)}>
-            Sign in with email/pw
+        <button className={"signin-buttons"} onClick={() => signInWithEmailAndPassword(email, pw)}>
+            Sign in with email/password
         </button>
 
-        or
-        <button onClick={() => signInWithGoogle()}>
+        <br/>
+        <button className={"signin-buttons"} onClick={() => signInWithGoogle()}>
             Sign in with Google
         </button>
     </div>
@@ -158,16 +165,16 @@ function SignUp(props) {
 
     return <div>
         {error && <p>"Error signing up: " {error.message}</p>}
-        <div> Sign Up Below</div>
+        <div className={"titles"}> Sign Up </div>
         <label htmlFor='email'>email: </label>
         <input type="text" id='email' value={email}
                onChange={e => setEmail(e.target.value)}/>
         <br/>
-        <label htmlFor='pw'>pw: </label>
+        <label htmlFor='pw'>password: </label>
         <input type="text" id='pw' value={pw}
                onChange={e => setPw(e.target.value)}/>
         <br/>
-        <button onClick={() =>
+        <button className={"signin-buttons"} onClick={() =>
             (createNewUserButtonClick())} >
             Create test user
         </button>

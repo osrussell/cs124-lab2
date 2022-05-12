@@ -1,0 +1,47 @@
+/* Start of top bar*/
+.header{
+    position: fixed;
+    top:0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    z-index: 1000;
+    border-bottom-color: black;
+}
+
+h1 {
+    font-family: "Arial", sans-serif;
+    font-size: 15px ; /* make responsive font size */
+    margin-left: 10px;
+    -webkit-text-fill-color: black;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+    margin-bottom: 0.5em; /* consider switching this to something else*/
+}
+
+.signins {
+    position: fixed;
+    display: block;
+    /*background: red;*/
+    /*z-index: 1;*/
+    top: 80px;
+    left: 10px;
+    font-size: 25px;
+    font-family: "Arial", sans-serif;
+    color: white;
+}
+
+.titles {
+    font-weight: bold;
+    /*background: white;*/
+    /*color: #2e74f0;*/
+    color: white;
+    font-size: 30px ; /* make responsive font size */
+}
+
+.signin-buttons {
+    background: white;
+    border-color: transparent;
+    font-size: 15px ; /* make responsive font size */
+    /*color: white;*/
+}

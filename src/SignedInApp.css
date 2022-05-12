@@ -24,7 +24,7 @@
 /* Alters Checklist */
 
 h1 {
-  font-family: "Arial" ;
+  font-family: "Arial", sans-serif;
   font-size: 30px ; /* make responsive font size */
   margin-left: 10px;
   -webkit-text-fill-color: #2e74f0;
@@ -82,13 +82,34 @@ h1 {
   border-color: #2e74f0;
 }
 
+.landing-menu {
+  float: left;
+  list-style: none;
+  font-size: 100%;
+  font-family: "Arial", sans-serif;
+  border: white;
+}
+
+.landing-menuButtons {
+  float: left;
+  list-style: none;
+  font-size: 100%;
+  font-family: "Arial", sans-serif;
+  border: white;
+}
+
+#your-lists {
+  border-color: transparent;
+  font-weight: bold;
+}
+
 #left {
   background-image: url(../public/left-crop.png);
   width: 125px; /* Sets the width so it doesn't change with re-sizing */
   background-size: 100% 100%;
   background-repeat: no-repeat;
   top: 85px;
-  left: 0px;
+  left: 0;
   /*right: 45px;*/
   bottom: 105px;
   position: fixed;
@@ -133,7 +154,7 @@ h1 {
 
 
 
-  font-family: "American Typewriter";
+  font-family: "American Typewriter", serif;
   font-size: 100% ;
   color: Black;
 }
@@ -173,7 +194,7 @@ h1 {
 #buttons input{
   background-color: black;
   color: white;
-  font-family: "Arial" ;
+  font-family: "Arial", sans-serif ;
   font-size: 100% ;
   height: 50px;
 }
@@ -190,8 +211,7 @@ h1 {
 
 #emojiUnlocked {
   background-image: url(../public/open-lock_1f513.png);
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  /*background-size: 100% 100%;*/
   background-size: 15px 15px ;
   background-repeat: no-repeat;
   background-position: center;
